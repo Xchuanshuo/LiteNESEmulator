@@ -79,8 +79,8 @@ public class DisAssembler {
         return instructionList;
     }
 
-    public static void dumpPPU(StandardMemory memory, int startAddress, int endAddress,
-                            OutputStream outputStream) {
+    public static void dumpMemoryNativeData(IMemory memory, int startAddress, int endAddress,
+                                            OutputStream outputStream) {
         // 分成多次dump 防止递归层次太高导致堆栈溢出
         while (startAddress < endAddress) {
             StringBuilder sb = new StringBuilder();
@@ -97,6 +97,27 @@ public class DisAssembler {
             }
         }
     }
+
+    public static List<String> getMemoryNativeData(IMemory memory, int startAddress, int endAddress) {
+        return getMemoryNativeData(memory, 16, startAddress, endAddress);
+    }
+
+    public static List<String> getMemoryNativeData(IMemory memory, int stepLength,
+                                                   int startAddress, int endAddress) {
+        List<String> dataList = new ArrayList<>();
+        while (startAddress < endAddress) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("0x%06X", startAddress));
+            for (int i = 0;i < stepLength;i++) {
+                sb.append(String.format(" %02X", memory.readByte( startAddress + i)));
+            }
+            sb.append("\n");
+            startAddress += stepLength;
+            dataList.add(sb.toString());
+        }
+        return dataList;
+    }
+
 
     private static DecodeInfo getDecodeInfo(IMemory memory, int startAddress) {
         int opcode = memory.readByte(startAddress);

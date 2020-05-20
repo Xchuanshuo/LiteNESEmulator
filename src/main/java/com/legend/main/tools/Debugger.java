@@ -27,6 +27,7 @@ import static com.legend.cpu.StandardCPU.VECTOR_NMI;
 import static com.legend.cpu.StandardCPU.VECTOR_RESET;
 import static com.legend.ppu.IPPU.SCREEN_WIDTH;
 import static com.legend.utils.Constants.*;
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
 
 /**
  * @author Legend
@@ -47,11 +48,15 @@ public class Debugger extends JFrame {
 
     private void initView() {
         setTitle("LiteNES Debugger");
+        setResizable(false);
         setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(SCREEN_WIDTH * 2 + 70, SCREEN_WIDTH * 2 - 76));
         JPanel btnPanel = getBtnPanel();
         btnPanel.setVisible(true);
 
-        add(debugPanel, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(debugPanel);
+        scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
+        add(scrollPane, BorderLayout.CENTER);
         add(btnPanel, BorderLayout.NORTH);
         pack();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -63,10 +68,12 @@ public class Debugger extends JFrame {
         btnPanel.setLayout(new FlowLayout());
 
         JButton runBtn = new JButton(RUN);
+        runBtn.setBackground(Color.RED);
         JButton stepIntoBtn = new JButton(Constants.STEP_INTO);
         JButton clearAllBreakPointersBtn = new JButton(Constants.CLEAR_BREAK_POINTERS);
         JButton addBreakPointersBtn = new JButton(Constants.ADD_BREAK_POINTER);
         JButton dumpBtn = new JButton(Constants.DUMP);
+
         runBtn.addActionListener(listener);
         stepIntoBtn.addActionListener(listener);
         clearAllBreakPointersBtn.addActionListener(listener);
@@ -113,7 +120,7 @@ public class Debugger extends JFrame {
                     case MouseEvent.BUTTON3:
                         int line = e.getY() / instructionLineHeight;
                         List<String> instructionList = DisAssembler.dumpByCount(gameRunner.getCPU().getMemory(),
-                                gameRunner.getCPU().getRegister().getPC(), 27);
+                                gameRunner.getCPU().getRegister().getPC(), 30);
                         if (line >= instructionList.size()) return;
                         int address = getAddress(instructionList.get(line));
                         addBreakPointer(address);
@@ -175,10 +182,6 @@ public class Debugger extends JFrame {
     }
 
     private JPanel debugPanel = new JPanel() {
-        {
-            setResizable(false);
-            setPreferredSize(new Dimension(SCREEN_WIDTH * 2 + 70, SCREEN_WIDTH * 2 - 76));
-        }
 
         @Override
         public void paint(Graphics graphics) {
@@ -202,7 +205,7 @@ public class Debugger extends JFrame {
             g.setColor(Color.BLACK);
 
             Set<Integer> breakPointers = gameRunner.getBreakpointers();
-            List<String> instructionList = DisAssembler.dumpByCount(cpu.getMemory(), cpu.getRegister().getPC(), 27);
+            List<String> instructionList = DisAssembler.dumpByCount(cpu.getMemory(), cpu.getRegister().getPC(), 30);
             for (int i = 0;i < instructionList.size();i++) {
                 int address = getAddress(instructionList.get(i).trim());
                 if (breakPointers.contains(address)) {
@@ -279,6 +282,11 @@ public class Debugger extends JFrame {
         private void drawAPUStatus(Graphics2D g, IAPU apu, int xOffset, int yOffset) {
             g.translate(xOffset, yOffset);
             g.drawString(String.format("APU Interrupt: %s", String.valueOf(!apu.getRegister().isInterruptDisable())), 0, 12);
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(SCREEN_WIDTH * 2 + 70,SCREEN_WIDTH * 2);
         }
     };
 

@@ -1,6 +1,5 @@
 package com.legend.main.tools;
 
-import com.legend.main.EmulatorScreen;
 import com.legend.main.GameRunner;
 import com.legend.memory.IMemory;
 import com.legend.memory.StandardMemory;
@@ -13,15 +12,12 @@ import com.legend.utils.disassemble.DisAssembler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static com.legend.ppu.IPPU.SCREEN_HEIGHT;
 import static com.legend.ppu.IPPU.SCREEN_WIDTH;
 
 /**
@@ -61,7 +57,7 @@ public class PatternTableViewer extends JFrame {
         try {
             outputStream = new FileOutputStream("ppu-pattern-table-dump.txt");
             StandardMemory memory = gameRunner.getPPU().getVRAM();
-            DisAssembler.dumpPPU(memory, 0, 0x2000, outputStream);
+            DisAssembler.dumpMemoryNativeData(memory, 0, 0x2000, outputStream);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         } finally {

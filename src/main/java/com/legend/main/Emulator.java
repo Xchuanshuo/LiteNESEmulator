@@ -3,6 +3,7 @@ package com.legend.main;
 import com.legend.input.StandardControllers;
 import com.legend.main.tools.Debugger;
 import com.legend.main.tools.PatternTableViewer;
+import com.legend.main.tools.SpriteMemoryViewer;
 import com.legend.memory.StandardMemory;
 import com.legend.storage.LocalStorage;
 import com.legend.utils.Constants;
@@ -49,6 +50,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private LocalStorage storage = new LocalStorage();
 
     private Debugger debugger;
+    private SpriteMemoryViewer spriteMemoryViewer;
     private PatternTableViewer patternTableViewer;
 
     public Emulator() {
@@ -180,6 +182,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
                 patternTableViewer = new PatternTableViewer(gameRunner);
                 break;
             case SPRM:
+                spriteMemoryViewer = new SpriteMemoryViewer(gameRunner);
                 break;
             case NAME_TABLES_VIEWER:
                 break;
@@ -277,7 +280,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
                 try {
                     outputStream = new FileOutputStream("ppu-vram-dump.txt");
                     StandardMemory memory = gameRunner.getPPU().getVRAM();
-                    DisAssembler.dumpPPU(memory, 0, 0x4000, outputStream);
+                    DisAssembler.dumpMemoryNativeData(memory, 0, 0x4000, outputStream);
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
                 }
@@ -328,6 +331,9 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         if (debugger != null) {
             debugger.repaint();
         }
+        if (spriteMemoryViewer != null) {
+            spriteMemoryViewer.repaint();
+        }
         if (patternTableViewer != null) {
             patternTableViewer.repaint();
         }
@@ -336,6 +342,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//            UIManager.setLookAndFeel (new MaterialLookAndFeel(new MaterialOrientalFontsTheme()));
         } catch (Exception e) {
             e.printStackTrace();
         }
