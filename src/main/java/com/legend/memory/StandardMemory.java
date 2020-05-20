@@ -22,7 +22,6 @@ public class StandardMemory implements IMemory {
     public int readByte(int address) {
         MemoryHelper helper = findByOffset(address);
         assert helper != null;
-//        System.out.println(String.format("%04x", address) + "---" + String.format("%04x", helper.offset));
         return helper.memory.readByte(address - helper.offset);
     }
 

@@ -80,6 +80,9 @@ public class GameRunner implements Runnable {
             for (int k = 0; k < 100; k++) {
                 long lastTime = System.nanoTime();
                 if (isStepInto || breakPointers.contains(cpu.getRegister().getPC())) {
+                    if (breakPointers.contains(cpu.getRegister().getPC())) {
+                        repaintListener.run();
+                    }
                     pause = true;
                 }
                 if (pause) {

@@ -106,7 +106,9 @@ public class DisAssembler {
         }
         int value = 0;
         Rule.IAddressingModeInfo mode = Rule.getAddressingMode(rule[1]);
-        if (mode.offset() == 1) value = memory.readByte(startAddress + 1);
+        if (mode.offset() == 1) {
+            value = memory.readByte(startAddress + 1);
+        }
         if (mode.offset() == 2) {
             value = memory.readByte(startAddress + 1)
                     | memory.readByte(startAddress + 2) << 8;

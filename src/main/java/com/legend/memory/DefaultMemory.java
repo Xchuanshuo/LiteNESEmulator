@@ -28,7 +28,7 @@ public class DefaultMemory implements IMemory {
 
     @Override
     public int readByte(int address) {
-        return data[address + offset] & 0xFF;
+        return data[(address + offset) % data.length] & 0xFF;
     }
 
     @Override

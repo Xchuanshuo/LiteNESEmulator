@@ -48,9 +48,19 @@ public class Debugger extends JFrame {
     private void initView() {
         setTitle("LiteNES Debugger");
         setLayout(new BorderLayout());
+        JPanel btnPanel = getBtnPanel();
+        btnPanel.setVisible(true);
+
+        add(debugPanel, BorderLayout.CENTER);
+        add(btnPanel, BorderLayout.NORTH);
+        pack();
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setVisible(true);
+    }
+
+    private JPanel getBtnPanel() {
         JPanel btnPanel = new JPanel();
         btnPanel.setLayout(new FlowLayout());
-        btnPanel.setVisible(true);
 
         JButton runBtn = new JButton(RUN);
         JButton stepIntoBtn = new JButton(Constants.STEP_INTO);
@@ -67,12 +77,7 @@ public class Debugger extends JFrame {
         btnPanel.add(clearAllBreakPointersBtn);
         btnPanel.add(addBreakPointersBtn);
         btnPanel.add(dumpBtn);
-
-        add(debugPanel, BorderLayout.CENTER);
-        add(btnPanel, BorderLayout.NORTH);
-        pack();
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setVisible(true);
+        return btnPanel;
     }
 
     private ActionListener listener = e -> {
@@ -108,7 +113,7 @@ public class Debugger extends JFrame {
                     case MouseEvent.BUTTON3:
                         int line = e.getY() / instructionLineHeight;
                         List<String> instructionList = DisAssembler.dumpByCount(gameRunner.getCPU().getMemory(),
-                                gameRunner.getCPU().getRegister().getPC(), 40);
+                                gameRunner.getCPU().getRegister().getPC(), 27);
                         if (line >= instructionList.size()) return;
                         int address = getAddress(instructionList.get(line));
                         addBreakPointer(address);
@@ -197,7 +202,7 @@ public class Debugger extends JFrame {
             g.setColor(Color.BLACK);
 
             Set<Integer> breakPointers = gameRunner.getBreakpointers();
-            List<String> instructionList = DisAssembler.dumpByCount(cpu.getMemory(), cpu.getRegister().getPC(), 30);
+            List<String> instructionList = DisAssembler.dumpByCount(cpu.getMemory(), cpu.getRegister().getPC(), 27);
             for (int i = 0;i < instructionList.size();i++) {
                 int address = getAddress(instructionList.get(i).trim());
                 if (breakPointers.contains(address)) {
@@ -210,8 +215,24 @@ public class Debugger extends JFrame {
         }
 
         private void drawStatus(Graphics2D g, ICPU cpu) {
-            CPURegister cpuRegister = cpu.getRegister();
             int xOffset = 24;
+
+            drawCPUStatus(g, gameRunner.getCPU(), xOffset);
+            drawPPUStatus(g, gameRunner.getPPU(), SCREEN_WIDTH + xOffset, 160);
+            drawAPUStatus(g, gameRunner.getAPU(), 0, 140);
+
+            IMemory mainMemory = cpu.getMemory();
+            g.translate(0, 40);
+            g.drawString("Vectors: NMI   RESET  IRQ/BRK", 0, 0);
+            g.drawString(String.format("         %04X   %04X    %04X",
+                    mainMemory.readByte(VECTOR_NMI[0]) | (mainMemory.readByte(VECTOR_NMI[1]) << 8),
+                    mainMemory.readByte(VECTOR_RESET[0]) | (mainMemory.readByte(VECTOR_RESET[1]) << 8),
+                    mainMemory.readByte(VECTOR_IRQ_OR_BRK[0]) | (mainMemory.readByte(VECTOR_IRQ_OR_BRK[1]) << 8)
+            ), 0, 20);
+        }
+
+        private void drawCPUStatus(Graphics2D g, ICPU cpu, int xOffset) {
+            CPURegister cpuRegister = cpu.getRegister();
             g.drawString(String.format("A: %02X", cpuRegister.getA()), SCREEN_WIDTH + xOffset, 12);
             g.drawString(String.format("X: %02X", cpuRegister.getX()), SCREEN_WIDTH  + xOffset, 27);
             g.drawString(String.format("Y: %02X", cpuRegister.getY()), SCREEN_WIDTH + xOffset + 60, 27);
@@ -239,18 +260,6 @@ public class Debugger extends JFrame {
                     cpu.getMemory().readByte(0x100 + cpuRegister.getSP() + 7),
                     cpu.getMemory().readByte(0x100 + cpuRegister.getSP() + 8)),
                     SCREEN_WIDTH + xOffset, 138);
-
-            drawPPUStatus(g, gameRunner.getPPU(), SCREEN_WIDTH + xOffset, 160);
-            drawAPUStatus(g, gameRunner.getAPU(), 0, 140);
-
-            IMemory mainMemory = cpu.getMemory();
-            g.translate(0, 40);
-            g.drawString("Vectors: NMI   RESET  IRQ/BRK", 0, 0);
-            g.drawString(String.format("         %04X   %04X    %04X",
-                    mainMemory.readByte(VECTOR_NMI[0]) | (mainMemory.readByte(VECTOR_NMI[1]) << 8),
-                    mainMemory.readByte(VECTOR_RESET[0]) | (mainMemory.readByte(VECTOR_RESET[1]) << 8),
-                    mainMemory.readByte(VECTOR_IRQ_OR_BRK[0]) | (mainMemory.readByte(VECTOR_IRQ_OR_BRK[1]) << 8)
-            ), 0, 20);
         }
 
         private void drawPPUStatus(Graphics2D g, IPPU ppu, int xOffset, int yOffset) {
