@@ -29,6 +29,7 @@ public class NameTableViewer extends JFrame {
 
     private GameRunner gameRunner;
     private JLabel mirroringTypeLabel = new JLabel();
+    private LookMemoryFrame lookMemoryFrame;
 
     public NameTableViewer(GameRunner gameRunner) {
         this.gameRunner = gameRunner;
@@ -60,14 +61,24 @@ public class NameTableViewer extends JFrame {
     }
 
     private JPanel getTopPanel() {
+        mirroringTypeLabel.setText("MirroringType: " + gameRunner.getPPU().getMirroringType());
         JPanel topPanel = new JPanel();
         JButton dumpBtn = new JButton(Constants.DUMP);
-        mirroringTypeLabel.setText("MirroringType: " + gameRunner.getPPU().getMirroringType());
+        JButton lookMemoryBtn = new JButton(Constants.LOOK_MEMORY);
         dumpBtn.addActionListener(e -> dumpNameTableMemory());
+        lookMemoryBtn.addActionListener(e -> {
+            if (lookMemoryFrame == null) {
+                lookMemoryFrame = new LookMemoryFrame(gameRunner.getPPU().getVRAM()
+                        ,"NameTable Memory",0x2000, 0x3000);
+            } else {
+                lookMemoryFrame.setVisible(true);
+            }
+        });
 
         FlowLayout flowLayout = new FlowLayout();
         flowLayout.setHgap(20);
         topPanel.setLayout(flowLayout);
+        topPanel.add(lookMemoryBtn);
         topPanel.add(dumpBtn);
         topPanel.add(mirroringTypeLabel);
         return topPanel;
@@ -124,6 +135,9 @@ public class NameTableViewer extends JFrame {
     public void paint(Graphics g) {
         super.paint(g);
         mirroringTypeLabel.setText("MirroringType: " + gameRunner.getPPU().getMirroringType());
+        if (lookMemoryFrame != null) {
+            lookMemoryFrame.repaint();
+        }
     }
 
     private void drawNameTable(Graphics g, IPPU ppu, int startAddress, Screen screen) {

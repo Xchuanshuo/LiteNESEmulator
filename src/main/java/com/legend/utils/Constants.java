@@ -7,7 +7,9 @@ package com.legend.utils;
  */
 public class Constants {
 
+    public static final String LOOK_MEMORY = "Look Memory";
     public static final String DUMP = "dump";
+
 
     public static final String RESET = "reset";
     public static final String LOAD_ROM = "load rom";

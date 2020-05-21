@@ -174,22 +174,35 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private ActionListener toolsListener = e -> {
         switch (e.getActionCommand()) {
             case DEBUG:
-                if (!gameRunner.isEnableDebug()) {
-                    gameRunner.setEnableDebug(true);
-                    gameRunner.setStepInto(true);
-                    this.debugger = new Debugger(gameRunner);
-                    System.out.println("debug");
+                if (debugger == null) {
+                    debugger = new Debugger(gameRunner);
+                } else {
+                    debugger.setVisible(true);
                 }
+                gameRunner.setStepInto(true);
+                System.out.println("debug");
                 break;
             case PATTERN_TABLES_VIEWER:
-                patternTableViewer = new PatternTableViewer(gameRunner);
+                if (patternTableViewer == null) {
+                    patternTableViewer = new PatternTableViewer(gameRunner);
+                } else {
+                    patternTableViewer.setVisible(true);
+                }
                 break;
             case SPRM:
-                spriteMemoryViewer = new SpriteMemoryViewer(gameRunner);
+                if (spriteMemoryViewer == null) {
+                    spriteMemoryViewer = new SpriteMemoryViewer(gameRunner);
+                } else {
+                    spriteMemoryViewer.setVisible(true);
+                }
                 break;
             case NAME_TABLES_VIEWER:
                 gameRunner.pause();
-                nameTableViewer = new NameTableViewer(gameRunner);
+                if (nameTableViewer == null) {
+                    nameTableViewer = new NameTableViewer(gameRunner);
+                } else {
+                    nameTableViewer.setVisible(true);
+                }
                 gameRunner.resume();
                 break;
             default: break;

@@ -28,6 +28,7 @@ import static com.legend.ppu.IPPU.SCREEN_WIDTH;
 public class PatternTableViewer extends JFrame {
 
     private GameRunner gameRunner;
+    private LookMemoryFrame lookMemoryFrame;
 
     public PatternTableViewer(GameRunner runner) {
         this.gameRunner = runner;
@@ -36,12 +37,10 @@ public class PatternTableViewer extends JFrame {
 
     private void initView() {
         setTitle("PatternTable Viewer");
+        setResizable(false);
         setLayout(new BorderLayout());
-        JPanel topPanel = new JPanel();
-        JButton dumpBtn = new JButton(Constants.DUMP);
-        dumpBtn.addActionListener(e -> dumpPPUPatternTable());
-        topPanel.setLayout(new FlowLayout());
-        topPanel.add(dumpBtn);
+        setPreferredSize(new Dimension(SCREEN_WIDTH * 2 + 70, SCREEN_WIDTH * 2 - 80));
+        JPanel topPanel = getTopPanel();
         topPanel.setVisible(true);
 
         add(patternTablePanel, BorderLayout.CENTER);
@@ -49,6 +48,27 @@ public class PatternTableViewer extends JFrame {
         pack();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setVisible(true);
+    }
+
+    private JPanel getTopPanel() {
+        JPanel topPanel = new JPanel();
+        JButton lookMemoryBtn = new JButton(Constants.LOOK_MEMORY);
+        JButton dumpBtn = new JButton(Constants.DUMP);
+
+        lookMemoryBtn.addActionListener(e -> {
+            if (lookMemoryFrame == null) {
+                lookMemoryFrame = new LookMemoryFrame(gameRunner.getPPU().getVRAM()
+                        ,"PatternTable Memory",0, 0x2000);
+            } else {
+                lookMemoryFrame.setVisible(true);
+            }
+        });
+        dumpBtn.addActionListener(e -> dumpPPUPatternTable());
+
+        topPanel.setLayout(new FlowLayout());
+        topPanel.add(lookMemoryBtn);
+        topPanel.add(dumpBtn);
+        return topPanel;
     }
 
     private void dumpPPUPatternTable() {
@@ -74,10 +94,6 @@ public class PatternTableViewer extends JFrame {
     }
 
     private JPanel patternTablePanel = new JPanel() {
-        {
-            setResizable(false);
-            setPreferredSize(new Dimension(SCREEN_WIDTH * 2 + 70, SCREEN_WIDTH * 2 - 120));
-        }
 
         @Override
         public void paint(Graphics graphics) {

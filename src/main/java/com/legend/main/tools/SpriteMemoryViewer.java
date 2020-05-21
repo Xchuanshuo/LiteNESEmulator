@@ -2,9 +2,7 @@ package com.legend.main.tools;
 
 import com.legend.main.GameRunner;
 import com.legend.memory.IMemory;
-import com.legend.memory.StandardMemory;
 import com.legend.ppu.IPPU;
-import com.legend.ppu.PPURegister;
 import com.legend.utils.Constants;
 import com.legend.utils.disassemble.DisAssembler;
 
@@ -66,7 +64,7 @@ public class SpriteMemoryViewer extends JFrame {
         try {
             outputStream = new FileOutputStream("ppu-sprite-memory-dump.txt");
             IMemory memory = gameRunner.getPPU().getSprRAM();
-            DisAssembler.dumpMemoryNativeData(memory, 0, 256, outputStream);
+            DisAssembler.dumpMemoryNativeData(memory, 8,0, 256, outputStream);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         } finally {
@@ -81,7 +79,6 @@ public class SpriteMemoryViewer extends JFrame {
         System.out.println("dump Sprite Memory 成功!");
         gameRunner.resume();
     }
-
 
     private JPanel spriteViewerPanel = new JPanel() {
 
