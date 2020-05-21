@@ -3,6 +3,10 @@ package com.legend.main.tools;
 import com.legend.main.GameRunner;
 import com.legend.memory.IMemory;
 import com.legend.ppu.IPPU;
+import com.legend.ppu.PPURegister;
+import com.legend.screen.DefaultScreen;
+import com.legend.screen.Screen;
+import com.legend.utils.ByteUtils;
 import com.legend.utils.Constants;
 import com.legend.utils.disassemble.DisAssembler;
 
@@ -88,14 +92,48 @@ public class SpriteMemoryViewer extends JFrame {
             g.fillRect(0, 0, getWidth(), getHeight());
             g.setFont(font);
             g.setColor(Color.ORANGE);
-
+            Screen screen = new DefaultScreen();
             IPPU ppu = gameRunner.getPPU();
+            PPURegister ppuRegister = ppu.getRegister();
             IMemory sprMemory = ppu.getSprRAM();
             int h = ppu.getRegister().is8x16() ? 16 : 8;
-            for (int i = 0; i<256;i += 4) {
+            for (int i = 0;i < 256;i += 4) {
                 int y = sprMemory.readByte(i) + 1;
                 int x = sprMemory.readByte(i + 3);
                 g.drawRect(x, y, 8, h);
+            }
+//            for (int i = 0;i < 256;i += 4) {
+//                int y = sprMemory.readByte(i) + 1;
+//                int tileNumber = sprMemory.readByte(i + 1);
+//                int high2Bit = (sprMemory.readByte(i + 2) & 3) << 2;
+//                int x = sprMemory.readByte(i + 3);
+//                int patternAddress = ppuRegister.getSpritePatternTableAddress() + tileNumber * 16;
+//                renderSprite(ppu, screen, x, y, patternAddress, 0x10 + high2Bit);
+//                if (ppu.getRegister().is8x16()) {
+//                    renderSprite(ppu, screen, x, y + 8, patternAddress, 0x10 + high2Bit);
+//                }
+////                g.drawRect(x, y, 8, h);
+//            }
+//            g.drawImage(screen.getImage(), 0, 0, screen.getWidth(), screen.getHeight(), null);
+        }
+
+        private void renderSprite(IPPU ppu, Screen screen,
+                                  int renderX, int renderY,
+                                  int patternAddress, int high2Bit) {
+            IMemory memory = ppu.getVRAM();
+            int y = renderY;
+            for (int i = patternAddress;i < patternAddress + 8;i++) {
+                int x = renderX;
+                int low = memory.readByte(i);
+                int high = memory.readByte(i + 8);
+                for (int k = 7;k >= 0; k--) {
+                    int val = ByteUtils.getBit(low, k) |
+                            ByteUtils.getBit(high, k) << 1;
+                    if (x < SCREEN_WIDTH && y < SCREEN_HEIGHT) {
+                        screen.set(x++, y, ppu.getPalette().readByte(high2Bit | val));
+                    }
+                }
+                y++;
             }
         }
 

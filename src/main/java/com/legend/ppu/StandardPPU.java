@@ -306,7 +306,8 @@ public class StandardPPU implements IPPU, ISave {
             if (cycle > 0 && cycle <= SCREEN_WIDTH) {
                 // 在扫描线的可见视图内
                 if (register.isRenderingEnabled()) {
-                    screen.set(cycle - 1, scanline, buffer[scanline][cycle - 1]);
+                    screen.set(cycle - 1, scanline, register.showBackground() ?
+                            buffer[scanline][cycle-1] : spriteBuffer[scanline][cycle-1]);
                 } else {
                     screen.set(cycle - 1, scanline, paletteIndexes.readByte(0));
                 }

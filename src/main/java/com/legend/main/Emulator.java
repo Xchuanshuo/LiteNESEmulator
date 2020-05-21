@@ -91,6 +91,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
             e.printStackTrace();
         }
         new Thread(gameRunner).start();
+        // debug方式启动
 //        gameRunner.pause();
     }
 

@@ -141,18 +141,21 @@ public class DisAssembler {
                     | memory.readByte(startAddress + 2) << 8;
         }
         StringBuilder sb = new StringBuilder();
-        // 地址及指令、操作数
+        String str = "";
+        // 地址
         sb.append(String.format("0x%4X: ", startAddress));
-        sb.append(String.format("%-16s", String.format(mode.format(), rule[0], value)));
-
         // 机器码
-        sb.append(String.format("%02X", opcode));
+        str += String.format("%02X", opcode);
         if (mode.offset() > 0) {
-            sb.append(String.format(" %02X", memory.readByte(startAddress + 1)));
+            str += String.format(" %02X", memory.readByte(startAddress + 1));
         }
         if (mode.offset() > 1) {
-            sb.append(String.format(" %02X", memory.readByte(startAddress + 2)));
+            str += String.format(" %02X", memory.readByte(startAddress + 2));
         }
+        sb.append(String.format("%-13s", str));
+        // 及指令、操作数
+        sb.append(String.format(" %s", String.format(mode.format(), rule[0], value)));
+
         String data = sb.toString() + "\n";
 
         return new DecodeInfo(mode, data);
