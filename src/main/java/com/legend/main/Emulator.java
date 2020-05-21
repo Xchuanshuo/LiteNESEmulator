@@ -2,6 +2,7 @@ package com.legend.main;
 
 import com.legend.input.StandardControllers;
 import com.legend.main.tools.Debugger;
+import com.legend.main.tools.NameTableViewer;
 import com.legend.main.tools.PatternTableViewer;
 import com.legend.main.tools.SpriteMemoryViewer;
 import com.legend.memory.StandardMemory;
@@ -52,6 +53,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private Debugger debugger;
     private SpriteMemoryViewer spriteMemoryViewer;
     private PatternTableViewer patternTableViewer;
+    private NameTableViewer nameTableViewer;
 
     public Emulator() {
         SwingUtilities.invokeLater(this::initFrame);
@@ -89,6 +91,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
             e.printStackTrace();
         }
         new Thread(gameRunner).start();
+//        gameRunner.pause();
     }
 
     private void initFrame() {
@@ -185,6 +188,9 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
                 spriteMemoryViewer = new SpriteMemoryViewer(gameRunner);
                 break;
             case NAME_TABLES_VIEWER:
+                gameRunner.pause();
+                nameTableViewer = new NameTableViewer(gameRunner);
+                gameRunner.resume();
                 break;
             default: break;
         }
@@ -336,6 +342,9 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         }
         if (patternTableViewer != null) {
             patternTableViewer.repaint();
+        }
+        if (nameTableViewer != null) {
+            nameTableViewer.repaint();
         }
     }
 

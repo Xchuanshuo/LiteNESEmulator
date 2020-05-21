@@ -51,21 +51,21 @@ public class Debugger extends JFrame {
         setResizable(false);
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(SCREEN_WIDTH * 2 + 70, SCREEN_WIDTH * 2 - 76));
-        JPanel btnPanel = getBtnPanel();
-        btnPanel.setVisible(true);
+        JPanel topPanel = getTopPanel();
+        topPanel.setVisible(true);
 
         JScrollPane scrollPane = new JScrollPane(debugPanel);
         scrollPane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
         add(scrollPane, BorderLayout.CENTER);
-        add(btnPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.NORTH);
         pack();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 
-    private JPanel getBtnPanel() {
-        JPanel btnPanel = new JPanel();
-        btnPanel.setLayout(new FlowLayout());
+    private JPanel getTopPanel() {
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout());
 
         JButton runBtn = new JButton(RUN);
         runBtn.setBackground(Color.RED);
@@ -79,12 +79,12 @@ public class Debugger extends JFrame {
         clearAllBreakPointersBtn.addActionListener(listener);
         addBreakPointersBtn.addActionListener(listener);
         dumpBtn.addActionListener(listener);
-        btnPanel.add(runBtn);
-        btnPanel.add(stepIntoBtn);
-        btnPanel.add(clearAllBreakPointersBtn);
-        btnPanel.add(addBreakPointersBtn);
-        btnPanel.add(dumpBtn);
-        return btnPanel;
+        topPanel.add(runBtn);
+        topPanel.add(stepIntoBtn);
+        topPanel.add(clearAllBreakPointersBtn);
+        topPanel.add(addBreakPointersBtn);
+        topPanel.add(dumpBtn);
+        return topPanel;
     }
 
     private ActionListener listener = e -> {

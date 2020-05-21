@@ -37,12 +37,12 @@ public class SpriteMemoryViewer extends JFrame {
         setTitle("Sprite Memory");
         setResizable(false);
         setLayout(new BorderLayout());
-        JPanel btnPanel = new JPanel();
+        JPanel topPanel = new JPanel();
         JButton dumpBtn = new JButton(Constants.DUMP);
         dumpBtn.addActionListener(e -> dumpSprMemory());
-        btnPanel.setLayout(new FlowLayout());
-        btnPanel.add(dumpBtn);
-        btnPanel.setVisible(true);
+        topPanel.setLayout(new FlowLayout());
+        topPanel.add(dumpBtn);
+        topPanel.setVisible(true);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setPreferredSize(new Dimension(SCREEN_WIDTH * 2 + 20,
@@ -53,7 +53,7 @@ public class SpriteMemoryViewer extends JFrame {
         splitPane.setRightComponent(new JScrollPane(spriteMemoryPanel));
         splitPane.setDividerLocation(SCREEN_WIDTH);
         add(splitPane, BorderLayout.CENTER);
-        add(btnPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.NORTH);
 
         pack();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

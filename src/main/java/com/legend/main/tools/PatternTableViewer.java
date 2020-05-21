@@ -37,15 +37,15 @@ public class PatternTableViewer extends JFrame {
     private void initView() {
         setTitle("PatternTable Viewer");
         setLayout(new BorderLayout());
-        JPanel btnPanel = new JPanel();
+        JPanel topPanel = new JPanel();
         JButton dumpBtn = new JButton(Constants.DUMP);
         dumpBtn.addActionListener(e -> dumpPPUPatternTable());
-        btnPanel.setLayout(new FlowLayout());
-        btnPanel.add(dumpBtn);
-        btnPanel.setVisible(true);
+        topPanel.setLayout(new FlowLayout());
+        topPanel.add(dumpBtn);
+        topPanel.setVisible(true);
 
         add(patternTablePanel, BorderLayout.CENTER);
-        add(btnPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.NORTH);
         pack();
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setVisible(true);

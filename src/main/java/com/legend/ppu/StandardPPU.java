@@ -78,6 +78,22 @@ public class StandardPPU implements IPPU, ISave {
     }
 
     @Override
+    public String getMirroringType() {
+        switch (mirroringType) {
+            case HORIZONTAL:
+                return "HORIZONTAL";
+            case VERTICAL:
+                return "VERTICAL";
+            case ONE_SCREEN_MIRRORING:
+                return "ONE_SCREEN_MIRRORING";
+            case FOUR_SCREEN_MIRRORING:
+                return "FOUR_SCREEN_MIRRORING";
+            default:
+                return "Unknown";
+        }
+    }
+
+    @Override
     public void setMirroringType(int mirroringType) {
 //        System.out.println("镜像切换: " + mirroringType);
         setMirroringType(mirroringType, 0);
