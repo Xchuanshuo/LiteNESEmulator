@@ -42,7 +42,7 @@ public class LookMemoryFrame extends JFrame {
         } else {
             setTitle("Memory Watcher");
         }
-        setResizable(false);
+        setResizable(true);
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(SCREEN_WIDTH * 2,
                 SCREEN_HEIGHT * 2));
@@ -66,10 +66,11 @@ public class LookMemoryFrame extends JFrame {
 
             List<String> dataList = DisAssembler.getMemoryNativeData(memory,
                     16, startAddress, endAddress);
+            g.translate(0, 16);
             for (int i = 0;i < dataList.size();i++) {
                 g.drawString(dataList.get(i), 0, 16 * i);
             }
-            this.height = dataList.size() * 16;
+            this.height = (dataList.size() + 1) * 16;
         }
 
         @Override

@@ -26,9 +26,9 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
     private int irqLatch;
     private boolean irqEnabled = false;
     private boolean generateIRQ = false;
-    private IMemory prgSecondLastBank,prgLastBank;
+    private IMemory prgSecondLastBank, prgLastBank;
 
-    private StandardMemory chrMemory;
+    private StandardMemory chrMemory = new StandardMemory(0x2000);
     private StandardMemory chr2KBBanks = new StandardMemory(0x1000);
     private StandardMemory chr1KBBanks = new StandardMemory(0x1000);
     private boolean prgBankMode = false;
@@ -43,29 +43,36 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
         this.mainMemory = memory;
         this.loader = loader;
         this.ppu = ppu;
-        this.chrMemory = new StandardMemory(0x2000);
         ppu.setCHRMemory(chrMemory);
 
-        prgLastBank = new ReadonlyMemory(loader.getPRGPageByIndex(loader.getPRGPageCount() - 1)
+        this.prgLastBank = new ReadonlyMemory(loader.getPRGPageByIndex(loader.getPRGPageCount() - 1)
                 , 0x2000, 0x2000);
         this.prgSecondLastBank = new ReadonlyMemory(loader.getPRGPageByIndex(loader.getPRGPageCount() - 1)
                 , 0, 0x2000);
-        chrMemory.setMemory(0, new DefaultMemory(loader.getCHRPageByIndex(0)));
-        mainMemory.setMemory(0x8000, new MixedMemory(new ReadonlyMemory(loader.getPRGPageByIndex(0)),
-                0, this, 0x8000, 0x2000));
-        mainMemory.setMemory(0xC000, new MixedMemory(new ReadonlyMemory(loader.getPRGPageByIndex(loader.getPRGPageCount() - 1)),
-                0, this, 0x8000, 0x2000));
-//        switchCHRBanks();
-//        switchPRGBanks();
+        resetR();
+        switchCHRBanks();
+        switchPRGBanks();
+    }
+
+    private void resetR() {
+        r[0] = 0;
+        r[1] = 2;
+        r[2] = 4;
+        r[3] = 5;
+        r[4] = 6;
+        r[5] = 7;
+        r[6] = 0;
+        r[7] = 1;
     }
 
     @Override
     public void cycle(ICPU cpu) {
+        if (!ppu.inHorizontalBlank()) return;
         PPURegister r = ppu.getRegister();
         int cycle = ppu.getCycle();
-        int scanline = ppu.getScanline();
         int cyclePos = r.getBackgroundPatternTableAddress() == 0 ? 260 : 324;
-        if ((cycle >= cyclePos && cycle <= cyclePos + 2) && ppu.isVisibleRangeScanline()) {
+        if ((cycle >= cyclePos && cycle <= cyclePos + 2) && ppu.isVisibleRangeScanline()
+                && (r.showBackground() || r.showSprites())) {
             if (irqCounter == 0) {
                 irqCounter = irqLatch;
             } else {
@@ -96,10 +103,6 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
                 break;
             case 0xA000: // $A000-$BFFE Mirroring
                 if (!loader.isFourScreenMirroring()) {
-                    if (loader.getFileMD5().equals("41DB95C3E6328DBE4624CE6E8341D7E8")) {
-                        // 神龟pk无需切换
-                        return;
-                    }
                     if ((value & 1) == 1) {
                         ppu.setMirroringType(INesLoader.HORIZONTAL);
                     } else {
@@ -149,7 +152,7 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
         for (int i = 0;i < 2;i++) {
             int v = r[i];
             chr2KBBanks.setMemory(0x800 * i, new DefaultMemory(loader.getCHRPageByIndex(v / 8)
-                    , ((v >> 1) & 0x3) * 0x800, 0x800));
+                    , (v % 8) * 0x400, 0x800));
         }
         for (int i = 2;i < 6;i++) {
             int v = r[i];
@@ -195,6 +198,11 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
 
     @Override
     public boolean getIRQLevel() {
-        return generateIRQ;
+        if (generateIRQ) {
+//            System.out.println("MMC3 IRQ------");
+            generateIRQ = false;
+            return true;
+        }
+        return false;
     }
 }

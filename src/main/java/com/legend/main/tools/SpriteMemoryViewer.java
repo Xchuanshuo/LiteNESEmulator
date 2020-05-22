@@ -152,6 +152,7 @@ public class SpriteMemoryViewer extends JFrame {
             g.setFont(font);
             g.setColor(Color.BLACK);
 
+            g.translate(0, 16);
             IMemory sprMemory = gameRunner.getPPU().getSprRAM();
             List<String> dataList = DisAssembler.getMemoryNativeData(sprMemory,
                     8, 0, 256);
@@ -162,7 +163,7 @@ public class SpriteMemoryViewer extends JFrame {
 
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT * 2 + 30);
+            return new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT * 2 + 50);
         }
     };
 }

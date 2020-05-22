@@ -187,7 +187,10 @@ public class NameTableViewer extends JFrame {
                 }
             }
         }
-        g.drawImage(screen.getImage(), 0, 0, screen.getWidth(),
-                screen.getHeight(), null);
+        if (ppu.getRegister().showSprites() && ppu.getRegister().showBackground()) {
+            g.drawImage(screen.getImage(), 0, 0, screen.getWidth(),
+                    screen.getHeight(), null);
+
+        }
     }
 }

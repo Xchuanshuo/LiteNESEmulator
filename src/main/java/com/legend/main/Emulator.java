@@ -54,6 +54,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private SpriteMemoryViewer spriteMemoryViewer;
     private PatternTableViewer patternTableViewer;
     private NameTableViewer nameTableViewer;
+    private int pending = 0;
 
     public Emulator() {
         SwingUtilities.invokeLater(this::initFrame);
@@ -354,12 +355,15 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         if (spriteMemoryViewer != null) {
             spriteMemoryViewer.repaint();
         }
-        if (patternTableViewer != null) {
-            patternTableViewer.repaint();
+        if (pending % 20 == 0) {
+            if (patternTableViewer != null) {
+                patternTableViewer.repaint();
+            }
+            if (nameTableViewer != null) {
+                nameTableViewer.repaint();
+            }
         }
-        if (nameTableViewer != null) {
-            nameTableViewer.repaint();
-        }
+        pending++;
     }
 
     public static void main(String[] args) {

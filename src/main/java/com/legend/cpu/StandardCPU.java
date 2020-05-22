@@ -127,9 +127,109 @@ public class StandardCPU implements ICPU {
             result = rule3(opcodeType, addressingMode, opcode);
         }
         if (result == RULE_TYPE_UNKNOWN) {
+            result = illegalOpcode(opcode, addressingMode);
+        }
+        if (result == RULE_TYPE_UNKNOWN) {
             throw new RuntimeException("The opcode [" + Integer.toHexString(opcode) + "] is invalid!");
         }
         return result;
+    }
+
+    private int[] opcodeLowBits = {0x07, 0x17, 0x03, 0x13, 0x0F, 0x1F, 0x1B};
+
+    private long illegalOpcode(int opcode, int addressingMode) {
+        for (int i = 0;i < opcodeLowBits.length;i++) {
+            int val = opcode - opcodeLowBits[i];
+            switch (val) {
+                case 0:
+                    return slo(addressingMode);
+                case 0x20:
+                    return rla(addressingMode);
+                case 0x40:
+                    return sre(addressingMode);
+                case 0x60:
+                    return rra(addressingMode);
+                case 0xC0:
+                    return dcp(addressingMode);
+                case 0xE0:
+                    return isc(addressingMode);
+                default: break;
+            }
+        }
+        switch (opcode) {
+            case 0x87:  // SAX and LAX
+            case 0x97:
+            case 0x8F:
+            case 0x83:
+                return sax(addressingMode);
+            case 0xA7:
+            case 0xB7:
+            case 0xAF:
+            case 0xA3:
+            case 0xB3:
+                return lax(addressingMode);
+            case 0x7: // Combined ALU-Opcodes
+            case 0xF:
+                return slo(addressingMode);
+            case 0xFF:
+                return isc(addressingMode);
+            case 0x1A: // NUL/NOP and KIL/JAM/HLT
+            case 0x3A:
+            case 0x5A:
+            case 0x7A:
+            case 0xDA:
+            case 0xFA:
+                nop();
+                break;
+            case 0x80:
+            case 0x82:
+            case 0x89:
+            case 0xC2:
+            case 0xE2:
+                increasePC(1);
+                return nop();
+            case 0x04:
+            case 0x44:
+            case 0x64:
+                cycle += 1;
+                increasePC(1);
+                return nop();
+            case 0x14:
+            case 0x34:
+            case 0x54:
+            case 0x74:
+            case 0xD4:
+            case 0xF4:
+                cycle += 2;
+                increasePC(1);
+                return nop();
+            case 0x0C:
+            case 0x1C:
+            case 0x3C:
+            case 0x5C:
+            case 0x7C:
+            case 0xDC:
+            case 0xFC:
+                cycle += 2;
+                increasePC(2);
+                return nop();
+            case 0x0B:
+                return andAsl(addressingMode);
+            case 0x2B:
+                return andRol(addressingMode);
+            case 0x4B:
+                return alr(addressingMode);
+            case 0x6B:
+                return arr(addressingMode);
+            case 0xCB:
+                return axs(addressingMode);
+            case 0xEB:
+                return sbcNop(addressingMode);
+            case 0xBB:
+                return las(addressingMode);
+            default: break;
+        }
+        return RULE_TYPE_UNKNOWN;
     }
 
     private boolean checkIRQ() {
@@ -967,6 +1067,108 @@ public class StandardCPU implements ICPU {
     // 空轮转
     private long nop() {
         cycle += 2;
+        return cycle;
+    }
+
+    private void increasePC(int l) {
+        for (int i = 0;i < l;i++) {
+            increasePC();
+        }
+    }
+
+    private long sax(int addressingMode) {
+        sta(addressingMode);
+        stx(addressingMode);
+        return cycle;
+    }
+
+    private long lax(int addressingMode) {
+        lda(addressingMode);
+        ldx(addressingMode);
+        return cycle;
+    }
+
+    private long slo(int addressingMode) {
+        asl(addressingMode);
+        ora(addressingMode);
+        return cycle;
+    }
+
+    private long rla(int addressingMode) {
+        rol(addressingMode);
+        and(addressingMode);
+        return cycle;
+    }
+
+    private long sre(int addressingMode) {
+        lsr(addressingMode);
+        xor(addressingMode);
+        return cycle;
+    }
+
+    private long rra(int addressingMode) {
+        ror(addressingMode);
+        adc(addressingMode);
+        return cycle;
+    }
+
+    private long dcp(int addressingMode) {
+        dec(addressingMode);
+        cmp(addressingMode);
+        return cycle;
+    }
+
+    private long isc(int addressingMode) {
+        inc(addressingMode);
+        sbc(addressingMode);
+        return cycle;
+    }
+
+    private long andAsl(int addressingMode) {
+        and(addressingMode);
+        asl(addressingMode);
+        cycle -= 2;
+        return cycle;
+    }
+
+    private long andRol(int addressingMode) {
+        and(addressingMode);
+        rol(addressingMode);
+        cycle -= 2;
+        return cycle;
+    }
+
+    private long alr(int addressingMode) {
+        and(addressingMode);
+        lsr(addressingMode);
+        cycle -= 2;
+        return cycle;
+    }
+
+    private long arr(int addressingMode) {
+        and(addressingMode);
+        ror(addressingMode);
+        cycle -= 2;
+        return cycle;
+    }
+
+    private long axs(int addressingMode) {
+        cmp(addressingMode);
+        dex();
+        cycle -= 2;
+        return cycle;
+    }
+
+    private long sbcNop(int addressingMode) {
+        sbc(addressingMode);
+        nop();
+        cycle -= 2;
+        return cycle;
+    }
+
+    private long las(int addressingMode) {
+        lda(addressingMode);
+        tsx();
         return cycle;
     }
 

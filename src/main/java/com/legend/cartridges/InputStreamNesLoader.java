@@ -72,12 +72,12 @@ public class InputStreamNesLoader implements INesLoader {
 
     @Override
     public byte[] getPRGPageByIndex(int index) {
-        return prgPages[index % prgPages.length];
+        return prgPages[index % prgPageCount];
     }
 
     @Override
     public byte[] getCHRPageByIndex(int index) {
-        return chrPages[index % chrPages.length];
+        return chrPages[index % chrPageCount];
     }
 
     @Override
