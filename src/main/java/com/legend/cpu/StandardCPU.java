@@ -56,7 +56,6 @@ public class StandardCPU implements ICPU {
     @Override
     public long execute() {
         if (checkIRQ()) {
-//            log.info("IRQ-------");
             return cycle;
         }
         if (pendingNMI >= 2) {
@@ -67,7 +66,6 @@ public class StandardCPU implements ICPU {
             return cycle;
         }
         int opcode = curMemory.readByte(register.getPC());
-//        service.submit(()-> System.out.println());
         increasePC();
         switch (opcode) {
             case 0:

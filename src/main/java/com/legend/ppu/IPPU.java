@@ -18,6 +18,7 @@ public interface IPPU extends Serializable {
     int SCREEN_HEIGHT = 240;
 
     void setCHRMemory(IMemory chrRom);
+    IMemory getCHRMemory();
     String getMirroringType();
     void setMirroringType(int mirroringType);
     // 单屏镜像名称表的位置

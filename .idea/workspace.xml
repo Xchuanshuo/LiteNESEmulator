@@ -3,13 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="8b220d6c-1fee-46d4-b224-898fd6b07dfc" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/cartridges/InputStreamNesLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/cartridges/InputStreamNesLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/cpu/StandardCPU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/cpu/StandardCPU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/main/tools/LookMemoryFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/main/tools/LookMemoryFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/main/tools/NameTableViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/main/tools/NameTableViewer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/main/tools/SpriteMemoryViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/main/tools/SpriteMemoryViewer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/main/GameRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/main/GameRunner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/mapper/MMC3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/mapper/MMC3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/ppu/IPPU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/ppu/IPPU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/ppu/StandardPPU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/ppu/StandardPPU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/storage/LocalStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/storage/LocalStorage.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -47,10 +47,12 @@
       <file leaf-file-name="GameRunner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/GameRunner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="101" selection-start-line="101" selection-end-line="101" />
+            <state relative-caret-position="227">
+              <caret line="28" column="43" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#5203#5204#0" expanded="true" />
+                <element signature="e#5231#5232#0" expanded="true" />
                 <element signature="e#5649#5650#0" expanded="true" />
                 <element signature="e#5692#5693#0" expanded="true" />
               </folding>
@@ -58,104 +60,59 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IAPU.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/apu/IAPU.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="18" column="12" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StandardAPU.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/apu/StandardAPU.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="43" column="16" selection-start-line="43" selection-start-column="16" selection-end-line="43" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="MMC3.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/MMC3.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="74" column="60" selection-start-line="74" selection-start-column="60" selection-end-line="74" selection-end-column="60" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IPPU.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/ppu/IPPU.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="44" column="12" selection-start-line="44" selection-start-column="12" selection-end-line="44" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StandardPPU.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/ppu/StandardPPU.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="322" column="19" selection-start-line="322" selection-start-column="19" selection-end-line="322" selection-end-column="19" />
+            <state relative-caret-position="-1203">
+              <caret line="41" column="40" lean-forward="true" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
               <folding>
-                <element signature="e#5119#5960#0" />
-                <element signature="e#7131#7659#0" />
-                <element signature="e#8417#8640#0" />
-                <element signature="e#8646#8853#0" />
-                <element signature="e#8859#9076#0" />
-                <element signature="e#9945#9946#0" expanded="true" />
-                <element signature="e#10011#10012#0" expanded="true" />
-                <element signature="e#17450#17451#0" expanded="true" />
-                <element signature="e#17501#17502#0" expanded="true" />
+                <element signature="method#resetR#0;class#MMC3#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PPURegister.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/ppu/PPURegister.java">
+      <file leaf-file-name="DataOutputStream.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/enviroment/jdk1.8.0_191/src.zip!/java/io/DataOutputStream.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="271" column="19" selection-start-line="271" selection-start-column="19" selection-end-line="271" selection-end-column="19" />
-              <folding>
-                <element signature="e#3615#3616#0" expanded="true" />
-                <element signature="e#3699#3700#0" expanded="true" />
-                <element signature="e#4138#4139#0" expanded="true" />
-                <element signature="e#4195#4196#0" expanded="true" />
-                <element signature="e#4226#4227#0" expanded="true" />
-                <element signature="e#4270#4271#0" expanded="true" />
-                <element signature="e#5403#5404#0" expanded="true" />
-                <element signature="e#5434#5435#0" expanded="true" />
-                <element signature="e#6726#6727#0" expanded="true" />
-                <element signature="e#6770#6771#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="235">
+              <caret line="272" column="22" selection-start-line="272" selection-start-column="22" selection-end-line="272" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PatternTableViewer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/tools/PatternTableViewer.java">
+      <file leaf-file-name="MMC1.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/MMC1.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-353">
-              <caret line="121" column="36" lean-forward="true" selection-start-line="119" selection-start-column="16" selection-end-line="130" selection-end-column="17" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="class#PatternTableScreen#0;class#PatternTableViewer#0" />
-              </folding>
+            <state relative-caret-position="91">
+              <caret line="19" column="28" lean-forward="true" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SpriteMemoryViewer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/tools/SpriteMemoryViewer.java">
+      <file leaf-file-name="Mapper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="165" column="69" selection-start-line="165" selection-start-column="69" selection-end-line="165" selection-end-column="69" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="523">
+              <caret line="94" column="16" selection-start-line="94" selection-start-column="16" selection-end-line="94" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocalStorage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/storage/LocalStorage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="429">
+              <caret line="87" column="37" selection-start-line="87" selection-start-column="37" selection-end-line="87" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StandardMemory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/memory/StandardMemory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="227">
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -163,11 +120,29 @@
       <file leaf-file-name="Emulator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-270">
-              <caret line="357" column="24" selection-start-line="357" selection-start-column="24" selection-end-line="357" selection-end-column="24" />
+            <state relative-caret-position="-72">
+              <caret line="81" column="55" lean-forward="true" selection-start-line="81" selection-start-column="55" selection-end-line="81" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StandardControllers.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/input/StandardControllers.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="298">
+              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IPPU.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/ppu/IPPU.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="290">
+              <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -246,11 +221,9 @@
         <option value="$PROJECT_DIR$/src/main/java/com/legend/speaker/DefaultSpeaker.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/speaker/Speaker.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/EmulatorSpeaker.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/utils/MD5Util.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/cartridges/FileNesLoader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/storage/IStorage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/legend/storage/LocalStorage.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/utils/ColorConverter.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/ppu/SpriteDMARegister.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/ppu/PPURegister.java" />
@@ -270,12 +243,10 @@
         <option value="$PROJECT_DIR$/src/main/java/com/legend/screen/Screen.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/screen/DefaultScreen.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/main/java/com/legend/memory/StandardMemory.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/memory/DefaultMemory.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/MaterialOrientalFontsTheme.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/tools/SpriteMemory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/legend/ppu/IPPU.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/cartridges/INesLoader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/tools/Debugger.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/utils/Constants.java" />
@@ -285,11 +256,15 @@
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/tools/LookMemoryFrame.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/tools/SpriteMemoryViewer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/cartridges/InputStreamNesLoader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/legend/ppu/StandardPPU.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/legend/cpu/StandardCPU.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/tools/NameTableViewer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/legend/cpu/StandardCPU.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/legend/storage/LocalStorage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/legend/ppu/StandardPPU.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/legend/ppu/IPPU.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/GameRunner.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/legend/memory/StandardMemory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/mapper/MMC3.java" />
       </list>
     </option>
@@ -383,6 +358,15 @@
               <item name="legend" type="462c0819:PsiDirectoryNode" />
               <item name="mapper" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="LiteNESEmulator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LiteNESEmulator" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="legend" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -409,14 +393,6 @@
     <key name="CreateTestDialog.RecentsKey">
       <recent name="com.legend.cpu" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/target/test-classes" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.legend.mapper" />
-      <recent name="com.legend.cpu" />
-      <recent name="com.legend.ppu" />
-    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
@@ -425,6 +401,14 @@
       <recent name="$PROJECT_DIR$/target/test-classes" />
       <recent name="$PROJECT_DIR$/src/main/java/com/legend/utils" />
       <recent name="$PROJECT_DIR$/src/main/java" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.legend.mapper" />
+      <recent name="com.legend.cpu" />
+      <recent name="com.legend.ppu" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/target/test-classes" />
     </key>
   </component>
   <component name="RestServicesNavigator">
@@ -479,6 +463,17 @@
         </pattern>
       </extension>
     </configuration>
+    <configuration name="MMC3" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.legend.mapper.MMC3" />
+      <module name="LiteNESEmulator" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.legend.mapper.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
     <configuration name="SelectEventDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.legend.main.SelectEventDemo" />
       <module name="LiteNESEmulator" />
@@ -486,17 +481,6 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.legend.main.tools.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-    </configuration>
-    <configuration name="StandardPPU" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.legend.ppu.StandardPPU" />
-      <module name="LiteNESEmulator" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.legend.ppu.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -544,18 +528,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.Emulator" />
-      <item itemvalue="Application.StandardPPU" />
       <item itemvalue="Application.DisAssembler" />
       <item itemvalue="Application.Debugger" />
       <item itemvalue="Application.SelectEventDemo" />
+      <item itemvalue="Application.MMC3" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Emulator" />
+        <item itemvalue="Application.MMC3" />
         <item itemvalue="Application.Debugger" />
         <item itemvalue="Application.SelectEventDemo" />
         <item itemvalue="Application.DisAssembler" />
-        <item itemvalue="Application.StandardPPU" />
       </list>
     </recent_temporary>
   </component>
@@ -614,7 +598,7 @@
       <workItem from="1589813535444" duration="7822000" />
       <workItem from="1589854634560" duration="8918000" />
       <workItem from="1589869126351" duration="28607000" />
-      <workItem from="1589980977536" duration="60629000" />
+      <workItem from="1589980977536" duration="71069000" />
     </task>
     <servers />
   </component>
@@ -651,7 +635,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="575174000" />
+    <option name="totallyTimeSpent" value="585614000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -687,7 +671,7 @@
       <window_info id="Image Layers" order="0" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.4994664" weight="0.3261105" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.18851571" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.20585048" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49893278" weight="0.248104" />
       <window_info content_ui="combo" x="498" y="112" width="407" height="839" id="Project" order="6" sideWeight="0.496208" visible="true" weight="0.1755603" />
       <window_info anchor="right" id="Theme Preview" order="6" />
@@ -713,7 +697,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/legend/cpu/StandardCPU.java</url>
-          <line>793</line>
+          <line>791</line>
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
@@ -724,7 +708,7 @@
           <option name="timeStamp" value="39" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="102" />
+      <option name="time" value="103" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -737,65 +721,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/enviroment/jdk1.8.0_191/src.zip!/javax/swing/plaf/basic/BasicSplitPaneUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="340" column="13" lean-forward="true" selection-start-line="340" selection-start-column="13" selection-end-line="340" selection-end-column="13" />
-          <folding>
-            <element signature="e#25746#25747#0" expanded="true" />
-            <element signature="e#25776#25777#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/enviroment/jdk1.8.0_191/src.zip!/javax/swing/JList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7580">
-          <caret line="490" column="11" selection-start-line="490" selection-start-column="11" selection-end-line="490" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="8" column="5" lean-forward="true" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LiteNESEmulator.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/uiDesigner.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/compiler.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/ppu/SpriteDMARegister.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-242">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/utils/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/enviroment/jdk1.8.0_191/src.zip!/javax/swing/JScrollPane.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3343">
@@ -892,13 +817,6 @@
         <state relative-caret-position="-5616" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/memory/StandardMemory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="539">
-          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/cartridges/InputStreamNesLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="251">
@@ -923,13 +841,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-432">
           <caret line="15" column="30" selection-start-line="10" selection-start-column="25" selection-end-line="15" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/MMC1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1530">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -958,13 +869,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="70" column="17" lean-forward="true" selection-start-line="70" selection-start-column="17" selection-end-line="70" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/code.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -978,20 +882,6 @@
     <entry file="file://$PROJECT_DIR$/t">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/storage/ISave.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/storage/IStorage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/utils/disassemble/Rule.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
@@ -1001,17 +891,6 @@
             <element signature="e#13291#13292#0" expanded="true" />
             <element signature="e#13340#13341#0" expanded="true" />
             <element signature="e#13372#13373#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/cpu/StandardCPU.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="231" column="33" lean-forward="true" selection-start-line="231" selection-start-column="33" selection-end-line="231" selection-end-column="33" />
-          <folding>
-            <element signature="e#6209#6210#0" expanded="true" />
-            <element signature="e#6261#6262#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1089,16 +968,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-270">
-          <caret line="357" column="24" selection-start-line="357" selection-start-column="24" selection-end-line="357" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/apu/StandardAPU.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="232">
@@ -1113,23 +982,79 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/GameRunner.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/cpu/StandardCPU.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="101" selection-start-line="101" selection-end-line="101" />
+        <state relative-caret-position="290">
+          <caret line="1121" column="21" lean-forward="true" selection-start-line="1121" selection-start-column="21" selection-end-line="1121" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/storage/IStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/storage/ISave.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/CNROM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/MapperFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/hutool/hutool-all/5.3.4/hutool-all-5.3.4.jar!/cn/hutool/json/JSONUtil.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="75" column="28" selection-start-line="75" selection-start-column="28" selection-end-line="75" selection-end-column="28" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5649#5650#0" expanded="true" />
-            <element signature="e#5692#5693#0" expanded="true" />
+            <element signature="e#2224#2225#0" expanded="true" />
+            <element signature="e#2269#2270#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/hutool/hutool-all/5.3.4/hutool-all-5.3.4.jar!/cn/hutool/json/JSONArray.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="111" column="18" selection-start-line="111" selection-start-column="18" selection-end-line="111" selection-end-column="18" />
+          <folding>
+            <element signature="e#2976#2977#0" expanded="true" />
+            <element signature="e#3022#3023#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/memory/IMemory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/ppu/StandardPPU.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="322" column="19" selection-start-line="322" selection-start-column="19" selection-end-line="322" selection-end-column="19" />
+        <state relative-caret-position="-1181">
+          <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
           <folding>
+            <element signature="e#2437#2438#0" expanded="true" />
+            <element signature="e#2464#2465#0" expanded="true" />
+            <element signature="e#4999#5000#0" expanded="true" />
+            <element signature="e#5026#5027#0" expanded="true" />
             <element signature="e#5119#5960#0" />
             <element signature="e#7131#7659#0" />
             <element signature="e#8417#8640#0" />
@@ -1143,17 +1068,100 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/enviroment/jdk1.8.0_191/src.zip!/java/io/ObjectInputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1095">
+          <caret line="350" column="11" selection-start-line="350" selection-start-column="11" selection-end-line="350" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/serial">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="76" selection-start-column="70" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/input/StandardControllers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-72">
+          <caret line="81" column="55" lean-forward="true" selection-start-line="81" selection-start-column="55" selection-end-line="81" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/ppu/IPPU.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="44" column="12" selection-start-line="44" selection-start-column="12" selection-end-line="44" selection-end-column="12" />
+        <state relative-caret-position="290">
+          <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/MMC1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="19" column="28" lean-forward="true" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/GameRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="28" column="43" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5203#5204#0" expanded="true" />
+            <element signature="e#5231#5232#0" expanded="true" />
+            <element signature="e#5649#5650#0" expanded="true" />
+            <element signature="e#5692#5693#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/enviroment/jdk1.8.0_191/src.zip!/java/io/DataOutputStream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="272" column="22" selection-start-line="272" selection-start-column="22" selection-end-line="272" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/memory/StandardMemory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/storage/LocalStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="87" column="37" selection-start-line="87" selection-start-column="37" selection-end-line="87" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="94" column="16" selection-start-line="94" selection-start-column="16" selection-end-line="94" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/MMC3.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="74" column="60" selection-start-line="74" selection-start-column="60" selection-end-line="74" selection-end-column="60" />
+        <state relative-caret-position="-1203">
+          <caret line="41" column="40" lean-forward="true" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
+          <folding>
+            <element signature="method#resetR#0;class#MMC3#0" />
+          </folding>
         </state>
       </provider>
     </entry>

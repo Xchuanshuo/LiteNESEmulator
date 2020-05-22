@@ -16,6 +16,7 @@ import com.legend.speaker.Speaker;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -66,7 +67,7 @@ public class GameRunner implements Runnable {
             ppu.setMirroringType(loader.getMirroringDirection());
         }
         this.mapper = MapperFactory.createMapperFromId(loader.getMapper());
-        mapper.mapMemory(loader, cpu, ppu, apu, input);
+        mapper.mapMemory(this);
 
         ppu.powerUp();
         cpu.powerUp();
@@ -179,6 +180,10 @@ public class GameRunner implements Runnable {
 
     public void setPpu(IPPU ppu) {
         this.ppu = ppu;
+    }
+
+    public Input getInput() {
+        return input;
     }
 
     public Speaker getSpeaker() {

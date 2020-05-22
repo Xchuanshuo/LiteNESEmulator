@@ -1,13 +1,24 @@
 package com.legend.mapper;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONUtil;
 import com.legend.apu.IAPU;
 import com.legend.cartridges.INesLoader;
 import com.legend.cpu.ICPU;
 import com.legend.cpu.IRQGenerator;
 import com.legend.input.Input;
+import com.legend.main.GameRunner;
 import com.legend.memory.*;
 import com.legend.ppu.IPPU;
 import com.legend.ppu.PPURegister;
+import com.legend.storage.ISave;
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * @author Legend
@@ -19,18 +30,21 @@ import com.legend.ppu.PPURegister;
  */
 public class MMC3 extends Mapper implements IMemory, IRQGenerator {
 
-    private IPPU ppu;
-    private INesLoader loader;
-    private StandardMemory mainMemory;
+    private static final long serialVersionUID = -1936067312510465785L;
+
+    private transient GameRunner runner;
+    private transient IPPU ppu;
+    private transient INesLoader loader;
+    private transient StandardMemory mainMemory;
     private int irqCounter;
     private int irqLatch;
     private boolean irqEnabled = false;
     private boolean generateIRQ = false;
-    private IMemory prgSecondLastBank, prgLastBank;
+    private transient IMemory prgSecondLastBank, prgLastBank;
 
-    private StandardMemory chrMemory = new StandardMemory(0x2000);
-    private StandardMemory chr2KBBanks = new StandardMemory(0x1000);
-    private StandardMemory chr1KBBanks = new StandardMemory(0x1000);
+    private transient StandardMemory chrMemory = new StandardMemory(0x2000);
+    private transient StandardMemory chr2KBBanks = new StandardMemory(0x1000);
+    private transient StandardMemory chr1KBBanks = new StandardMemory(0x1000);
     private boolean prgBankMode = false;
     private boolean chrInversion = false;
     private int selectedR;
@@ -38,13 +52,9 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
     private int[] r = new int[8];
 
     @Override
-    protected void mapMemoryImpl(StandardMemory memory, INesLoader loader,
-                                 ICPU cpu, IPPU ppu, IAPU apu, Input input) {
-        this.mainMemory = memory;
-        this.loader = loader;
-        this.ppu = ppu;
-        ppu.setCHRMemory(chrMemory);
-
+    protected void mapMemoryImpl(GameRunner runner) {
+        this.runner = runner;
+        init();
         this.prgLastBank = new ReadonlyMemory(loader.getPRGPageByIndex(loader.getPRGPageCount() - 1)
                 , 0x2000, 0x2000);
         this.prgSecondLastBank = new ReadonlyMemory(loader.getPRGPageByIndex(loader.getPRGPageCount() - 1)
@@ -52,6 +62,12 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
         resetR();
         switchCHRBanks();
         switchPRGBanks();
+    }
+
+    private void init() {
+        this.mainMemory = (StandardMemory) runner.getCPU().getMemory();
+        this.loader = runner.getLoader();
+        this.ppu = runner.getPPU();
     }
 
     private void resetR() {
@@ -166,6 +182,7 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
             chrMemory.setMemory(0, chr1KBBanks);
             chrMemory.setMemory(0x1000, chr2KBBanks);
         }
+        ppu.setCHRMemory(chrMemory);
     }
 
     private void switchPRGBanks() {
@@ -204,5 +221,38 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public byte[] getSaveBytes() throws IOException {
+        String str = JSONUtil.toJsonStr(r);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
+        dos.writeBoolean(prgBankMode);
+        dos.writeBoolean(chrInversion);
+        dos.writeInt(selectedR);
+        dos.writeUTF(str);
+        dos.flush();
+        dos.close();
+        return baos.toByteArray();
+    }
+
+    @Override
+    public void reload(byte[] bytes) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+        DataInputStream dis = new DataInputStream(bais);
+        this.prgBankMode = dis.readBoolean();
+        this.chrInversion = dis.readBoolean();
+        this.selectedR = dis.readInt();
+        String str = dis.readUTF();
+        JSONArray array = JSONUtil.parseArray(str);
+        for (int i = 0;i < r.length;i++) {
+            r[i] = (int) array.get(i);
+        }
+        init();
+        switchCHRBanks();
+        switchPRGBanks();
+        dis.close();
+        bais.close();
     }
 }

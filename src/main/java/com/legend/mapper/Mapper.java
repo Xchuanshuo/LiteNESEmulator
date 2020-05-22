@@ -6,10 +6,13 @@ import com.legend.cartridges.INesLoader;
 import com.legend.cpu.ICPU;
 import com.legend.cpu.IRQGenerator;
 import com.legend.input.Input;
+import com.legend.main.GameRunner;
 import com.legend.memory.*;
 import com.legend.ppu.IPPU;
 import com.legend.ppu.SpriteDMARegister;
+import com.legend.storage.ISave;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -17,7 +20,10 @@ import java.io.Serializable;
  * @data by on 20-4-19.
  * @description
  */
-public abstract class Mapper implements Serializable {
+public abstract class Mapper implements ISave, Serializable {
+
+    private static final long serialVersionUID = 1186147812604977308L;
+
 
     protected StandardMemory initFirst4020BytesMemory(ICPU cpu, IPPU ppu, IAPU apu, Input input) {
         StandardMemory memory = new StandardMemory(0x10000);
@@ -43,7 +49,12 @@ public abstract class Mapper implements Serializable {
         return memory;
     }
 
-    public void mapMemory(INesLoader loader, ICPU cpu, IPPU ppu, IAPU apu, Input input) {
+    public void mapMemory(GameRunner runner) {
+        INesLoader loader = runner.getLoader();
+        ICPU cpu = runner.getCPU();
+        IPPU ppu = runner.getPPU();
+        IAPU apu = runner.getAPU();
+        Input input = runner.getInput();
         StandardMemory mainMemory = initFirst4020BytesMemory(cpu, ppu, apu, input);
         if (loader.isSRAMEnable()) {
             mainMemory.setMemory(0x6000, new DefaultMemory(0x2000));
@@ -55,9 +66,11 @@ public abstract class Mapper implements Serializable {
         } else {
             ppu.setCHRMemory(new DefaultMemory(0x2000));
         }
+        cpu.setMemory(mainMemory);
+
+        mapMemoryImpl(runner);
         mapMemoryImpl(mainMemory, loader, cpu, ppu, apu, input);
 
-        cpu.setMemory(mainMemory);
         if (apu != null) {
             cpu.addIRQGenerator(apu);
         }
@@ -66,7 +79,20 @@ public abstract class Mapper implements Serializable {
         }
     }
 
-    protected abstract void mapMemoryImpl(StandardMemory memory, INesLoader loader, ICPU cpu, IPPU ppu, IAPU apu, Input input);
+    protected void mapMemoryImpl(GameRunner gameRunner) {
+    }
+
+    protected void mapMemoryImpl(StandardMemory memory, INesLoader loader, ICPU cpu, IPPU ppu, IAPU apu, Input input) {
+
+    }
+
+    @Override
+    public byte[] getSaveBytes() throws IOException {
+        return new byte[0];
+    }
+
+    @Override
+    public void reload(byte[] bytes) throws IOException {}
 
     public void cycle(ICPU cpu) {}
 }

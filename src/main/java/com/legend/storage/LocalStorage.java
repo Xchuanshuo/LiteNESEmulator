@@ -48,7 +48,7 @@ public class LocalStorage implements IStorage {
             oos.writeObject(cpu.getMemory());
             oos.writeObject(ppu);
             oos.writeObject(apu);
-            oos.writeObject(mapper);
+            oos.writeObject(mapper.getSaveBytes());
             byte[] bytes = ZipUtil.gzip(baos.toByteArray());
             oos.flush();
             oos.close();
@@ -84,8 +84,8 @@ public class LocalStorage implements IStorage {
             gameRunner.setApu(iapu);
 
             // restore Mapper
-            Mapper mapper = (Mapper) ois.readObject();
-            gameRunner.setMapper(mapper);
+            byte[] mapperData = (byte[]) ois.readObject();
+            gameRunner.getMapper().reload(mapperData);
 
             ois.close();
             inputStream.close();

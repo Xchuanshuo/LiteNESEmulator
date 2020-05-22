@@ -78,6 +78,11 @@ public class StandardPPU implements IPPU, ISave {
     }
 
     @Override
+    public IMemory getCHRMemory() {
+        return patterns;
+    }
+
+    @Override
     public String getMirroringType() {
         switch (mirroringType) {
             case HORIZONTAL:
