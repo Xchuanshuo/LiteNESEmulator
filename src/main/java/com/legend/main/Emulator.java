@@ -8,7 +8,6 @@ import com.legend.main.tools.SpriteMemoryViewer;
 import com.legend.memory.StandardMemory;
 import com.legend.storage.LocalStorage;
 import com.legend.utils.Constants;
-import com.legend.utils.disassemble.DisAssembler;
 import com.legend.utils.StringUtils;
 
 import javax.swing.*;
@@ -45,6 +44,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private EmulatorSpeaker emulatorSpeaker = new EmulatorSpeaker();
     private Map<Integer, Integer> keyBindings = new HashMap<>();
 
+    private JMenuBar jMenuBar;
     private boolean isFullScreen = false;
     private GraphicsDevice gd;
 
@@ -105,37 +105,50 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         setLayout(new BorderLayout());
         add(emulatorScreen);
         pack();
-        setTitle("LiteNES Emulator");
-//        setIconImage();
+        setTitle(MAIN_TITLE);
+        setIconImage(new ImageIcon(getClass().getResource("/icon.png")).getImage());
         setLocationRelativeTo(null);
     }
 
     private void initMenuBar() {
-        JMenuBar jMenuBar = new JMenuBar();
+        jMenuBar = new JMenuBar();
 
         JMenu fileMenu = getFileMenu();
+        JMenu operationMenu = getOperationMenu();
         JMenu toolsMenu = getToolsMenu();
 
         jMenuBar.add(fileMenu);
+        jMenuBar.add(operationMenu);
         jMenuBar.add(toolsMenu);
         setJMenuBar(jMenuBar);
     }
 
     private JMenu getFileMenu() {
         JMenu fileMenu = new JMenu("File");
-        JMenuItem resetItem = new JMenuItem(RESET);
         JMenuItem loadRomItem = new JMenuItem(LOAD_ROM);
         JMenuItem saveStatusItem = new JMenuItem(SAVE_STATUS);
-        JMenuItem loadStatus = new JMenuItem(LOAD_STATUS);
-        fileMenu.add(resetItem);
+        JMenuItem loadStatusItem = new JMenuItem(LOAD_STATUS);
+        JMenuItem exitItem = new JMenuItem(EXIT);
         fileMenu.add(loadRomItem);
         fileMenu.add(saveStatusItem);
-        fileMenu.add(loadStatus);
-        resetItem.addActionListener(fileListener);
+        fileMenu.add(loadStatusItem);
+        fileMenu.add(exitItem);
         loadRomItem.addActionListener(fileListener);
         saveStatusItem.addActionListener(fileListener);
-        loadStatus.addActionListener(fileListener);
+        loadStatusItem.addActionListener(fileListener);
+        exitItem.addActionListener(fileListener);
         return fileMenu;
+    }
+
+    private JMenu getOperationMenu() {
+        JMenu operationMenu = new JMenu("Operation");
+        JMenuItem resetItem = new JMenuItem(RESET);
+        JMenuItem fullScreenItem = new JMenuItem(FULL_SCREEN);
+        operationMenu.add(resetItem);
+        operationMenu.add(fullScreenItem);
+        resetItem.addActionListener(operationListener);
+        fullScreenItem.addActionListener(operationListener);
+        return operationMenu;
     }
 
     private JMenu getToolsMenu() {
@@ -157,8 +170,6 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
 
     private ActionListener fileListener = e -> {
         switch (e.getActionCommand()) {
-            case RESET:
-                break;
             case LOAD_ROM:
                 if (gameRunner != null) {
                     gameRunner.stop();
@@ -168,6 +179,23 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
             case SAVE_STATUS:
             case LOAD_STATUS:
                 showOperation();
+                break;
+            case EXIT:
+                System.exit(1);
+                break;
+            default: break;
+        }
+    };
+
+    private ActionListener operationListener = e -> {
+        switch (e.getActionCommand()) {
+            case RESET:
+                if (gameRunner != null) {
+                    gameRunner.onReset();
+                }
+                break;
+            case FULL_SCREEN:
+                fullScreen();
                 break;
             default: break;
         }
@@ -273,9 +301,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -295,19 +321,6 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
             case KeyEvent.VK_M:
                 showOperation();
                 break;
-            case KeyEvent.VK_V: // dump vram
-                gameRunner.pause();
-                FileOutputStream outputStream = null;
-                try {
-                    outputStream = new FileOutputStream("ppu-vram-dump.txt");
-                    StandardMemory memory = gameRunner.getPPU().getVRAM();
-                    DisAssembler.dumpMemoryNativeData(memory, 0, 0x4000, outputStream);
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                }
-                System.out.println("dump PPU VRAM 成功!");
-                gameRunner.resume();
-                break;
             case KeyEvent.VK_P:
                 fullScreen();
                 break;
@@ -318,32 +331,25 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private void fullScreen() {
         if (isFullScreen) {
             this.dispose();
-            setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+            setSize(SCREEN_WIDTH * 3, SCREEN_HEIGHT * 3);
+            setUndecorated(false);
+            jMenuBar.setVisible(true);
             setVisible(true);
             isFullScreen = false;
         } else {
             gd = getGraphicsConfiguration().getDevice();
             if (!gd.isFullScreenSupported()) {
-                //then fullscreen will give a window the size of the screen instead
-                // messageBox("Fullscreen is not supported by your OS or version of Java.");
                 return;
             }
             this.dispose();
             this.setUndecorated(true);
-
+            jMenuBar.setVisible(false);
             gd.setFullScreenWindow(this);
-            this.setVisible(true);
-
+            setVisible(true);
             DisplayMode dm = gd.getDisplayMode();
             setSize(dm.getWidth(), dm.getHeight());
             isFullScreen = true;
         }
-
-//        canvas.setSize(dm.getWidth(), dm.getHeight());
-    }
-
-    private void messageBox(String message) {
-        JOptionPane.showMessageDialog(this, message);
     }
 
     @Override
@@ -362,6 +368,9 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
             if (nameTableViewer != null) {
                 nameTableViewer.repaint();
             }
+        }
+        if (pending % 60 == 0) {
+            setTitle(MAIN_TITLE + "-" + gameRunner.getFps() + "fps");
         }
         pending++;
     }

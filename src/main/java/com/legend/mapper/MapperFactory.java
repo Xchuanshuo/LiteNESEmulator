@@ -18,7 +18,7 @@ public class MapperFactory {
                 return new UNROM();
             case 3: // 冒险岛1..
                 return new CNROM();
-            case 4: // 快打旋风、热血、冒险岛、双截龙系列2-3-4...
+            case 4: // 快打旋风、热血、冒险岛、神龟、双截龙系列...
                 return new MMC3();
             case 163: // 水浒神兽..
             default:

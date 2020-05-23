@@ -16,7 +16,6 @@ import com.legend.speaker.Speaker;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,6 +49,8 @@ public class GameRunner implements Runnable {
 
     private double fps = 60;
     private double cps = 1.7e6;
+    private long oldCycle = 0;
+
 
     public GameRunner(String filepath, Input input, Screen screen, Speaker speaker, Runnable repaintListener) throws IOException {
         this.loader = new FileNesLoader(filepath);
@@ -61,31 +62,21 @@ public class GameRunner implements Runnable {
 
     @Override
     public void run() {
-        if (loader.isFourScreenMirroring()) {
-            ppu.setMirroringType(INesLoader.FOUR_SCREEN_MIRRORING);
-        } else {
-            ppu.setMirroringType(loader.getMirroringDirection());
-        }
         this.mapper = MapperFactory.createMapperFromId(loader.getMapper());
         mapper.mapMemory(this);
 
+        apu.powerUp();
         ppu.powerUp();
         cpu.powerUp();
-        apu.powerUp();
 
         long time = System.nanoTime();
-        long oldCycle = 0;
+        oldCycle = 0;
         long frame = 0;
         boolean oldInBlank = false;
         while (!stop) {
             for (int k = 0; k < 100; k++) {
                 long lastTime = System.nanoTime();
-                if (isStepInto || breakPointers.contains(cpu.getRegister().getPC())) {
-                    if (breakPointers.contains(cpu.getRegister().getPC())) {
-                        repaintListener.run();
-                    }
-                    pause = true;
-                }
+                processDebug();
                 if (pause) {
                     synchronized (pauseLock) {
                         try {
@@ -122,6 +113,25 @@ public class GameRunner implements Runnable {
                 }
                 cps = cpu.getCycle() * 1e9 / (System.nanoTime() - time - waitTime);
             }
+        }
+    }
+
+    public void onReset() {
+        pause();
+        apu.reset();
+        ppu.reset();
+        cpu.reset();
+        mapper.mapMemory(this);
+        cpu.increaseCycle((int) oldCycle);
+        resume();
+    }
+
+    private void processDebug() {
+        if (isStepInto || breakPointers.contains(cpu.getRegister().getPC())) {
+            if (breakPointers.contains(cpu.getRegister().getPC())) {
+                repaintListener.run();
+            }
+            pause = true;
         }
     }
 
@@ -199,7 +209,7 @@ public class GameRunner implements Runnable {
     }
 
     public double getFps() {
-        return fps;
+        return Math.round(fps*100) / 100.0;
     }
 
     public void setStepInto(boolean stepInto) {

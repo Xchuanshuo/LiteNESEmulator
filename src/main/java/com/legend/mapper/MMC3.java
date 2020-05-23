@@ -38,6 +38,7 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
     private transient StandardMemory mainMemory;
     private int irqCounter;
     private int irqLatch;
+    private boolean irqReload = false;
     private boolean irqEnabled = false;
     private boolean generateIRQ = false;
     private transient IMemory prgSecondLastBank, prgLastBank;
@@ -55,10 +56,10 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
     protected void mapMemoryImpl(GameRunner runner) {
         this.runner = runner;
         init();
-        this.prgLastBank = new ReadonlyMemory(loader.getPRGPageByIndex(loader.getPRGPageCount() - 1)
-                , 0x2000, 0x2000);
         this.prgSecondLastBank = new ReadonlyMemory(loader.getPRGPageByIndex(loader.getPRGPageCount() - 1)
                 , 0, 0x2000);
+        this.prgLastBank = new ReadonlyMemory(loader.getPRGPageByIndex(loader.getPRGPageCount() - 1)
+                , 0x2000, 0x2000);
         resetR();
         switchCHRBanks();
         switchPRGBanks();
@@ -68,6 +69,11 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
         this.mainMemory = (StandardMemory) runner.getCPU().getMemory();
         this.loader = runner.getLoader();
         this.ppu = runner.getPPU();
+        if (loader.getFileMD5().equals("483695DE094F4DD49652C5BC78BDBA19") ||
+                loader.getFileMD5().equals("B7F85F46191ACAD2765F2FB1C656F042")) {
+            // 忍者神龟3, 超级玛丽3
+            this.prgBankMode = true;
+        }
     }
 
     private void resetR() {
@@ -83,14 +89,19 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
 
     @Override
     public void cycle(ICPU cpu) {
-        if (!ppu.inHorizontalBlank()) return;
         PPURegister r = ppu.getRegister();
+        if (r.getSpritePatternTableAddress() == r.getBackgroundPatternTableAddress()) {
+            return;
+        }
+        int scanLine = ppu.getScanline();
         int cycle = ppu.getCycle();
         int cyclePos = r.getBackgroundPatternTableAddress() == 0 ? 260 : 324;
-        if ((cycle >= cyclePos && cycle <= cyclePos + 2) && ppu.isVisibleRangeScanline()
+        if ((cycle >= cyclePos && cycle <= cyclePos + 2)
+                && (ppu.isVisibleRangeScanline() || scanLine == 261)
                 && (r.showBackground() || r.showSprites())) {
-            if (irqCounter == 0) {
+            if (irqCounter == 0 || irqReload) {
                 irqCounter = irqLatch;
+                irqReload = false;
             } else {
                 irqCounter--;
                 if (irqCounter == 0 && irqEnabled) {
@@ -107,6 +118,7 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
 
     @Override
     public void writeByte(int address, int value) {
+//        System.out.println(String.format("0x%04X : 0x%04X", address, value));
         switch (address & 0xE001) {
             case 0x8000: // $8000-$9FFE Bank select
                 prgBankMode = (value & 0x40) != 0;
@@ -132,7 +144,7 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
                 irqLatch = value & 0xFF;
                 break;
             case 0xC001: // $C001-$DFFF IRQ reload
-                irqCounter = 0;
+                irqReload = true;
                 break;
             case 0xE000: // $E000-$FFFE IRQ disable
                 irqEnabled = false;
@@ -183,9 +195,12 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
             chrMemory.setMemory(0x1000, chr2KBBanks);
         }
         ppu.setCHRMemory(chrMemory);
+//        System.out.println("1-CHR切换: r6: " + r[6] +"--r7: "+ r[7] + " prgBankMode-" + prgBankMode);
+
     }
 
     private void switchPRGBanks() {
+//        System.out.println("2-PRG切换: r6: " + r[6] +"--r7: "+ r[7] + " prgBankMode-" + prgBankMode);
         int r6PageId = r[6] & 0x3F;
         IMemory r6 = new ReadonlyMemory(loader.getPRGPageByIndex(r6PageId >> 1), (r6PageId & 1) * 0x2000, 0x2000);
 

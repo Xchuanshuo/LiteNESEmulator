@@ -7,14 +7,18 @@ package com.legend.utils;
  */
 public class Constants {
 
+    public static final String MAIN_TITLE = "LiteNES Emulator";
     public static final String LOOK_MEMORY = "Look Memory";
     public static final String DUMP = "dump";
 
 
     public static final String RESET = "reset";
+    public static final String FULL_SCREEN = "Full Screen  P";
+
     public static final String LOAD_ROM = "load rom";
     public static final String SAVE_STATUS = "save status";
     public static final String LOAD_STATUS = "load status";
+    public static final String EXIT = "exit";
 
 
     public static final String DEBUG = "debug";

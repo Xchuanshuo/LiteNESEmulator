@@ -21,7 +21,7 @@ public class StandardCPU implements ICPU {
     private static final Random RAND = new Random();
 
     private long cycle = 0;
-    private IMemory curMemory;
+    private volatile IMemory curMemory;
     private CPURegister register = new CPURegister();
     // 中断向量的地址
     public static final int[] VECTOR_NMI = new int[]{0xFFFA, 0xFFFB};
@@ -66,7 +66,9 @@ public class StandardCPU implements ICPU {
             return cycle;
         }
         int opcode = curMemory.readByte(register.getPC());
+//        System.out.println(String.format("PC:%04x: --%02X",register.getPC(), opcode));
         increasePC();
+        // 0xA278
         switch (opcode) {
             case 0:
                 return brk();
@@ -329,6 +331,7 @@ public class StandardCPU implements ICPU {
         register.reset();
         register.setPC(curMemory.readByte(VECTOR_RESET[0]) |
                 curMemory.readByte(VECTOR_RESET[1]) << 8);
+//        System.out.println(String.format("0x%04X", register.getPC()));
         cycle = 0;
     }
 
@@ -884,19 +887,31 @@ public class StandardCPU implements ICPU {
     }
 
     // 中断
+//    private long brk() {
+//        cycle += 7;
+//        register.setBreak();
+//        int nextAddress = register.getPC() + 1;
+//        // push下一条要执行的指令地址 从中断返回时使用
+//        push(nextAddress >> 8);
+//        push(nextAddress);
+//        // push状态寄存器
+//        push(register.getFlags());
+//        register.setDisableInterrupt();
+//        // 读取中断向量地址的值
+//        register.setPC(curMemory.readByte(VECTOR_IRQ_OR_BRK[0])
+//                | curMemory.readByte(VECTOR_IRQ_OR_BRK[1]) << 8);
+//        return cycle;
+//    }
+
     private long brk() {
         cycle += 7;
-        register.setBreak();
+        int interruptVector = curMemory.readByte(0xFFFE) | (curMemory.readByte(0xFFFF) << 8);
         int nextAddress = register.getPC() + 1;
-        // push下一条要执行的指令地址 从中断返回时使用
         push(nextAddress >> 8);
         push(nextAddress);
-        // push状态寄存器
-        push(register.getFlags());
+        push(register.getFlags() | CPURegister.MASK_BREAK);
         register.setDisableInterrupt();
-        // 读取中断向量地址的值
-        register.setPC(curMemory.readByte(VECTOR_IRQ_OR_BRK[0])
-                | curMemory.readByte(VECTOR_IRQ_OR_BRK[1]) << 8);
+        register.setPC(interruptVector);
         return cycle;
     }
 

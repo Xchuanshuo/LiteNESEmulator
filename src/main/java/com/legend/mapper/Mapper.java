@@ -24,7 +24,6 @@ public abstract class Mapper implements ISave, Serializable {
 
     private static final long serialVersionUID = 1186147812604977308L;
 
-
     protected StandardMemory initFirst4020BytesMemory(ICPU cpu, IPPU ppu, IAPU apu, Input input) {
         StandardMemory memory = new StandardMemory(0x10000);
         SpriteDMARegister dmaRegister = new SpriteDMARegister(memory, ppu.getSprRAM(), cpu);
@@ -55,6 +54,11 @@ public abstract class Mapper implements ISave, Serializable {
         IPPU ppu = runner.getPPU();
         IAPU apu = runner.getAPU();
         Input input = runner.getInput();
+        if (loader.isFourScreenMirroring()) {
+            ppu.setMirroringType(INesLoader.FOUR_SCREEN_MIRRORING);
+        } else {
+            ppu.setMirroringType(loader.getMirroringDirection());
+        }
         StandardMemory mainMemory = initFirst4020BytesMemory(cpu, ppu, apu, input);
         if (loader.isSRAMEnable()) {
             mainMemory.setMemory(0x6000, new DefaultMemory(0x2000));

@@ -21,7 +21,7 @@ import static com.legend.cartridges.INesLoader.*;
  * idea:
  *      http://wiki.nesdev.com/w/index.php/PPU_scrolling
  */
-public class StandardPPU implements IPPU, ISave {
+public class StandardPPU implements IPPU {
 
     private static final long serialVersionUID = -8245041867994294340L;
 
@@ -336,6 +336,8 @@ public class StandardPPU implements IPPU, ISave {
         if (!register.showBackground() || renderY < 0
                 || renderY >= SCREEN_HEIGHT) {
             // 渲染坐标在屏幕内并且背景显示被开启时才进行后续的渲染
+//            System.out.println("renderBackgroundTile()--" + register.showBackground()
+//                    + "--" + renderY);
             return;
         }
         int attribute = vram.readByte(register.getAttributeAddress());
@@ -384,8 +386,10 @@ public class StandardPPU implements IPPU, ISave {
                     int attr = spriteAttributeLine[i];
                     if (sprite0HitCycle == -1 && (attr & 1) != 0
                             && bufferLine[i] != -1) {
+                        // 标记精灵#0
                         sprite0HitCycle = i + 1;
                     }
+                    // 背景当前像素点为空 或者 精灵不在背景后面
                     if (bufferLine[i] == -1 || (attr & 2) == 0) {
                         bufferLine[i] = spriteBufferLine[i];
                     }
@@ -399,7 +403,6 @@ public class StandardPPU implements IPPU, ISave {
     }
 
     private void preRenderSprites() {
-        if (!register.showSprites()) return;
         for (int j = 0;j < SCREEN_HEIGHT;j++) {
             for (int i = 0;i < SCREEN_WIDTH;i++) {
                 spriteBuffer[j][i] = -1;
@@ -421,7 +424,9 @@ public class StandardPPU implements IPPU, ISave {
             boolean flipVertically = (attribute & 0x80) != 0;
             if (is8x16) {
                 // todo 5
+//                System.out.println(String.format("1-8 x 16-0x%04X", patternTableAddress));
                 patternTableAddress = (tileNumber & 1) << 12;
+//                System.out.println(String.format("2-8 x 16-0x%04X", patternTableAddress));
                 tileNumber &= ~1;
                 if (flipVertically) {
                     preRenderSprite(id, x, y, patternTableAddress + ((tileNumber + 1) << 4),
@@ -527,46 +532,6 @@ public class StandardPPU implements IPPU, ISave {
     @Override
     public void setSPRM(IMemory memory) {
         this.sprMemory = memory;
-    }
-
-    @Override
-    public byte[] getSaveBytes() throws IOException {
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
-            oos.writeObject(register);
-            oos.writeObject(sprMemory);
-            oos.writeObject(splitNameTables);
-            oos.writeObject(nameTables);
-            oos.writeObject(patterns);
-            oos.writeObject(paletteIndexes);
-            oos.flush();
-            return baos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public void reload(byte[] bytes) throws IOException {
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            PPURegister register = (PPURegister) ois.readObject();
-            IMemory sprMemory = (IMemory) ois.readObject();
-            IMemory[] splitNameTables = (IMemory[]) ois.readObject();
-            StandardMemory nameTables = (StandardMemory) ois.readObject();
-            IMemory patterns = (IMemory) ois.readObject();
-            IMemory paletteIndexes = (IMemory) ois.readObject();
-            this.register = register;
-            this.sprMemory = sprMemory;
-            this.splitNameTables = splitNameTables;
-            this.nameTables = nameTables;
-            this.patterns = patterns;
-            this.paletteIndexes = paletteIndexes;
-            resetVRAMMemory();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     private class PaletteIndexes extends DefaultMemory {
