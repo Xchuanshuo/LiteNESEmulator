@@ -40,8 +40,8 @@ public class StandardPPU implements IPPU {
     private int cycle = 0;
 
     /**
-     * byte 0 = 1: is sprite 0, 0: not
-     * byte 1 = 1: behind, 0: not
+     * bit 0 = 1: is sprite 0, 0: not
+     * bite 1 = 1: behind, 0: not
      */
     private byte[][] spriteAttributes = new byte[SCREEN_HEIGHT][SCREEN_WIDTH];
     private byte[][] spriteBuffer = new byte[SCREEN_HEIGHT][SCREEN_WIDTH];
@@ -174,7 +174,6 @@ public class StandardPPU implements IPPU {
     public void writeRegister(int index, int val) {
         switch (index) {
             case 3: // OAM ADDRESS
-                // todo
                 register.setOAMData(sprMemory.readByte(val & 0xFF));
                 break;
             case 4: // OAM DATA
@@ -426,8 +425,8 @@ public class StandardPPU implements IPPU {
                 // todo 5
 //                System.out.println(String.format("1-8 x 16-0x%04X", patternTableAddress));
                 patternTableAddress = (tileNumber & 1) << 12;
+                tileNumber &= 0xFE;
 //                System.out.println(String.format("2-8 x 16-0x%04X", patternTableAddress));
-                tileNumber &= ~1;
                 if (flipVertically) {
                     preRenderSprite(id, x, y, patternTableAddress + ((tileNumber + 1) << 4),
                             0x10 + (paletteHigh << 2), behindBackground, flipHorizontally, true);
@@ -440,15 +439,9 @@ public class StandardPPU implements IPPU {
                             0x10 + (paletteHigh << 2), behindBackground, flipHorizontally, false);
                 }
             } else {
-                if (i == 0) {
-                    preRenderSprite(id, x, y, patternTableAddress + (tileNumber << 4),
-                            0x10 + (paletteHigh << 2), behindBackground,
-                            flipHorizontally, flipVertically);
-                } else {
-                    preRenderSprite(id, x, y, patternTableAddress + (tileNumber << 4),
-                            0x10 + (paletteHigh << 2), behindBackground,
-                            flipHorizontally, flipVertically);
-                }
+                preRenderSprite(id, x, y, patternTableAddress + (tileNumber << 4),
+                        0x10 + (paletteHigh << 2), behindBackground,
+                        flipHorizontally, flipVertically);
             }
         }
     }

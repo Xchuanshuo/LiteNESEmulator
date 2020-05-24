@@ -33,7 +33,7 @@ public class DefaultSpeaker implements Speaker {
 
     @Override
     public void set(int level) {
-        byte l = (byte) (level - 128);
+        byte l = (byte) (level - 64);
         int bufferPos = (int) (cycle / cyclePerSample);
         int newBufferId = bufferPos / bufferSize;
         if (newBufferId != bufferId) {
@@ -58,9 +58,10 @@ public class DefaultSpeaker implements Speaker {
 
     @Override
     public void reset() {
-        synchronized (queue) {
-            queue.clear();
-        }
+        this.cycle = 0;
+        this.bufferId = 0;
+        // 重置时需要唤醒阻塞
+        enqueue(new byte[bufferSize]);
     }
 
 

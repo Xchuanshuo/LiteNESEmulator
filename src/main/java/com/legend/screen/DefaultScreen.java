@@ -20,6 +20,11 @@ public class DefaultScreen implements Screen {
     private byte[] colorBuffer = new byte[SCREEN_WIDTH * SCREEN_HEIGHT];
 
     public DefaultScreen() {
+        reset();
+    }
+
+    @Override
+    public void reset() {
         Arrays.fill(colorBuffer, (byte) 0x3F);
     }
 

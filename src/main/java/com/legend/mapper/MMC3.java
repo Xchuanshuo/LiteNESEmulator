@@ -47,7 +47,7 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
     private transient StandardMemory chr2KBBanks = new StandardMemory(0x1000);
     private transient StandardMemory chr1KBBanks = new StandardMemory(0x1000);
     private boolean prgBankMode = false;
-    private boolean chrInversion = false;
+    private boolean chrInversion = true;
     private int selectedR;
 
     private int[] r = new int[8];
@@ -195,8 +195,8 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
             chrMemory.setMemory(0x1000, chr2KBBanks);
         }
         ppu.setCHRMemory(chrMemory);
-//        System.out.println("1-CHR切换: r6: " + r[6] +"--r7: "+ r[7] + " prgBankMode-" + prgBankMode);
-
+//        System.out.println("1-CHR切换: r0: " + r[0]+ ", r1: " + r[1] +", r2: "+ r[2] + ", r3: " + r[3]
+//                + ", r4: " + r[4] + ", r5: " + r[5] + " --chrInversion:" + chrInversion);
     }
 
     private void switchPRGBanks() {

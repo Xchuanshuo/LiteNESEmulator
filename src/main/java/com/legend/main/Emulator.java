@@ -8,7 +8,6 @@ import com.legend.main.tools.SpriteMemoryViewer;
 import com.legend.memory.StandardMemory;
 import com.legend.storage.LocalStorage;
 import com.legend.utils.Constants;
-import com.legend.utils.StringUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -17,8 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,11 +39,11 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private StandardControllers controllers = new StandardControllers();
     private EmulatorScreen emulatorScreen = new EmulatorScreen();
     private EmulatorSpeaker emulatorSpeaker = new EmulatorSpeaker();
+
     private Map<Integer, Integer> keyBindings = new HashMap<>();
 
     private JMenuBar jMenuBar;
     private boolean isFullScreen = false;
-    private GraphicsDevice gd;
 
     private LocalStorage storage = new LocalStorage();
 
@@ -58,6 +55,10 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
 
     public Emulator() {
         SwingUtilities.invokeLater(this::initFrame);
+        initKeyboardBinds();
+    }
+
+    private void initKeyboardBinds() {
         // P1
         keyBindings.put(KeyEvent.VK_W, StandardControllers.P1_KEY_UP);
         keyBindings.put(KeyEvent.VK_S, StandardControllers.P1_KEY_DOWN);
@@ -77,7 +78,6 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     }
 
     public void startGame(String gamePath) {
-        storage.setPath(StringUtils.getSaveName(gamePath) + ".sl");
         try {
             gameRunner = new GameRunner(gamePath, controllers, emulatorScreen.getScreen(),
                     emulatorSpeaker.getSpeaker(), this);
@@ -126,14 +126,17 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private JMenu getFileMenu() {
         JMenu fileMenu = new JMenu("File");
         JMenuItem loadRomItem = new JMenuItem(LOAD_ROM);
+        JMenuItem closeRomItem = new JMenuItem(CLOSE_ROM);
         JMenuItem saveStatusItem = new JMenuItem(SAVE_STATUS);
         JMenuItem loadStatusItem = new JMenuItem(LOAD_STATUS);
         JMenuItem exitItem = new JMenuItem(EXIT);
         fileMenu.add(loadRomItem);
+        fileMenu.add(closeRomItem);
         fileMenu.add(saveStatusItem);
         fileMenu.add(loadStatusItem);
         fileMenu.add(exitItem);
         loadRomItem.addActionListener(fileListener);
+        closeRomItem.addActionListener(fileListener);
         saveStatusItem.addActionListener(fileListener);
         loadStatusItem.addActionListener(fileListener);
         exitItem.addActionListener(fileListener);
@@ -171,14 +174,15 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private ActionListener fileListener = e -> {
         switch (e.getActionCommand()) {
             case LOAD_ROM:
-                if (gameRunner != null) {
-                    gameRunner.stop();
-                    System.out.println("load rom");
-                }
+                System.out.println("load rom");
+                selectAndLoadRom();
+                break;
+            case CLOSE_ROM:
+                stop();
                 break;
             case SAVE_STATUS:
             case LOAD_STATUS:
-                showOperation();
+                saveOrLoad();
                 break;
             case EXIT:
                 System.exit(1);
@@ -239,6 +243,38 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         }
     };
 
+    private void selectAndLoadRom() {
+        if (gameRunner != null) {
+            gameRunner.pause();
+        }
+        JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileNameExtensionFilter("NES file", "nes"));
+        fc.setMultiSelectionEnabled(false);
+        fc.setCurrentDirectory(new File("./src/main/resources"));
+        fc.showOpenDialog(this);
+        if (gameRunner != null) {
+            gameRunner.resume();
+        }
+        if (fc.getSelectedFile() != null) {
+            stop();
+            startGame(fc.getSelectedFile().getAbsolutePath());
+        } else {
+            System.out.println("文件为空！");
+        }
+    }
+
+    private void stop() {
+        if (gameRunner != null) {
+            gameRunner.stop();
+            if (emulatorSpeaker != null) {
+                emulatorSpeaker.stop();
+            }
+            if (emulatorScreen != null) {
+                emulatorScreen.reset();
+            }
+        }
+    }
+
     private void reloadGame(String path) {
         System.out.println("加载游戏存档: " + path);
         if (gameRunner != null) {
@@ -251,7 +287,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         }
     }
 
-    private void showOperation() {
+    private void saveOrLoad() {
         gameRunner.pause();
         if (gameRunner != null) {
             storage.setPath(gameRunner.getLoader().getFileMD5() + ".sl");
@@ -319,7 +355,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         }
         switch (e.getKeyCode()) {
             case KeyEvent.VK_M:
-                showOperation();
+                saveOrLoad();
                 break;
             case KeyEvent.VK_P:
                 fullScreen();
@@ -337,7 +373,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
             setVisible(true);
             isFullScreen = false;
         } else {
-            gd = getGraphicsConfiguration().getDevice();
+            GraphicsDevice gd = getGraphicsConfiguration().getDevice();
             if (!gd.isFullScreenSupported()) {
                 return;
             }
@@ -383,15 +419,8 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
             e.printStackTrace();
         }
         Emulator frame = new Emulator();
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(new FileNameExtensionFilter("NES file", "nes"));
-        fc.setMultiSelectionEnabled(false);
-        fc.setCurrentDirectory(new File("./src/main/resources"));
-        fc.showOpenDialog(frame);
-        if (fc.getSelectedFile() != null) {
-            frame.startGame(fc.getSelectedFile().getAbsolutePath());
-            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.setVisible(true);
-        }
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.selectAndLoadRom();
+        frame.setVisible(true);
     }
 }

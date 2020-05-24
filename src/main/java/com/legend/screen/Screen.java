@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
  */
 public interface Screen {
 
+    void reset();
     void set(int x, int y, int colorIndex);
     int getWidth();
     int getHeight();

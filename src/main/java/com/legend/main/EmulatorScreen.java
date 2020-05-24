@@ -33,4 +33,9 @@ public class EmulatorScreen extends JComponent {
     public void setScreen(Screen screen) {
         this.screen = screen;
     }
+
+    public void reset() {
+        screen.reset();
+        repaint();
+    }
 }

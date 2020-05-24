@@ -168,6 +168,9 @@ public class PatternTableViewer extends JFrame {
         }
 
         @Override
+        public void reset() {}
+
+        @Override
         public void set(int x, int y, int colorIndex) {
             // 存储每个坐标对应的调色板索引
             colorBuffer[width * y + x] = (byte) colorIndex;

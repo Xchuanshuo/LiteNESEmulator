@@ -16,6 +16,7 @@ public class Constants {
     public static final String FULL_SCREEN = "Full Screen  P";
 
     public static final String LOAD_ROM = "load rom";
+    public static final String CLOSE_ROM = "close rom";
     public static final String SAVE_STATUS = "save status";
     public static final String LOAD_STATUS = "load status";
     public static final String EXIT = "exit";

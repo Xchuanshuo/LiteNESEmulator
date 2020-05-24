@@ -39,6 +39,7 @@ public class EmulatorSpeaker implements Runnable {
 
     @Override
     public void run() {
+        this.isStop = false;
         try {
             runImpl();
         } catch (LineUnavailableException e) {
@@ -55,7 +56,7 @@ public class EmulatorSpeaker implements Runnable {
 
         while (!isStop) {
             byte[] bytes = speaker.output();
-//            System.out.println(Arrays.toString(bytes));
+            if (isStop) break;
             sourceDataLine.write(bytes, 0, bytes.length);
         }
 
@@ -67,7 +68,8 @@ public class EmulatorSpeaker implements Runnable {
         return isStop;
     }
 
-    public void setStop() {
+    public void stop() {
         this.isStop = true;
+        speaker.reset();
     }
 }

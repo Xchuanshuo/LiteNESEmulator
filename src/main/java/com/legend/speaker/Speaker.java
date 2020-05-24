@@ -11,7 +11,7 @@ public interface Speaker extends Serializable {
 
     int getSampleRate();
     /**
-     * @param level from 0 ~ 255
+     * @param level from 0 ~ 128
      */
     void set(int level);
     byte[] output();

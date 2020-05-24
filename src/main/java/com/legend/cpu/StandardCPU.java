@@ -345,7 +345,6 @@ public class StandardCPU implements ICPU {
         if (RAND.nextBoolean()) {
             pendingNMI = 2;
         } else {
-//            log.info("NMI-------");
             nmiImpl();
         }
     }
@@ -887,31 +886,19 @@ public class StandardCPU implements ICPU {
     }
 
     // 中断
-//    private long brk() {
-//        cycle += 7;
-//        register.setBreak();
-//        int nextAddress = register.getPC() + 1;
-//        // push下一条要执行的指令地址 从中断返回时使用
-//        push(nextAddress >> 8);
-//        push(nextAddress);
-//        // push状态寄存器
-//        push(register.getFlags());
-//        register.setDisableInterrupt();
-//        // 读取中断向量地址的值
-//        register.setPC(curMemory.readByte(VECTOR_IRQ_OR_BRK[0])
-//                | curMemory.readByte(VECTOR_IRQ_OR_BRK[1]) << 8);
-//        return cycle;
-//    }
-
     private long brk() {
         cycle += 7;
-        int interruptVector = curMemory.readByte(0xFFFE) | (curMemory.readByte(0xFFFF) << 8);
+        register.setBreak();
         int nextAddress = register.getPC() + 1;
+        // push下一条要执行的指令地址 从中断返回时使用
         push(nextAddress >> 8);
         push(nextAddress);
-        push(register.getFlags() | CPURegister.MASK_BREAK);
+        // push状态寄存器
+        push(register.getFlags());
         register.setDisableInterrupt();
-        register.setPC(interruptVector);
+        // 读取中断向量地址的值
+        register.setPC(curMemory.readByte(VECTOR_IRQ_OR_BRK[0])
+                | curMemory.readByte(VECTOR_IRQ_OR_BRK[1]) << 8);
         return cycle;
     }
 

@@ -74,7 +74,7 @@ public class StandardAPU implements IAPU {
 
         if (output < 0) output = 0;
         if (output > 1) output = 1;
-        speaker.set((int) (output * 255));
+        speaker.set((int) (output * 128));
 
         r.frameCounterTimer++;
     }

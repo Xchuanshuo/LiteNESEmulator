@@ -79,6 +79,7 @@ public class Debugger extends JFrame {
         clearAllBreakPointersBtn.addActionListener(listener);
         addBreakPointersBtn.addActionListener(listener);
         dumpBtn.addActionListener(listener);
+
         topPanel.add(runBtn);
         topPanel.add(stepIntoBtn);
         topPanel.add(clearAllBreakPointersBtn);
