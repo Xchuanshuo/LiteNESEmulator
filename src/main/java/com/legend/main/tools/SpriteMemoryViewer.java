@@ -97,25 +97,25 @@ public class SpriteMemoryViewer extends JFrame {
             PPURegister ppuRegister = ppu.getRegister();
             IMemory sprMemory = ppu.getSprRAM();
 
-//            int h = ppu.getRegister().is8x16() ? 16 : 8;
-//            for (int i = 0;i < 256;i += 4) {
-//                int y = sprMemory.readByte(i) + 1;
-//                int x = sprMemory.readByte(i + 3);
-//                g.drawRect(x, y, 8, h);
-//            }
+            int h = ppu.getRegister().is8x16() ? 16 : 8;
             for (int i = 0;i < 256;i += 4) {
                 int y = sprMemory.readByte(i) + 1;
-                int tileNumber = sprMemory.readByte(i + 1);
-                int high2Bit = (sprMemory.readByte(i + 2) & 3) << 2;
                 int x = sprMemory.readByte(i + 3);
-                int patternAddress = ppuRegister.getBackgroundPatternTableAddress()+ tileNumber * 16;
-                renderSprite(ppu, screen, x, y, patternAddress, 0x10 + high2Bit);
-                if (ppu.getRegister().is8x16()) {
-                    renderSprite(ppu, screen, x, y + 8, patternAddress, 0x10 + high2Bit);
-                }
-//                g.drawRect(x, y, 8, h);
+                g.drawRect(x, y, 8, h);
             }
-            g.drawImage(screen.getImage(), 0, 0, screen.getWidth(), screen.getHeight(), null);
+
+//            for (int i = 0;i < 256;i += 4) {
+//                int y = sprMemory.readByte(i) + 1;
+//                int tileNumber = sprMemory.readByte(i + 1);
+//                int high2Bit = (sprMemory.readByte(i + 2) & 3) << 2;
+//                int x = sprMemory.readByte(i + 3);
+//                int patternAddress = ppuRegister.getBackgroundPatternTableAddress()+ tileNumber * 16;
+//                renderSprite(ppu, screen, x, y, patternAddress, 0x10 + high2Bit);
+//                if (ppu.getRegister().is8x16()) {
+//                    renderSprite(ppu, screen, x, y + 8, patternAddress, 0x10 + high2Bit);
+//                }
+//            }
+//            g.drawImage(screen.getImage(), 0, 0, screen.getWidth(), screen.getHeight(), null);
         }
 
         private void renderSprite(IPPU ppu, Screen screen,

@@ -58,17 +58,9 @@ public class StandardCPU implements ICPU {
         if (checkIRQ()) {
             return cycle;
         }
-        if (pendingNMI >= 2) {
-            pendingNMI--;
-        } else if (pendingNMI == 1){
-            pendingNMI--;
-            nmiImpl();
-            return cycle;
-        }
         int opcode = curMemory.readByte(register.getPC());
 //        System.out.println(String.format("PC:%04x: --%02X",register.getPC(), opcode));
         increasePC();
-        // 0xA278
         switch (opcode) {
             case 0:
                 return brk();
@@ -342,11 +334,7 @@ public class StandardCPU implements ICPU {
 
     @Override
     public void nmi() {
-        if (RAND.nextBoolean()) {
-            pendingNMI = 2;
-        } else {
-            nmiImpl();
-        }
+        nmiImpl();
     }
 
     private void nmiImpl() {
