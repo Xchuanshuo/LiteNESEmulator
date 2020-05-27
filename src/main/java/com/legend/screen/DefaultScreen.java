@@ -31,7 +31,9 @@ public class DefaultScreen implements Screen {
     @Override
     public void set(int x, int y, int colorIndex) {
         // 存储每个坐标对应的调色板索引
-        colorBuffer[SCREEN_WIDTH * y + x] = (byte) colorIndex;
+        int idx = SCREEN_WIDTH * y + x;
+//        colorBuffer[idx] = (byte) colorIndex;
+        imageBuffer[idx] = ColorConverter.COLOR_MAP[colorIndex & 0x3F];
     }
 
     @Override
@@ -46,9 +48,9 @@ public class DefaultScreen implements Screen {
 
     @Override
     public BufferedImage getImage() {
-        for (int i = 0;i < colorBuffer.length;i++) {
-            imageBuffer[i] = ColorConverter.COLOR_MAP[colorBuffer[i] & 0x3F];
-        }
+//        for (int i = 0;i < colorBuffer.length;i++) {
+//            imageBuffer[i] = ColorConverter.COLOR_MAP[colorBuffer[i] & 0x3F];
+//        }
         image.setRGB(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, imageBuffer, 0, SCREEN_WIDTH);
         return image;
     }

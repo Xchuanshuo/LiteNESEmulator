@@ -5,10 +5,6 @@ import com.legend.speaker.Speaker;
 
 import javax.sound.sampled.*;
 
-import java.util.Arrays;
-
-import static com.legend.main.Emulator.SPEAKER_SAMPLE_RATE;
-
 /**
  * @author Legend
  * @data by on 20-5-3.

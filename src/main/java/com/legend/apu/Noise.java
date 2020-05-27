@@ -51,7 +51,7 @@ public class Noise implements SoundGenerator, DividerListener {
     }
 
     @Override
-    public void setRegister(int index, int value) {
+    public void writeRegister(int index, int value) {
         switch (index) {
             case 0: // 0x400C
                 envelope.setRegister(value);
@@ -64,7 +64,7 @@ public class Noise implements SoundGenerator, DividerListener {
                 timer.setPeriod(period);
                 break;
             case 3: // 0x400F
-                lengthCounter.setRegister(value);
+                lengthCounter.writeRegister(value);
                 envelope.setStartFlag();
                 break;
         }
@@ -72,8 +72,7 @@ public class Noise implements SoundGenerator, DividerListener {
 
     @Override
     public int output() {
-        // todo
-        if ((feedbackRegister & 1) == 0
+        if ((feedbackRegister & 1) != 0
                 || lengthCounter.getLengthCounter() == 0) {
             return 0;
         } else {

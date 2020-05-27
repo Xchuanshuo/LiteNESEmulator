@@ -16,9 +16,7 @@ public class EmulatorScreen extends JComponent {
     private Screen screen = new DefaultScreen();
 
     @Override
-    public void paint(Graphics graphics) {
-        Graphics2D g = (Graphics2D) graphics;
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+    public void paint(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
         if (screen != null) {

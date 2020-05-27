@@ -113,7 +113,7 @@ public class DMC implements SoundGenerator, DividerListener, IRQGenerator {
     }
 
     @Override
-    public void setRegister(int index, int value) {
+    public void writeRegister(int index, int value) {
         switch (index) {
             case 0: // 0x4010
                 setIRQEnabled(ByteUtils.getBit(value, 7) != 0);
@@ -131,7 +131,7 @@ public class DMC implements SoundGenerator, DividerListener, IRQGenerator {
                 break;
             case 3: // 0x4013
                 // Sample length = %LLLL.LLLL0001 = (L * 16) + 1 bytes
-                sampleLength = (value & 0xFF) << 4 + 1;
+                sampleLength = ((value & 0xFF) << 4) + 1;
                 break;
         }
     }

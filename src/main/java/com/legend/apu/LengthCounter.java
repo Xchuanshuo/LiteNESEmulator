@@ -33,7 +33,7 @@ public class LengthCounter implements Serializable {
         this.isHalt = halt;
     }
 
-    public void setRegister(int value) {
+    public void writeRegister(int value) {
         if (isEnabled) {
             int index = ByteUtils.getBitsByRange(value, 3, 7);
             this.lengthCounter = LENGTH_COUNTER_TABLE[index];

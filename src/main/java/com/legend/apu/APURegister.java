@@ -12,6 +12,7 @@ import java.util.Arrays;
  */
 public class APURegister extends DefaultMemory implements IMemory {
 
+    // 2 CPU cycles = 1 APU cycles
     static final int FRAME_COUNTER_PERIOD = 7458;
     int frameCounterTimer;
     private SoundGenerator[] soundGenerators;
@@ -35,6 +36,7 @@ public class APURegister extends DefaultMemory implements IMemory {
                     if (generator instanceof DMC) {
                         result |= ((DMC)generator).getInterruptFlag() ? 0x80 : 0;
                     }
+                    i++;
                 }
                 result |= active;
                 clearFrameInterrupt();
@@ -58,7 +60,7 @@ public class APURegister extends DefaultMemory implements IMemory {
                 break;
             default:
                 if ((address >> 2) < soundGenerators.length) {
-                    soundGenerators[address >> 2].setRegister(address & 3, value);
+                    soundGenerators[address >> 2].writeRegister(address & 3, value);
                 }
                 break;
         }

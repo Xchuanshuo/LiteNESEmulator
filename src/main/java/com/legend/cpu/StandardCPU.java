@@ -323,7 +323,7 @@ public class StandardCPU implements ICPU {
         register.reset();
         register.setPC(curMemory.readByte(VECTOR_RESET[0]) |
                 curMemory.readByte(VECTOR_RESET[1]) << 8);
-//        System.out.println(String.format("0x%04X", register.getPC()));
+        System.out.println(String.format("0x%04X", register.getPC()));
         cycle = 0;
     }
 

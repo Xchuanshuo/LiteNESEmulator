@@ -9,6 +9,7 @@ import com.legend.speaker.Speaker;
  * @description APU实现类
  * idea:
  *      https://wiki.nesdev.com/w/index.php/APU_Mixer
+ *      https://wiki.nesdev.com/w/index.php/APU_Frame_Counter
  */
 public class StandardAPU implements IAPU {
 
@@ -70,14 +71,21 @@ public class StandardAPU implements IAPU {
         double pulseOut = 95.88 / ((8128.0 / (pulse1.output() + pulse2.output())) + 100);
         double tndOut = 159.79 / (100 + 1 / ((triangle.output() / 8227.0)
                 + (noise.output() / 12241.0) + (dmc.output() / 22638.0)));
-        double output = pulseOut + tndOut;
 
+//        double pulseOut = 0.00752 * (pulse1.output() + pulse2.output());
+//        double tndOut =  0.00851 * triangle.output() + 0.00494 * noise.output() + 0.00335 * dmc.output();
+
+//        double pulseOut = 95.52 / (8128.0 / (pulse1.output() + pulse2.output()) + 100);
+//        double tndOut = 163.67 / (24329.0 / (3*triangle.output() + 2*noise.output() + dmc.output()) + 100);
+
+        double output = pulseOut + tndOut;
         if (output < 0) output = 0;
         if (output > 1) output = 1;
         speaker.set((int) (output * 128));
 
         r.frameCounterTimer++;
     }
+
 
     @Override
     public void powerUp() {

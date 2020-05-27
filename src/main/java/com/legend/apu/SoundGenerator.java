@@ -13,7 +13,7 @@ public interface SoundGenerator extends Serializable {
 
     void cycle(ICPU cpu);
     void setEnabled(boolean enabled);
-    void setRegister(int index, int value);
+    void writeRegister(int index, int value);
     int output();
     boolean isActive();
     void clockLengthCounterAndSweep();

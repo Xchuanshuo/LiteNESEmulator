@@ -12,11 +12,18 @@ import com.legend.utils.ByteUtils;
  */
 public class Pulse implements SoundGenerator, DividerListener, SweepListener {
 
+//    private static final int[][] DUTY_CYCLES = {
+//            {0, 1, 0, 0, 0, 0, 0, 0},
+//            {0, 1, 1, 0, 0, 0, 0, 0},
+//            {0, 1, 1, 1, 1, 0, 0, 0},
+//            {1, 0, 0, 1, 1, 1, 1, 1},
+//    };
+
     private static final int[][] DUTY_CYCLES = {
-            {0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 1, 1, 0, 0, 0, 0, 0},
-            {0, 1, 1, 1, 1, 0, 0, 0},
-            {1, 0, 0, 1, 1, 1, 1, 1},
+            {0, 0, 0, 0, 0, 0, 0, 1},
+            {0, 0, 0, 0, 0, 0, 1, 1},
+            {0, 0, 0, 0, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 0, 0},
     };
 
     private Envelope envelope = new Envelope();
@@ -54,27 +61,28 @@ public class Pulse implements SoundGenerator, DividerListener, SweepListener {
     }
 
     @Override
-    public void setRegister(int index, int value) {
+    public void writeRegister(int index, int value) {
         switch (index) {
-            case 0:
+            case 0: // 0x4000 | 0x4004
                 envelope.setRegister(value);
                 lengthCounter.setHalt(envelope.getLoopFlag());
                 int idx = ByteUtils.getBitsByRange(value, 6, 7);
                 sequencer.setSequence(DUTY_CYCLES[idx]);
                 break;
-            case 1:
-                sweep.setRegister(value);
+            case 1: // 0x4001
+                sweep.writeRegister(value);
                 break;
-            case 2:
+            case 2: // 0x4005 | 0x4006
                 currentPeriod = (currentPeriod & ~0xFF) | value;
                 targetPeriod = sweep.calculateTargetPeriod(currentPeriod, id == 1);
                 timer.setPeriod(currentPeriod);
                 break;
-            case 3: // The sequencer is clocked by an 11-bit timer.
+            case 3: // 0x4003 | 4007
+                // The sequencer is clocked by an 11-bit timer.
                 currentPeriod = (currentPeriod & 0xFF) | ((value & 7) << 8);
                 targetPeriod = sweep.calculateTargetPeriod(currentPeriod, id == 1);
                 timer.setPeriod(currentPeriod);
-                lengthCounter.setRegister(value);
+                lengthCounter.writeRegister(value);
                 sequencer.reset();
                 envelope.setStartFlag();
                 break;

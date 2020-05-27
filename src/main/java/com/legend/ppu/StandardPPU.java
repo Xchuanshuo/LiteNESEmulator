@@ -340,27 +340,16 @@ public class StandardPPU implements IPPU {
             return;
         }
         int attribute = vram.readByte(register.getAttributeAddress());
-        int palette;
-        boolean left = register.isPaletteLeft();
-        boolean top = register.isPaletteTop();
-        if (top && left) {
-            palette = attribute & 3;
-        } else if (top) {
-            palette = (attribute >> 2) & 3;
-        } else if (left) {
-            palette = (attribute >> 4) & 3;
-        } else {
-            palette = (attribute >> 6) & 3;
-        }
-        int y = register.getFineYScroll();
+        // 高两位 每一个基本像素块(8x8)共享2位
+        int paletteAddress = getBgPaletteAddressHigh2Bit(attribute);
+
         int tileNumber = vram.readByte(register.getTileAddress());
         // 获取图案表中的像素块 图案表以16字节步进
         int patternAddress = register.getBackgroundPatternTableAddress() + (tileNumber << 4);
         // 低2位所在字节
+        int y = register.getFineYScroll();
         int patternLow = vram.readByte(patternAddress + y);
         int patternHigh = vram.readByte(patternAddress + y + 8);
-        // 高两位 每一个基本像素块(8x8)共享2位
-        int paletteAddress = palette << 2;
 
         int x = renderX - register.getFineXScroll();
         byte[] bufferLine = buffer[renderY];
@@ -422,11 +411,8 @@ public class StandardPPU implements IPPU {
             boolean flipHorizontally = (attribute & 0x40) != 0;
             boolean flipVertically = (attribute & 0x80) != 0;
             if (is8x16) {
-                // todo 5
-//                System.out.println(String.format("1-8 x 16-0x%04X", patternTableAddress));
                 patternTableAddress = (tileNumber & 1) << 12;
                 tileNumber &= 0xFE;
-//                System.out.println(String.format("2-8 x 16-0x%04X", patternTableAddress));
                 if (flipVertically) {
                     preRenderSprite(id, x, y, patternTableAddress + ((tileNumber + 1) << 4),
                             0x10 + (paletteHigh << 2), behindBackground, flipHorizontally, true);
@@ -483,6 +469,23 @@ public class StandardPPU implements IPPU {
             }
             offset += incremental;
         }
+    }
+
+
+    private int getBgPaletteAddressHigh2Bit(int attribute) {
+        int palette;
+        boolean left = register.isPaletteLeft();
+        boolean top = register.isPaletteTop();
+        if (top && left) {
+            palette = attribute & 3;
+        } else if (top) {
+            palette = (attribute >> 2) & 3;
+        } else if (left) {
+            palette = (attribute >> 4) & 3;
+        } else {
+            palette = (attribute >> 6) & 3;
+        }
+        return palette << 2;
     }
 
     @Override

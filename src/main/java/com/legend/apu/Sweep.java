@@ -31,7 +31,6 @@ public class Sweep implements DividerListener {
     }
 
     public void clock() {
-        // todo
         if (reloadFlag) {
             if (isEnable && shiftCount != 0) {
                 divider.clock();
@@ -43,7 +42,7 @@ public class Sweep implements DividerListener {
         }
     }
 
-    public void setRegister(int value) {
+    public void writeRegister(int value) {
         isEnable = ByteUtils.getBit(value, 7) != 0;
         period = ByteUtils.getBitsByRange(value, 4, 6);
         isNegate = ByteUtils.getBit(value, 3) != 0;
@@ -55,8 +54,7 @@ public class Sweep implements DividerListener {
     public int calculateTargetPeriod(int currentPeriod, boolean useOnesComponent) {
         int changeAmount = currentPeriod >> shiftCount;
         if (isNegate) {
-            if (useOnesComponent) {       // -1 --> 1111 1111
-                // -c - 1    010 --> (-)01 |  0000 0110 --> 1111 1001
+            if (useOnesComponent) {
                 changeAmount = ~changeAmount;
             } else {
                 changeAmount = -changeAmount;

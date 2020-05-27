@@ -23,7 +23,7 @@ public class Triangle implements SoundGenerator, DividerListener {
     private Sequencer sequencer = new Sequencer(TRIANGLE_SEQUENCE);
     private boolean reloadFlag;
     private boolean controlFlag;
-    private int counterReload;
+    private int linearCounterReload;
     private int timerPeriod;
 
     public Triangle() {
@@ -48,13 +48,13 @@ public class Triangle implements SoundGenerator, DividerListener {
     }
 
     @Override
-    public void setRegister(int index, int value) {
+    public void writeRegister(int index, int value) {
         switch (index) {
             case 0: // 0x4008
                 controlFlag = ByteUtils.getBit(value, 7) != 0;
-                counterReload = ByteUtils.getBitsByRange(value, 0, 6);
+                linearCounterReload = ByteUtils.getBitsByRange(value, 0, 6);
                 lengthCounter.setHalt(controlFlag);
-                linearCounter.setPeriod(counterReload);
+                linearCounter.setPeriod(linearCounterReload);
                 break;
             case 2: // 0x400A
                 timerPeriod = (timerPeriod & ~0xFF) | value;
@@ -63,7 +63,7 @@ public class Triangle implements SoundGenerator, DividerListener {
             case 3: // 0x400B
                 timerPeriod = (timerPeriod & 0xFF) | ((value & 7) << 8);
                 timer.setPeriod(timerPeriod);
-                lengthCounter.setRegister(value);
+                lengthCounter.writeRegister(value);
                 reloadFlag = true;
                 break;
         }
@@ -81,8 +81,7 @@ public class Triangle implements SoundGenerator, DividerListener {
 
     @Override
     public boolean isActive() {
-        return lengthCounter.getLengthCounter() > 0 &&
-                linearCounter.getValue() > 0;
+        return lengthCounter.getLengthCounter() > 0;
     }
 
     @Override
