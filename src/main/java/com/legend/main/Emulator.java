@@ -8,6 +8,7 @@ import com.legend.main.tools.SpriteMemoryViewer;
 import com.legend.memory.StandardMemory;
 import com.legend.storage.LocalStorage;
 import com.legend.utils.Constants;
+import com.legend.utils.XBRZ;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -146,8 +147,25 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private JMenu getOperationMenu() {
         JMenu operationMenu = new JMenu("Operation");
         JMenuItem resetItem = new JMenuItem(RESET);
+        JMenu imageQualityItem = new JMenu(IMAGE_QUALITY);
+        ButtonGroup imageQualityGroup = new ButtonGroup();
+
+        JRadioButtonMenuItem lowQuality = new JRadioButtonMenuItem(QUALITY_LOW);
+        JRadioButtonMenuItem midQuality = new JRadioButtonMenuItem(QUALITY_MID, true);
+        JRadioButtonMenuItem highQuality = new JRadioButtonMenuItem(QUALITY_HIGH);
+        lowQuality.addActionListener(qualitySelectListener);
+        midQuality.addActionListener(qualitySelectListener);
+        highQuality.addActionListener(qualitySelectListener);
+        imageQualityGroup.add(lowQuality);
+        imageQualityGroup.add(midQuality);
+        imageQualityGroup.add(highQuality);
+        imageQualityItem.add(lowQuality);
+        imageQualityItem.add(midQuality);
+        imageQualityItem.add(highQuality);
+
         JMenuItem fullScreenItem = new JMenuItem(FULL_SCREEN);
         operationMenu.add(resetItem);
+        operationMenu.add(imageQualityItem);
         operationMenu.add(fullScreenItem);
         resetItem.addActionListener(operationListener);
         fullScreenItem.addActionListener(operationListener);
@@ -200,6 +218,21 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
                 break;
             case FULL_SCREEN:
                 fullScreen();
+                break;
+            default: break;
+        }
+    };
+
+    private ActionListener qualitySelectListener = e -> {
+        switch (e.getActionCommand()) {
+            case QUALITY_LOW:
+                emulatorScreen.setScaleSize(null);
+                break;
+            case QUALITY_MID:
+                emulatorScreen.setScaleSize(XBRZ.ScaleSize.Times2);
+                break;
+            case QUALITY_HIGH:
+                emulatorScreen.setScaleSize(XBRZ.ScaleSize.Times4);
                 break;
             default: break;
         }

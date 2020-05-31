@@ -13,6 +13,10 @@ public class Constants {
 
 
     public static final String RESET = "reset";
+    public static final String IMAGE_QUALITY = "画质";
+    public static final String QUALITY_LOW = "原始";
+    public static final String QUALITY_MID = "中等";
+    public static final String QUALITY_HIGH = "高等";
     public static final String FULL_SCREEN = "Full Screen  P";
 
     public static final String LOAD_ROM = "load rom";

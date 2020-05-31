@@ -18,18 +18,15 @@ public class StandardCPU implements ICPU {
 
 
     private static final long serialVersionUID = -6281356477140561332L;
-    private static final Random RAND = new Random();
 
     private long cycle = 0;
-    private volatile IMemory curMemory;
+    private volatile IMemory mainMemory;
     private CPURegister register = new CPURegister();
     // 中断向量的地址
     public static final int[] VECTOR_NMI = new int[]{0xFFFA, 0xFFFB};
     public static final int[] VECTOR_RESET = new int[]{0xFFFC, 0xFFFD};
     public static final int[] VECTOR_IRQ_OR_BRK = new int[]{0xFFFE, 0xFFFF};
     private static final int RULE_TYPE_UNKNOWN = -1;
-
-    private int pendingNMI = 0;
 
     private List<IRQGenerator> irqGenerators = new ArrayList<>();
 
@@ -45,12 +42,12 @@ public class StandardCPU implements ICPU {
 
     @Override
     public void setMemory(IMemory memory) {
-        this.curMemory = memory;
+        this.mainMemory = memory;
     }
 
     @Override
     public IMemory getMemory() {
-        return curMemory;
+        return mainMemory;
     }
 
     @Override
@@ -58,7 +55,7 @@ public class StandardCPU implements ICPU {
         if (checkIRQ()) {
             return cycle;
         }
-        int opcode = curMemory.readByte(register.getPC());
+        int opcode = mainMemory.readByte(register.getPC());
 //        System.out.println(String.format("PC:%04x: --%02X",register.getPC(), opcode));
         increasePC();
         switch (opcode) {
@@ -321,9 +318,9 @@ public class StandardCPU implements ICPU {
     @Override
     public void reset() {
         register.reset();
-        register.setPC(curMemory.readByte(VECTOR_RESET[0]) |
-                curMemory.readByte(VECTOR_RESET[1]) << 8);
-        System.out.println(String.format("0x%04X", register.getPC()));
+        register.setPC(mainMemory.readByte(VECTOR_RESET[0]) |
+                mainMemory.readByte(VECTOR_RESET[1]) << 8);
+//        System.out.println(String.format("0x%04X", register.getPC()));
         cycle = 0;
     }
 
@@ -342,7 +339,7 @@ public class StandardCPU implements ICPU {
         push(register.getPC() >> 8);
         push(register.getPC());
         push(register.getFlags());
-        int vector = curMemory.readByte(VECTOR_NMI[0]) | curMemory.readByte(VECTOR_NMI[1]) << 8;
+        int vector = mainMemory.readByte(VECTOR_NMI[0]) | mainMemory.readByte(VECTOR_NMI[1]) << 8;
         register.setPC(vector);
     }
 
@@ -352,8 +349,8 @@ public class StandardCPU implements ICPU {
         push(register.getPC() >> 8);
         push(register.getPC());
         push(register.getFlags());
-        int vector = curMemory.readByte(VECTOR_IRQ_OR_BRK[0])
-                | curMemory.readByte(VECTOR_IRQ_OR_BRK[1]) << 8;
+        int vector = mainMemory.readByte(VECTOR_IRQ_OR_BRK[0])
+                | mainMemory.readByte(VECTOR_IRQ_OR_BRK[1]) << 8;
         register.setDisableInterrupt();
         register.setPC(vector);
     }
@@ -364,7 +361,7 @@ public class StandardCPU implements ICPU {
     }
 
     private int immediate() {
-        int arg = curMemory.readByte(register.getPC());
+        int arg = mainMemory.readByte(register.getPC());
         increasePC();
         cycle += 2;
         return arg;
@@ -386,14 +383,14 @@ public class StandardCPU implements ICPU {
     }
 
     private int absolute(int arg) {
-        int arg2 = curMemory.readByte(register.getPC());
+        int arg2 = mainMemory.readByte(register.getPC());
         increasePC();
         cycle += 4;
         return (arg2 << 8) | arg;
     }
 
     private int absoluteX(boolean isStore, int arg) {
-        int arg2 = curMemory.readByte(register.getPC());
+        int arg2 = mainMemory.readByte(register.getPC());
         cycle += 4;
         increasePC();
         cycle += 4;
@@ -406,7 +403,7 @@ public class StandardCPU implements ICPU {
     }
 
     private int absoluteY(boolean isStore, int arg) {
-        int arg2 = curMemory.readByte(register.getPC());
+        int arg2 = mainMemory.readByte(register.getPC());
         cycle += 4;
         increasePC();
         cycle += 4;
@@ -421,15 +418,15 @@ public class StandardCPU implements ICPU {
     private int indirectX(int arg) {
         cycle += 6;
         int tmp = (arg + register.getX()) & 0xFF;
-        int add1 = curMemory.readByte(tmp);
-        int add2 = curMemory.readByte(tmp + 1);
+        int add1 = mainMemory.readByte(tmp);
+        int add2 = mainMemory.readByte(tmp + 1);
         return add1 | (add2 << 8);
     }
 
     private int indirectY(boolean isStore, int arg) {
         cycle += 5;
-        int high = curMemory.readByte((arg + 1) & 0xFF);
-        int address = (curMemory.readByte(arg) | (high << 8)) + register.getY();
+        int high = mainMemory.readByte((arg + 1) & 0xFF);
+        int address = (mainMemory.readByte(arg) | (high << 8)) + register.getY();
         if (isStore || address >> 8 != high) {
             cycle += 1;
         }
@@ -440,26 +437,26 @@ public class StandardCPU implements ICPU {
         if (addressingMode == 2) {
             return immediate();
         }
-        return curMemory.readByte(getAddress1(addressingMode, isStore));
+        return mainMemory.readByte(getAddress1(addressingMode, isStore));
     }
 
     private int getValue2(int addressingMode, boolean isStore) {
         if (addressingMode == 0) {
             return immediate();
         }
-        return curMemory.readByte(getAddress2(addressingMode, isStore));
+        return mainMemory.readByte(getAddress2(addressingMode, isStore));
     }
 
     private int getValue3(int addressingMode, boolean isStore) {
         if (addressingMode == 0) {
             return immediate();
         }
-        return curMemory.readByte(getAddress3(addressingMode, isStore));
+        return mainMemory.readByte(getAddress3(addressingMode, isStore));
     }
 
     // 对于所有的算术逻辑运算
     private int getAddress1(int addressingMode, boolean isStore) {
-        int arg = curMemory.readByte(register.getPC());
+        int arg = mainMemory.readByte(register.getPC());
         increasePC();
         switch (addressingMode) {
             case 0:
@@ -484,7 +481,7 @@ public class StandardCPU implements ICPU {
 
     // 对于其它的一些指令
     private int getAddress2(int addressingMode, boolean isStore) {
-        int arg = curMemory.readByte(register.getPC());
+        int arg = mainMemory.readByte(register.getPC());
         increasePC();
         switch (addressingMode) {
             case 1:
@@ -503,7 +500,7 @@ public class StandardCPU implements ICPU {
 
     // 对所有STX LDX等寄存器存储指令
     private int getAddress3(int addressingMode, boolean isStore) {
-        int arg = curMemory.readByte(register.getPC());
+        int arg = mainMemory.readByte(register.getPC());
         increasePC();
         switch (addressingMode) {
             case 1:
@@ -529,7 +526,7 @@ public class StandardCPU implements ICPU {
     }
 
     private void setMemoryValue(int address, int v) {
-        curMemory.writeByte(address, v & 0xFF);
+        mainMemory.writeByte(address, v & 0xFF);
     }
 
     // 给定值与A寄存器的值进行或运算
@@ -626,7 +623,7 @@ public class StandardCPU implements ICPU {
             register.setA(val); // 将结果写回A
         } else {
             int address = getAddress2(addressingMode, true);
-            int val = curMemory.readByte(address) << 1;
+            int val = mainMemory.readByte(address) << 1;
             setNegativeByValue(val);
             setZeroByValue(val);
             register.setCarry((val & 0x100) != 0);
@@ -646,7 +643,7 @@ public class StandardCPU implements ICPU {
             register.setA(val);
         } else {
             int address = getAddress2(addressingMode, true);
-            int val = (curMemory.readByte(address) << 1) | register.getCarry();
+            int val = (mainMemory.readByte(address) << 1) | register.getCarry();
             setNegativeByValue(val);
             setZeroByValue(val);
             register.setCarry((val & 0x100) != 0);
@@ -666,7 +663,7 @@ public class StandardCPU implements ICPU {
             register.setA(val); // 将结果写回A
         } else {
             int address = getAddress2(addressingMode, true);
-            int value = curMemory.readByte(address);
+            int value = mainMemory.readByte(address);
             int val = value >> 1;
             setNegativeByValue(val);
             setZeroByValue(val);
@@ -687,7 +684,7 @@ public class StandardCPU implements ICPU {
             register.setA(val);
         } else {
             int address = getAddress2(addressingMode, true);
-            int value = curMemory.readByte(address);
+            int value = mainMemory.readByte(address);
             int val = value >> 1 | (register.getCarry() << 7);
             setNegativeByValue(val);
             setZeroByValue(val);
@@ -717,7 +714,7 @@ public class StandardCPU implements ICPU {
     private long dec(int addressingMode) {
         cycle += 2;
         int address = getAddress2(addressingMode, true);
-        int val = curMemory.readByte(address) - 1;
+        int val = mainMemory.readByte(address) - 1;
         setNegativeByValue(val);
         setZeroByValue(val);
         setMemoryValue(address, val);
@@ -728,7 +725,7 @@ public class StandardCPU implements ICPU {
     private long inc(int addressingMode) {
         cycle += 2;
         int address = getAddress2(addressingMode, true);
-        int val = curMemory.readByte(address) + 1;
+        int val = mainMemory.readByte(address) + 1;
         setNegativeByValue(val);
         setZeroByValue(val);
         setMemoryValue(address, val);
@@ -750,12 +747,12 @@ public class StandardCPU implements ICPU {
     // 跳转指令
     private long jmp(int opcode) {
         cycle += 3;
-        int address = curMemory.readByte(register.getPC())
-                | curMemory.readByte(register.getPC() + 1) << 8;
+        int address = mainMemory.readByte(register.getPC())
+                | mainMemory.readByte(register.getPC() + 1) << 8;
         if (opcode == 0x6C) {
             cycle += 2;
             // 硬件bug jmp ($0x10FF) 本应该读取0x10FF和0x1100的值　实际读取　0x10FF和0x1000的值
-            address = curMemory.readByte(address) | curMemory.readByte(
+            address = mainMemory.readByte(address) | mainMemory.readByte(
                     (address & 0xFF00) | (address + 1) &0x00FF) << 8;
         }
         register.setPC(address);
@@ -829,7 +826,7 @@ public class StandardCPU implements ICPU {
                 break;
             default: break;
         }
-        int offset = (byte)curMemory.readByte(register.getPC());
+        int offset = (byte) mainMemory.readByte(register.getPC());
         increasePC();
         if (condition) {
             cycle += 1; // condition为true时钟+1
@@ -885,8 +882,8 @@ public class StandardCPU implements ICPU {
         push(register.getFlags());
         register.setDisableInterrupt();
         // 读取中断向量地址的值
-        register.setPC(curMemory.readByte(VECTOR_IRQ_OR_BRK[0])
-                | curMemory.readByte(VECTOR_IRQ_OR_BRK[1]) << 8);
+        register.setPC(mainMemory.readByte(VECTOR_IRQ_OR_BRK[0])
+                | mainMemory.readByte(VECTOR_IRQ_OR_BRK[1]) << 8);
         return cycle;
     }
 
@@ -896,8 +893,8 @@ public class StandardCPU implements ICPU {
         int nextAddress = register.getPC() + 1;
         push(nextAddress >> 8);
         push(nextAddress);
-        register.setPC(curMemory.readByte(register.getPC())
-                | curMemory.readByte(register.getPC() + 1) << 8);
+        register.setPC(mainMemory.readByte(register.getPC())
+                | mainMemory.readByte(register.getPC() + 1) << 8);
         return cycle;
     }
 
@@ -1167,6 +1164,6 @@ public class StandardCPU implements ICPU {
 
     private int pop() {
         register.setSP(register.getSP() + 1);
-        return curMemory.readByte(0x100 | register.getSP());
+        return mainMemory.readByte(0x100 | register.getSP());
     }
 }

@@ -28,7 +28,7 @@ public class InputStreamNesLoader implements INesLoader {
         byte[] head = new byte[16];
         // 首先读取16字节的头部数据
         dis.readFully(head);
-        if (head[0] != 'N' && head[1] != 'E' && head[2] != 's' && head[3] != 0x1A) {
+        if (head[0] != 'N' && head[1] != 'E' && head[2] != 'S' && head[3] != 0x1A) {
             throw new IOException("Not a nes file!");
         }
         prgPageCount = head[4] & 0xFF;
