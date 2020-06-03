@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8b220d6c-1fee-46d4-b224-898fd6b07dfc" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list default="true" id="8b220d6c-1fee-46d4-b224-898fd6b07dfc" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -55,7 +53,7 @@
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="324">
-              <caret line="9" column="5" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+              <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -180,7 +178,7 @@
       <find>F000</find>
       <find>0x8001</find>
       <find>sta</find>
-      <find />
+      <find>LDA 40</find>
       <find>F480</find>
       <find>ff30</find>
       <find>FF30</find>
@@ -304,10 +302,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="177" />
     <option name="y" value="25" />
-    <option name="width" value="1426" />
-    <option name="height" value="1026" />
+    <option name="width" value="1920" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -645,7 +642,7 @@
       <workItem from="1590464279909" duration="33062000" />
       <workItem from="1590714747705" duration="28765000" />
       <workItem from="1590909661467" duration="19534000" />
-      <workItem from="1591103971874" duration="28487000" />
+      <workItem from="1591103971874" duration="28754000" />
     </task>
     <servers />
   </component>
@@ -682,7 +679,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="805329000" />
+    <option name="totallyTimeSpent" value="805596000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1240,7 +1237,7 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
-          <caret line="9" column="5" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
         </state>
       </provider>
     </entry>
