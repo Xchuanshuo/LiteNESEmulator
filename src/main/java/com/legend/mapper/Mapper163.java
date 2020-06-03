@@ -51,7 +51,10 @@ public class Mapper163 extends Mapper implements IMemory {
     @Override
     public void cycle(ICPU cpu) {
         int scanline = ppu.getScanline();
-        if (c && ppu.inHorizontalBlank()) {
+        int targetCycle = 320;
+        boolean inCycle = ppu.getCycle() >= targetCycle
+                && ppu.getCycle() <= (targetCycle + 3);
+        if (c && inCycle) {
             if (scanline == 127) {
                 switchCHRBank(1);
             } else if (scanline == 239) {
@@ -98,9 +101,6 @@ public class Mapper163 extends Mapper implements IMemory {
                     reg[1] = value;
                     c = ByteUtils.getBit(value, 7) != 0;
                     switchBanks();
-                    if (!c && ppu.getScanline() < 128) {
-                        ppu.setCHRMemory(fixedCHRMemory);
-                    }
                     break;
                 case 0x5300:
                     reg[2] = value;
