@@ -77,6 +77,7 @@ public class InputStreamNesLoader implements INesLoader {
 
     @Override
     public byte[] getCHRPageByIndex(int index) {
+        if (chrPageCount == 0) return new byte[8 * 1024];
         return chrPages[index % chrPageCount];
     }
 

@@ -21,7 +21,7 @@ public class ReadonlyMemory extends DefaultMemory {
 
     @Override
     public void writeByte(int address, int value) {
-        throw new UnsupportedOperationException("ReadonlyMemory cannot writeByte.---" + String.format("0x%04x", address));
+//        throw new UnsupportedOperationException("ReadonlyMemory cannot writeByte.---" + String.format("0x%04x", address));
     }
 
 }

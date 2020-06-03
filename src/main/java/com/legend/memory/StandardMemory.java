@@ -13,6 +13,7 @@ public class StandardMemory implements IMemory {
     private final int size;
     private List<MemoryHelper> memories = new ArrayList<>();
     private int[] offsets;
+    private ReadListener readListener;
 
     public StandardMemory(int size) {
         this.size = size;
@@ -22,6 +23,9 @@ public class StandardMemory implements IMemory {
     public int readByte(int address) {
         MemoryHelper helper = findByOffset(address);
         assert helper != null;
+        if (readListener != null) {
+            readListener.onCall(address);
+        }
         return helper.memory.readByte(address - helper.offset);
     }
 
@@ -65,12 +69,17 @@ public class StandardMemory implements IMemory {
         return helper.memory;
     }
 
+    public boolean isExistAddress(int address) {
+        MemoryHelper helper = findByOffset(address);
+        return helper != null && helper.offset == address;
+    }
+
     @Override
     public int getSize() {
         return size;
     }
 
-    class MemoryHelper implements Serializable {
+    public class MemoryHelper implements Serializable {
         private int offset;
         private IMemory memory;
 
@@ -78,6 +87,14 @@ public class StandardMemory implements IMemory {
             this.memory = memory;
             this.offset = offset;
         }
+    }
+
+    public interface ReadListener {
+        void onCall(int address);
+    }
+
+    public void setReadListener(ReadListener readListener) {
+        this.readListener = readListener;
     }
 
     @Override

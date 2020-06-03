@@ -7,6 +7,8 @@
 # BlueJ files
 *.ctxt
 *.nes
+*.deb
+*.NES
 target/
 lib/
 *.sl

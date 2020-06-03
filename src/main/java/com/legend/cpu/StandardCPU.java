@@ -119,7 +119,8 @@ public class StandardCPU implements ICPU {
             result = illegalOpcode(opcode, addressingMode);
         }
         if (result == RULE_TYPE_UNKNOWN) {
-            throw new RuntimeException("The opcode [" + Integer.toHexString(opcode) + "] is invalid!");
+            throw new RuntimeException("The opcode [" + Integer.toHexString(opcode) + "] is invalid!" +
+                    "---PC: " + String.format("0x%04x", register.getPC() - 1));
         }
         return result;
     }

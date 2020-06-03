@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author Legend
  * @data by on 20-5-1.
- * @description 序列器(三角波中用来输出音频的模拟信号 方波中用来获取占空周期)
+ * @description 序列器(三角波中用来输出音频的信号 方波中用来获取占空周期)
  */
 public class Sequencer implements Serializable {
     private int[] sequence;

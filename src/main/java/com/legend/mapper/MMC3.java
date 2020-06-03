@@ -69,8 +69,10 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
         this.mainMemory = (StandardMemory) runner.getCPU().getMemory();
         this.loader = runner.getLoader();
         this.ppu = runner.getPPU();
-        if (loader.getFileMD5().equals("483695DE094F4DD49652C5BC78BDBA19") ||
-                loader.getFileMD5().equals("B7F85F46191ACAD2765F2FB1C656F042")) {
+        String md5 = loader.getFileMD5();
+        if (md5.equals("483695DE094F4DD49652C5BC78BDBA19")
+                || md5.equals("8FCE02F79425A04557EC4F5C9B4BC7B5")
+                || md5.equals("B7F85F46191ACAD2765F2FB1C656F042")) {
             // 忍者神龟3, 超级玛丽3
             this.prgBankMode = true;
         }
@@ -179,12 +181,12 @@ public class MMC3 extends Mapper implements IMemory, IRQGenerator {
     private void switchCHRBanks() {
         for (int i = 0;i < 2;i++) {
             int v = r[i];
-            chr2KBBanks.setMemory(0x800 * i, new DefaultMemory(loader.getCHRPageByIndex(v / 8)
+            chr2KBBanks.setMemory(0x800 * i, new ReadonlyMemory(loader.getCHRPageByIndex(v / 8)
                     , (v % 8) * 0x400, 0x800));
         }
         for (int i = 2;i < 6;i++) {
             int v = r[i];
-            chr1KBBanks.setMemory(0x400 * (i - 2), new DefaultMemory(loader.getCHRPageByIndex(v / 8)
+            chr1KBBanks.setMemory(0x400 * (i - 2), new ReadonlyMemory(loader.getCHRPageByIndex(v / 8)
                     , (v & 0x7) * 0x400, 0x400));
         }
         if (!chrInversion) {

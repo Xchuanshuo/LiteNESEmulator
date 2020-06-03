@@ -21,6 +21,7 @@ public class MapperFactory {
             case 4: // 快打旋风、热血、冒险岛、神龟、双截龙系列...
                 return new MMC3();
             case 163: // 水浒神兽..
+                return new Mapper163();
             default:
                 throw new RuntimeException("The Mapper id [" + id + "] implementation is not exist!" );
         }
