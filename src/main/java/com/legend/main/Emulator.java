@@ -1,16 +1,23 @@
 package com.legend.main;
 
 import com.legend.input.StandardControllers;
+import com.legend.main.operation.SpeedFrame;
 import com.legend.main.tools.Debugger;
 import com.legend.main.tools.NameTableViewer;
 import com.legend.main.tools.PatternTableViewer;
 import com.legend.main.tools.SpriteMemoryViewer;
+import com.legend.memory.IMemory;
+import com.legend.memory.MemoryLock;
 import com.legend.memory.StandardMemory;
 import com.legend.storage.LocalStorage;
 import com.legend.utils.Constants;
+import com.legend.utils.StringUtils;
 import com.legend.utils.XBRZ;
+import mdlaf.MaterialLookAndFeel;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -33,7 +40,7 @@ import static com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImp
  */
 public class Emulator extends JFrame implements Runnable, KeyListener {
 
-    public static double CPU_CYCLE_PER_SECOND = 1789772.5;
+    public static volatile double CPU_CYCLE_PER_SECOND = 1789772.5;
     public static int SPEAKER_SAMPLE_RATE = 44100;
 
     private GameRunner gameRunner;
@@ -47,6 +54,8 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private boolean isFullScreen = false;
 
     private LocalStorage storage = new LocalStorage();
+
+    private SpeedFrame speedFrame;
 
     private Debugger debugger;
     private SpriteMemoryViewer spriteMemoryViewer;
@@ -147,6 +156,8 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private JMenu getOperationMenu() {
         JMenu operationMenu = new JMenu("Operation");
         JMenuItem resetItem = new JMenuItem(RESET);
+        JMenuItem cheatItem = new JMenuItem(CHEAT);
+        JMenuItem speedItem = new JMenuItem(SPEED);
         JMenu imageQualityItem = new JMenu(IMAGE_QUALITY);
         ButtonGroup imageQualityGroup = new ButtonGroup();
 
@@ -165,9 +176,13 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
 
         JMenuItem fullScreenItem = new JMenuItem(FULL_SCREEN);
         operationMenu.add(resetItem);
+        operationMenu.add(cheatItem);
+        operationMenu.add(speedItem);
         operationMenu.add(imageQualityItem);
         operationMenu.add(fullScreenItem);
         resetItem.addActionListener(operationListener);
+        cheatItem.addActionListener(operationListener);
+        speedItem.addActionListener(operationListener);
         fullScreenItem.addActionListener(operationListener);
         return operationMenu;
     }
@@ -213,8 +228,15 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         switch (e.getActionCommand()) {
             case RESET:
                 if (gameRunner != null) {
+                    MemoryLock.clearAll();
                     gameRunner.onReset();
                 }
+                break;
+            case CHEAT:
+                cheat();
+                break;
+            case SPEED:
+                speed();
                 break;
             case FULL_SCREEN:
                 fullScreen();
@@ -222,6 +244,14 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
             default: break;
         }
     };
+
+    private void speed() {
+        if (speedFrame == null) {
+            speedFrame = new SpeedFrame();
+        } else {
+            speedFrame.setVisible(true);
+        }
+    }
 
     private ActionListener qualitySelectListener = e -> {
         switch (e.getActionCommand()) {
@@ -276,6 +306,29 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         }
     };
 
+    private void cheat() {
+        String addressStr = JOptionPane.showInputDialog("请输入作弊码:", "");
+        if (StringUtils.isEmpty(addressStr)) return;
+        String[] str = addressStr.split("-");
+        if (str.length == 3) {
+            int address = Integer.parseInt(str[0], 16);
+            int count = Integer.parseInt(str[1], 16);
+            if (str[2].length() % 2 != 0) {
+                str[2] = "0" + str[2];
+            }
+            for (int i = 0;i < count;i++) {
+                if (gameRunner != null) {
+                    IMemory memory = gameRunner.getCPU().getMemory();
+                    int val = Integer.parseInt(str[2].substring(i * 2, i * 2 + 2), 16);
+                    // 1.内存已经锁定则先解锁 2.设置内存值 3.重新上锁
+                    MemoryLock.unLock(address + i);
+                    memory.writeByte(address + i, val);
+                    MemoryLock.lock(address + i);
+                }
+            }
+        }
+    }
+
     private void selectAndLoadRom() {
         if (gameRunner != null) {
             gameRunner.pause();
@@ -290,6 +343,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         }
         if (fc.getSelectedFile() != null) {
             stop();
+            MemoryLock.clearAll();
             startGame(fc.getSelectedFile().getAbsolutePath());
         } else {
             System.out.println("文件为空！");

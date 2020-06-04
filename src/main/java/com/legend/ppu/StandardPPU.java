@@ -237,7 +237,7 @@ public class StandardPPU implements IPPU {
                 if (cycle == 256) {
                     // 滚动到下一行 进行像素的预处理
                     register.increaseYScrollBy1();
-                    if (scanline % 3 == 0) {
+                    if (scanline % 20 == 0) {
                         preRenderSprites();
                     }
                 } else {

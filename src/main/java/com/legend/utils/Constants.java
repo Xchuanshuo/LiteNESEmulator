@@ -13,6 +13,8 @@ public class Constants {
 
 
     public static final String RESET = "reset";
+    public static final String CHEAT = "cheat";
+    public static final String SPEED = "speed";
     public static final String IMAGE_QUALITY = "画质";
     public static final String QUALITY_LOW = "原始";
     public static final String QUALITY_MID = "中等";

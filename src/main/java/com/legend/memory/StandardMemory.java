@@ -14,6 +14,7 @@ public class StandardMemory implements IMemory {
     private List<MemoryHelper> memories = new ArrayList<>();
     private int[] offsets;
     private ReadListener readListener;
+    private boolean isEnableLock = false;
 
     public StandardMemory(int size) {
         this.size = size;
@@ -33,7 +34,9 @@ public class StandardMemory implements IMemory {
     public void writeByte(int address, int value) {
         MemoryHelper helper = findByOffset(address);
         assert helper != null;
-        helper.memory.writeByte(address - helper.offset, value);
+        if (!isEnableLock || !MemoryLock.isLock(address)) {
+            helper.memory.writeByte(address - helper.offset, value);
+        }
     }
 
     public void setMemory(int offset, IMemory memory) {
@@ -87,6 +90,14 @@ public class StandardMemory implements IMemory {
             this.memory = memory;
             this.offset = offset;
         }
+    }
+
+    public void setEnableLock(boolean enableLock) {
+        isEnableLock = enableLock;
+    }
+
+    public boolean isEnableLock() {
+        return isEnableLock;
     }
 
     public interface ReadListener {

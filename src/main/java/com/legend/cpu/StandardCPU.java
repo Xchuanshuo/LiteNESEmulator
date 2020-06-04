@@ -1,6 +1,7 @@
 package com.legend.cpu;
 
 import com.legend.memory.IMemory;
+import com.legend.memory.StandardMemory;
 import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class StandardCPU implements ICPU {
     @Override
     public void setMemory(IMemory memory) {
         this.mainMemory = memory;
+        ((StandardMemory) mainMemory).setEnableLock(true);
     }
 
     @Override
