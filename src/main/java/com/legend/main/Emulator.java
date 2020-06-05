@@ -1,5 +1,6 @@
 package com.legend.main;
 
+import cn.hutool.core.util.StrUtil;
 import com.legend.input.StandardControllers;
 import com.legend.main.operation.SpeedFrame;
 import com.legend.main.tools.Debugger;
@@ -11,13 +12,11 @@ import com.legend.memory.MemoryLock;
 import com.legend.memory.StandardMemory;
 import com.legend.storage.LocalStorage;
 import com.legend.utils.Constants;
+import com.legend.utils.PropertiesUtils;
 import com.legend.utils.StringUtils;
 import com.legend.utils.XBRZ;
-import mdlaf.MaterialLookAndFeel;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -27,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import static com.legend.ppu.IPPU.SCREEN_HEIGHT;
 import static com.legend.ppu.IPPU.SCREEN_WIDTH;
@@ -248,6 +248,12 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private void speed() {
         if (speedFrame == null) {
             speedFrame = new SpeedFrame();
+            speedFrame.setSpeedListener(speed -> {
+                if (gameRunner != null) {
+                    CPU_CYCLE_PER_SECOND = speed;
+                    gameRunner.initCycle();
+                }
+            });
         } else {
             speedFrame.setVisible(true);
         }
@@ -336,7 +342,11 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         JFileChooser fc = new JFileChooser();
         fc.setFileFilter(new FileNameExtensionFilter("NES file", "nes"));
         fc.setMultiSelectionEnabled(false);
-        fc.setCurrentDirectory(new File("./src/main/resources"));
+        String path = PropertiesUtils.get(Constants.LAST_OPEN_PATH);
+        if (StringUtils.isEmpty(path)) {
+            path = "./src/main/resources";
+        }
+        fc.setCurrentDirectory(new File(path));
         fc.showOpenDialog(this);
         if (gameRunner != null) {
             gameRunner.resume();
@@ -344,6 +354,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         if (fc.getSelectedFile() != null) {
             stop();
             MemoryLock.clearAll();
+            PropertiesUtils.put(LAST_OPEN_PATH, fc.getSelectedFile().getParent());
             startGame(fc.getSelectedFile().getAbsolutePath());
         } else {
             System.out.println("文件为空！");
@@ -401,11 +412,12 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         JFileChooser fc = new JFileChooser();
         // 根据文件名hash值 和 后缀名过滤
         FileNameFilter fileNameFilter = new FileNameFilter("NES save file", "sl");
-        fileNameFilter.setName(storage.getPath().substring(0,
-                storage.getPath().lastIndexOf(".")));
+        if (gameRunner != null) {
+            fileNameFilter.setName(gameRunner.getLoader().getFileMD5());
+        }
         fc.setFileFilter(fileNameFilter);
         fc.setMultiSelectionEnabled(false);
-        fc.setCurrentDirectory(new File("."));
+        fc.setCurrentDirectory(new File(Constants.GLOBAL_SL_DIR));
         fc.showOpenDialog(this);
         if (fc.getSelectedFile() != null) {
             reloadGame(fc.getSelectedFile().getAbsolutePath());
@@ -446,6 +458,9 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
                 break;
             case KeyEvent.VK_P:
                 fullScreen();
+                break;
+            case KeyEvent.VK_C:
+                cheat();
                 break;
             default: break;
         }
@@ -507,7 +522,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         }
         Emulator frame = new Emulator();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.selectAndLoadRom();
+//        frame.selectAndLoadRom();
         frame.setVisible(true);
     }
 }

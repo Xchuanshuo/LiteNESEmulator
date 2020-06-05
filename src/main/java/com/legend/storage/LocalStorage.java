@@ -8,6 +8,7 @@ import com.legend.main.GameRunner;
 import com.legend.mapper.Mapper;
 import com.legend.memory.IMemory;
 import com.legend.ppu.IPPU;
+import com.legend.utils.Constants;
 
 import java.io.*;
 
@@ -27,7 +28,7 @@ public class LocalStorage implements IStorage {
         if (path.lastIndexOf(".") == -1) {
             path += ".sl";
         }
-        this.path = path;
+        this.path = Constants.GLOBAL_SL_DIR + path;
     }
 
     public String getPath() {

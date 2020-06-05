@@ -47,12 +47,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.jfoenix</groupId>
-            <artifactId>jfoenix</artifactId>
-            <version>8.0.8</version>
-        </dependency>
-
-        <dependency>
             <groupId>io.github.vincenzopalazzo</groupId>
             <artifactId>material-ui-swing</artifactId>
             <version>1.1.1-rc3</version>

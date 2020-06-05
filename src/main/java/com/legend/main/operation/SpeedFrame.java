@@ -1,12 +1,8 @@
 package com.legend.main.operation;
 
-import com.legend.main.Emulator;
-import com.legend.main.GameRunner;
 import com.legend.utils.Constants;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.util.Hashtable;
 
 /**
@@ -16,7 +12,8 @@ import java.util.Hashtable;
  */
 public class SpeedFrame extends JFrame {
 
-    private static final double SPEED = 1789772.5;
+    private SpeedListener speedListener;
+    private static final double BASE_SPEED = 1789772.5;
 
     public SpeedFrame() {
         initView();
@@ -25,12 +22,12 @@ public class SpeedFrame extends JFrame {
     private void initView() {
         setTitle(Constants.SPEED);
         setResizable(false);
-        setSize(500, 260);
+        setSize(520, 260);
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
         // 创建一个滑块，最小值、最大值、初始值 分别为 0、20、10
-        final JSlider slider = new JSlider(2, 8, 2);
+        final JSlider slider = new JSlider(1, 8, 2);
         // 设置主刻度间隔
         slider.setMajorTickSpacing(1);
         // 绘制 刻度 和 标签
@@ -51,7 +48,12 @@ public class SpeedFrame extends JFrame {
         slider.setLabelTable(hashtable);
 
         // 添加刻度改变监听器
-        slider.addChangeListener(e -> Emulator.CPU_CYCLE_PER_SECOND = SPEED *  slider.getValue() * 0.5);
+        slider.addChangeListener(e -> {
+            double newCps = BASE_SPEED *  slider.getValue() * 0.5;
+            if (speedListener != null) {
+                speedListener.onSpeedChange(newCps);
+            }
+        });
         // 添加滑块到内容面板
         panel.add(slider);
         setContentPane(panel);
@@ -61,4 +63,11 @@ public class SpeedFrame extends JFrame {
         setVisible(true);
     }
 
+    public void setSpeedListener(SpeedListener speedListener) {
+        this.speedListener = speedListener;
+    }
+
+    public interface SpeedListener {
+        void onSpeedChange(double speed);
+    }
 }

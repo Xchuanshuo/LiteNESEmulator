@@ -49,6 +49,8 @@ public class GameRunner implements Runnable {
 
     private double fps = 60;
     private double cps = 1.7e6;
+    private long frame = 0;
+    private long startTime = 0;
     private long oldCycle = 0;
 
 
@@ -69,9 +71,7 @@ public class GameRunner implements Runnable {
         ppu.powerUp();
         cpu.powerUp();
 
-        long time = System.nanoTime();
-        oldCycle = 0;
-        long frame = 0;
+        initCycle();
         boolean oldInBlank = false;
         while (!stop) {
             for (int k = 0; k < 100; k++) {
@@ -102,7 +102,7 @@ public class GameRunner implements Runnable {
                     oldInBlank = ppu.inVerticalBlank();
                 }
             }
-            long timeDiff = System.nanoTime() - time - waitTime;
+            long timeDiff = System.nanoTime() - startTime - waitTime;
             fps = frame * 1e9 / timeDiff;
             cps = cpu.getCycle() * 1e9 / timeDiff;
             while (cps > Emulator.CPU_CYCLE_PER_SECOND) {
@@ -111,7 +111,7 @@ public class GameRunner implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                cps = cpu.getCycle() * 1e9 / (System.nanoTime() - time - waitTime);
+                cps = cpu.getCycle() * 1e9 / (System.nanoTime() - startTime - waitTime);
             }
         }
     }
@@ -124,6 +124,13 @@ public class GameRunner implements Runnable {
         mapper.mapMemory(this);
         cpu.increaseCycle((int) oldCycle);
         resume();
+    }
+
+    public void initCycle() {
+        startTime = System.nanoTime();
+        cpu.increaseCycle((int) -oldCycle);
+        oldCycle = 0;
+        frame = 0;
     }
 
     private void processDebug() {
@@ -224,7 +231,7 @@ public class GameRunner implements Runnable {
         isEnableDebug = enableDebug;
     }
 
-    public Set<Integer> getBreakpointers() {
+    public Set<Integer> getBreakPointers() {
         return breakPointers;
     }
 }

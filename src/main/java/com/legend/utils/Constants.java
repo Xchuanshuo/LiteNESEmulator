@@ -8,12 +8,16 @@ package com.legend.utils;
 public class Constants {
 
     public static final String MAIN_TITLE = "LiteNES Emulator";
+    public static final String GLOBAL_SL_DIR = System.getProperties().getProperty("user.dir") + "/sl/";
+    public static final String GLOBAL_CONFIG_FILE = GLOBAL_SL_DIR + "config.properties";
+
+    public static final String LAST_OPEN_PATH = "last_open_path";
     public static final String LOOK_MEMORY = "Look Memory";
     public static final String DUMP = "dump";
 
 
     public static final String RESET = "reset";
-    public static final String CHEAT = "cheat";
+    public static final String CHEAT = "cheat C";
     public static final String SPEED = "speed";
     public static final String IMAGE_QUALITY = "画质";
     public static final String QUALITY_LOW = "原始";

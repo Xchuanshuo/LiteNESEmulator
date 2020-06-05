@@ -10,7 +10,9 @@
 *.deb
 *.NES
 target/
+out/
 lib/
+sl/
 *.sl
 *.txt
 t

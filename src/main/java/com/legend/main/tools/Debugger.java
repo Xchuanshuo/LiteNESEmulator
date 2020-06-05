@@ -144,7 +144,7 @@ public class Debugger extends JFrame {
     }
 
     private void addBreakPointer(int address) {
-        Set<Integer> breakPointers = gameRunner.getBreakpointers();
+        Set<Integer> breakPointers = gameRunner.getBreakPointers();
         if (breakPointers.contains(address)) {
             breakPointers.remove(address);
         } else {
@@ -177,7 +177,7 @@ public class Debugger extends JFrame {
     }
 
     private void clearAllBreakPointers() {
-        gameRunner.getBreakpointers().clear();
+        gameRunner.getBreakPointers().clear();
         debugPanel.repaint();
         System.out.println("清空所有断点");
     }
@@ -205,7 +205,7 @@ public class Debugger extends JFrame {
             g.fillRect(0, 0, SCREEN_WIDTH, instructionLineHeight + 2);
             g.setColor(Color.BLACK);
 
-            Set<Integer> breakPointers = gameRunner.getBreakpointers();
+            Set<Integer> breakPointers = gameRunner.getBreakPointers();
             List<String> instructionList = DisAssembler.dumpByCount(cpu.getMemory(), cpu.getRegister().getPC(), 30);
             for (int i = 0;i < instructionList.size();i++) {
                 int address = getAddress(instructionList.get(i).trim());
