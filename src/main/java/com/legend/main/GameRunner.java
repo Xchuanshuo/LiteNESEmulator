@@ -44,11 +44,11 @@ public class GameRunner implements Runnable {
     private final Screen screen;
     private final Input input;
     private final Runnable repaintListener;
-    private long waitTime = 0;
     private Mapper mapper;
 
     private double fps = 60;
     private double cps = 1.7e6;
+    private long waitTime = 0;
     private long frame = 0;
     private long startTime = 0;
     private long oldCycle = 0;
@@ -128,6 +128,7 @@ public class GameRunner implements Runnable {
 
     public void initCycle() {
         startTime = System.nanoTime();
+        waitTime = 0;
         cpu.increaseCycle((int) -oldCycle);
         oldCycle = 0;
         frame = 0;
