@@ -1,12 +1,6 @@
 package com.legend.utils;
 
-import ch.qos.logback.core.rolling.helper.FileStoreUtil;
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.io.FileUtil;
-
 import java.io.*;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 

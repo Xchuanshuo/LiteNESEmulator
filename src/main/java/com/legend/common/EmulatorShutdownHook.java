@@ -17,7 +17,7 @@ public class EmulatorShutdownHook extends Thread {
     public void run() {
         Set<String> list = PropertiesUtils.getKeys();
         for (String key : list) {
-            // 解决第一次Mapper163部分游戏第一次加载时闪屏问题
+            // 解决Mapper163部分游戏第一次加载时闪屏问题
             if (key.startsWith(FIRST_RELOAD_FLAG)) {
                 PropertiesUtils.remove(key);
             }

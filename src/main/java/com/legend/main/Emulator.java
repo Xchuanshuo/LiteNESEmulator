@@ -1,6 +1,5 @@
 package com.legend.main;
 
-import cn.hutool.core.util.StrUtil;
 import com.legend.common.EmulatorShutdownHook;
 import com.legend.input.StandardControllers;
 import com.legend.main.operation.SpeedFrame;
@@ -27,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import static com.legend.ppu.IPPU.SCREEN_HEIGHT;
 import static com.legend.ppu.IPPU.SCREEN_WIDTH;
