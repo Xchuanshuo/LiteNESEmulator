@@ -9,6 +9,7 @@ import com.legend.mapper.Mapper;
 import com.legend.memory.IMemory;
 import com.legend.ppu.IPPU;
 import com.legend.utils.Constants;
+import com.legend.utils.PropertiesUtils;
 
 import java.io.*;
 
@@ -87,6 +88,9 @@ public class LocalStorage implements IStorage {
             // restore Mapper
             byte[] mapperData = (byte[]) ois.readObject();
             gameRunner.getMapper().reload(mapperData);
+
+            PropertiesUtils.put(Constants.FIRST_RELOAD_FLAG + gameRunner.getLoader().getFileMD5()
+                    , String.valueOf(1));
 
             ois.close();
             inputStream.close();

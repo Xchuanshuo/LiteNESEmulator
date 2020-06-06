@@ -4,12 +4,19 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
 import com.legend.cartridges.INesLoader;
 import com.legend.cpu.ICPU;
+import com.legend.input.StandardControllers;
+import com.legend.main.Emulator;
 import com.legend.main.GameRunner;
 import com.legend.memory.*;
 import com.legend.ppu.IPPU;
+import com.legend.storage.LocalStorage;
 import com.legend.utils.ByteUtils;
+import com.legend.utils.PropertiesUtils;
+import com.legend.utils.StringUtils;
 
 import java.io.*;
+
+import static com.legend.utils.Constants.FIRST_RELOAD_FLAG;
 
 /**
  * @author Legend
@@ -48,6 +55,24 @@ public class Mapper163 extends Mapper implements IMemory {
                 0x5000, this, 0x5000, 0x1000));
     }
 
+    private void trick() {
+        String key = FIRST_RELOAD_FLAG + runner.getLoader().getFileMD5();
+        String firstReload = PropertiesUtils.get(key);
+        boolean isNeedReload = StringUtils.isEmpty(firstReload)
+                || Integer.parseInt(firstReload) == 0;
+        if (isNeedReload && runner != null) {
+            LocalStorage storage = new LocalStorage();
+            runner.pause();
+            storage.setPath("mapper163-trick" + ".trick");
+            storage.save(runner);
+            storage.load(runner);
+            Emulator.controllers = (StandardControllers) ((StandardMemory) runner.getCPU()
+                    .getMemory()).getMemory(0x4016);
+            System.out.println("重载完成");
+            runner.resume();
+        }
+    }
+
     @Override
     public void cycle(ICPU cpu) {
         int scanline = ppu.getScanline();
@@ -55,6 +80,7 @@ public class Mapper163 extends Mapper implements IMemory {
         boolean inCycle = ppu.getCycle() >= targetCycle
                 && ppu.getCycle() <= (targetCycle + 3);
         if (c && inCycle) {
+            trick();
             if (scanline == 127) {
                 switchCHRBank(1);
             } else if (scanline == 239) {

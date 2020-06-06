@@ -1,10 +1,14 @@
 package com.legend.utils;
 
 import ch.qos.logback.core.rolling.helper.FileStoreUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * @author Legend
@@ -44,5 +48,19 @@ public class PropertiesUtils {
 
     public static String get(String key) {
         return properties.getProperty(key);
+    }
+
+    public static void remove(String key) {
+        try (FileOutputStream fos = new FileOutputStream(Constants.GLOBAL_CONFIG_FILE)) {
+            properties.remove(key);
+            properties.store(fos, null);
+            fos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Set<String> getKeys() {
+        return properties.stringPropertyNames();
     }
 }

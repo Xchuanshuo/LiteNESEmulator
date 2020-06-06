@@ -1,6 +1,7 @@
 package com.legend.main;
 
 import cn.hutool.core.util.StrUtil;
+import com.legend.common.EmulatorShutdownHook;
 import com.legend.input.StandardControllers;
 import com.legend.main.operation.SpeedFrame;
 import com.legend.main.tools.Debugger;
@@ -44,7 +45,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     public static int SPEAKER_SAMPLE_RATE = 44100;
 
     private GameRunner gameRunner;
-    private StandardControllers controllers = new StandardControllers();
+    public static StandardControllers controllers = new StandardControllers();
     private EmulatorScreen emulatorScreen = new EmulatorScreen();
     private EmulatorSpeaker emulatorSpeaker = new EmulatorSpeaker();
 
@@ -66,6 +67,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     public Emulator() {
         SwingUtilities.invokeLater(this::initFrame);
         initKeyboardBinds();
+        Runtime.getRuntime().addShutdownHook(new EmulatorShutdownHook());
     }
 
     private void initKeyboardBinds() {
@@ -379,7 +381,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
             System.out.println("开始加载");
             storage.load(gameRunner);
             // 注意手柄也需要更新为新加载的
-            this.controllers = (StandardControllers) ((StandardMemory) gameRunner.getCPU()
+            controllers = (StandardControllers) ((StandardMemory) gameRunner.getCPU()
                     .getMemory()).getMemory(0x4016);
             System.out.println("加载完成");
         }

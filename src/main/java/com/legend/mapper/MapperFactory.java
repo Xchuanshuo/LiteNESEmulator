@@ -20,7 +20,7 @@ public class MapperFactory {
                 return new CNROM();
             case 4: // 快打旋风、热血、冒险岛、神龟、双截龙系列...
                 return new MMC3();
-            case 163: // 水浒神兽..
+            case 163: // 水浒神兽、仙剑、口袋妖怪..南京科技的游戏
                 return new Mapper163();
             default:
                 throw new RuntimeException("The Mapper id [" + id + "] implementation is not exist!" );

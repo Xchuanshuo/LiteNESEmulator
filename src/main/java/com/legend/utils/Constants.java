@@ -42,4 +42,6 @@ public class Constants {
     public static final String STEP_INTO = "Step Into";
     public static final String CLEAR_BREAK_POINTERS = "清空所有断点";
     public static final String ADD_BREAK_POINTER = "新增断点";
+
+    public static final String FIRST_RELOAD_FLAG = "FirstReload&&";
 }
