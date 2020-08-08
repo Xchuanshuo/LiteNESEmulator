@@ -31,6 +31,12 @@ public class Constants {
     public static final String LOAD_STATUS = "load status";
     public static final String EXIT = "exit";
 
+    public static final String CREATE_ROOM = "create room";
+    public static final String JOIN_ROOM = "join room";
+    public static final String EXIT_ROOM = "exit room";
+    public static final String DISMISS_ROOM = "dismiss room";
+    public static final String CONFIGURE_SERVER = "configure server";
+
 
     public static final String DEBUG = "debug";
     public static final String SPRM = "Sprite Memory";

@@ -8,7 +8,7 @@ import java.util.Hashtable;
 /**
  * @author Legend
  * @data by on 20-6-4.
- * @description
+ * @description 游戏速度调节面板
  */
 public class SpeedFrame extends JFrame {
 

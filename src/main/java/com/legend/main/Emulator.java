@@ -1,5 +1,6 @@
 package com.legend.main;
 
+import com.legend.cartridges.FileNesLoader;
 import com.legend.common.EmulatorShutdownHook;
 import com.legend.input.StandardControllers;
 import com.legend.main.operation.SpeedFrame;
@@ -10,6 +11,7 @@ import com.legend.main.tools.SpriteMemoryViewer;
 import com.legend.memory.IMemory;
 import com.legend.memory.MemoryLock;
 import com.legend.memory.StandardMemory;
+import com.legend.network.NetClient;
 import com.legend.storage.LocalStorage;
 import com.legend.utils.Constants;
 import com.legend.utils.PropertiesUtils;
@@ -26,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.legend.ppu.IPPU.SCREEN_HEIGHT;
 import static com.legend.ppu.IPPU.SCREEN_WIDTH;
@@ -43,6 +46,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     public static int SPEAKER_SAMPLE_RATE = 44100;
 
     private GameRunner gameRunner;
+    private NetClient netClient = new NetClient();
     public static StandardControllers controllers = new StandardControllers();
     private EmulatorScreen emulatorScreen = new EmulatorScreen();
     private EmulatorSpeaker emulatorSpeaker = new EmulatorSpeaker();
@@ -66,6 +70,12 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         SwingUtilities.invokeLater(this::initFrame);
         initKeyboardBinds();
         Runtime.getRuntime().addShutdownHook(new EmulatorShutdownHook());
+        // 在本地搜索该文件并加载游戏
+//            7BDAD8B4A7A56A634C9649D20BD3011B
+        netClient.setJoinRoomCallback((gameMd5, msg) -> {
+            searchAndLoadRom(gameMd5);
+            JOptionPane.showMessageDialog(null, msg);
+        });
     }
 
     private void initKeyboardBinds() {
@@ -106,6 +116,18 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
 //        gameRunner.pause();
     }
 
+    private void searchAndLoadRom(String gameMd5) {
+        try {
+            String path = searchPathByMd5(PropertiesUtils.get(LAST_OPEN_PATH), gameMd5);
+            System.out.println("搜索到文件路径: " + path);
+            if (!StringUtils.isEmpty(path)) {
+                startGame(path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void initFrame() {
         emulatorScreen.setPreferredSize(new Dimension(SCREEN_WIDTH * 3, SCREEN_HEIGHT * 3));
         emulatorScreen.setFocusable(false);
@@ -125,12 +147,34 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
 
         JMenu fileMenu = getFileMenu();
         JMenu operationMenu = getOperationMenu();
+        JMenu networkMenu = getNetWorkMenu();
         JMenu toolsMenu = getToolsMenu();
 
         jMenuBar.add(fileMenu);
         jMenuBar.add(operationMenu);
+        jMenuBar.add(networkMenu);
         jMenuBar.add(toolsMenu);
         setJMenuBar(jMenuBar);
+    }
+
+    private JMenu getNetWorkMenu() {
+        JMenu fileMenu = new JMenu("Network");
+        JMenuItem createRoomItem = new JMenuItem(CREATE_ROOM);
+        JMenuItem joinRomItem = new JMenuItem(JOIN_ROOM);
+        JMenuItem exitItem = new JMenuItem(EXIT_ROOM);
+        JMenuItem dismissItem = new JMenuItem(DISMISS_ROOM);
+        JMenuItem configureServerItem = new JMenuItem(CONFIGURE_SERVER);
+        fileMenu.add(createRoomItem);
+        fileMenu.add(joinRomItem);
+        fileMenu.add(exitItem);
+        fileMenu.add(dismissItem);
+        fileMenu.add(configureServerItem);
+        createRoomItem.addActionListener(networkListener);
+        joinRomItem.addActionListener(networkListener);
+        exitItem.addActionListener(networkListener);
+        dismissItem.addActionListener(networkListener);
+        configureServerItem.addActionListener(networkListener);
+        return fileMenu;
     }
 
     private JMenu getFileMenu() {
@@ -240,6 +284,38 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
                 break;
             case FULL_SCREEN:
                 fullScreen();
+                break;
+            default: break;
+        }
+    };
+
+    private ActionListener networkListener = e -> {
+        switch (e.getActionCommand()) {
+            case CREATE_ROOM:
+                DialogUtils.showCreateRoomDialog(this, filePath -> {
+                    if (!StringUtils.isEmpty(filePath)) {
+                        netClient.sendCreateRoomMsg(new FileNesLoader(filePath).getFileMD5());
+                    }
+                });
+                break;
+            case JOIN_ROOM:
+                DialogUtils.showJoinRoomDialog(this, (roomIdStr, filePath) -> {
+                    if (StringUtils.isHexNumeric(roomIdStr)
+                            && !StringUtils.isEmpty(filePath)) {
+                        netClient.sendJoinRoomMsg(Integer.parseInt(roomIdStr),
+                                    new FileNesLoader(filePath).getFileMD5());
+                    } else {
+                        JOptionPane.showMessageDialog(null, "非法输入, 房间号" +
+                                "只能为数字!且本地文件不能为空！");
+                    }
+                });
+                break;
+            case EXIT_ROOM:
+                break;
+            case DISMISS_ROOM:
+                break;
+            case CONFIGURE_SERVER:
+                DialogUtils.showServerConfigurationDialog(this);
                 break;
             default: break;
         }
@@ -361,6 +437,36 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         }
     }
 
+    private static Map<String, String> gameFileMap = new HashMap<>();
+
+    private String searchPathByMd5(String path, String md5) throws IOException {
+        if (gameFileMap.containsKey(md5)) {
+            String gameFilePath = gameFileMap.get(md5);
+            File file = new File(gameFilePath);
+            if (file.exists() && file.isFile() &&
+                file.getName().toLowerCase().equals(".nes")) {
+                return gameFilePath;
+            }
+        }
+        File file = new File(path);
+        if (file.exists() && file.isDirectory()) {
+            for (File f : Objects.requireNonNull(file.listFiles())) {
+                String fileName = f.getName().toLowerCase();
+                if (f.isFile() && fileName.endsWith(".nes")) {
+                    System.out.println("file Path:" + f.getPath());
+                    FileNesLoader loader = new FileNesLoader(f);
+                    gameFileMap.put(loader.getFileMD5(), f.getAbsolutePath());
+                    if (loader.getFileMD5().equals(md5)) {
+                        return f.getAbsolutePath();
+                    }
+                } else {
+                    searchPathByMd5(f.getAbsolutePath(), md5);
+                }
+            }
+        }
+        return null;
+    }
+
     private void stop() {
         if (gameRunner != null) {
             gameRunner.stop();
@@ -442,6 +548,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     public void keyPressed(KeyEvent e) {
         Integer r = keyBindings.get(e.getKeyCode());
         if (r != null) {
+            r = processNetWork(r, true);
             controllers.press((r / 8) & 1, (r % 8) & 0xFF);
         }
     }
@@ -450,6 +557,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     public void keyReleased(KeyEvent e) {
         Integer r = keyBindings.get(e.getKeyCode());
         if (r != null) {
+            r = processNetWork(r, false);
             controllers.release((r / 8) & 1, (r % 8) & 0xFF);
         }
         switch (e.getKeyCode()) {
@@ -464,6 +572,16 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
                 break;
             default: break;
         }
+    }
+
+    private int processNetWork(int r, boolean isPressed) {
+        if (netClient.isOnline()) {
+            if (!netClient.isMaster()) {
+                r = r + 8;
+            }
+            netClient.sendInputMsg(r, isPressed);
+        }
+        return r;
     }
 
     private void fullScreen() {
