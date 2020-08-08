@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.legend.network.Configuration.SUCCESS;
 import static com.legend.ppu.IPPU.SCREEN_HEIGHT;
 import static com.legend.ppu.IPPU.SCREEN_WIDTH;
 import static com.legend.utils.Constants.*;
@@ -46,6 +47,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     public static int SPEAKER_SAMPLE_RATE = 44100;
 
     private GameRunner gameRunner;
+    private int curRoomId = -1;
     private NetClient netClient = new NetClient();
     public static StandardControllers controllers = new StandardControllers();
     private EmulatorScreen emulatorScreen = new EmulatorScreen();
@@ -71,10 +73,13 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         initKeyboardBinds();
         Runtime.getRuntime().addShutdownHook(new EmulatorShutdownHook());
         // 在本地搜索该文件并加载游戏
-//            7BDAD8B4A7A56A634C9649D20BD3011B
-        netClient.setJoinRoomCallback((gameMd5, msg) -> {
-            searchAndLoadRom(gameMd5);
-            JOptionPane.showMessageDialog(null, msg);
+        netClient.setJoinRoomCallback(response -> {
+            if (response.getCode() == SUCCESS) {
+                searchAndLoadRom(response.getGameMd5());
+                curRoomId = response.getRoomId();
+            }
+            JOptionPane.showMessageDialog(null, response.getMsg()
+                    + "---【房间号】" + response.getRoomId());
         });
     }
 
@@ -160,17 +165,20 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
     private JMenu getNetWorkMenu() {
         JMenu fileMenu = new JMenu("Network");
         JMenuItem createRoomItem = new JMenuItem(CREATE_ROOM);
-        JMenuItem joinRomItem = new JMenuItem(JOIN_ROOM);
+        JMenuItem joinRoomItem = new JMenuItem(JOIN_ROOM);
+        JMenuItem curRoomItem = new JMenuItem(CURRENT_ROOM);
         JMenuItem exitItem = new JMenuItem(EXIT_ROOM);
         JMenuItem dismissItem = new JMenuItem(DISMISS_ROOM);
         JMenuItem configureServerItem = new JMenuItem(CONFIGURE_SERVER);
         fileMenu.add(createRoomItem);
-        fileMenu.add(joinRomItem);
+        fileMenu.add(joinRoomItem);
+        fileMenu.add(curRoomItem);
         fileMenu.add(exitItem);
         fileMenu.add(dismissItem);
         fileMenu.add(configureServerItem);
         createRoomItem.addActionListener(networkListener);
-        joinRomItem.addActionListener(networkListener);
+        joinRoomItem.addActionListener(networkListener);
+        curRoomItem.addActionListener(networkListener);
         exitItem.addActionListener(networkListener);
         dismissItem.addActionListener(networkListener);
         configureServerItem.addActionListener(networkListener);
@@ -309,6 +317,10 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
                                 "只能为数字!且本地文件不能为空！");
                     }
                 });
+                break;
+            case CURRENT_ROOM:
+                JOptionPane.showMessageDialog(null,
+                        "当前已经加入入的房间号---【" + curRoomId + "】");
                 break;
             case EXIT_ROOM:
                 break;

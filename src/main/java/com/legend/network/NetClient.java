@@ -57,7 +57,7 @@ public class NetClient implements ReceiveCallback {
     }
 
     public interface JoinRoomCallback {
-        void onCallback(String gameMd5, String msg);
+        void onCallback(Response response);
     }
 
     @Override
@@ -75,9 +75,10 @@ public class NetClient implements ReceiveCallback {
                 isMaster = jrrp.isMaster();
                 System.out.println("收到加入房间响应包: " + jrrp.getCode() + "---" + jrrp.getMsg()
                         + ", md5=" + jrrp.getGameMd5());
-                if (joinRoomCallback != null && jrrp.getCode() == Configuration.SUCCESS) {
-                    joinRoomCallback.onCallback(jrrp.getGameMd5(), jrrp.getMsg()
-                            + "--房间号为【" + jrrp.getRoomId() + "】");
+                if (joinRoomCallback != null) {
+                    Response response = new Response(jrrp.getCode(), jrrp.getRoomId(),
+                            jrrp.getMsg(), jrrp.getGameMd5());
+                    joinRoomCallback.onCallback(response);
                 }
                 break;
             case REQUEST_INPUT_OPERATION:
@@ -121,9 +122,59 @@ public class NetClient implements ReceiveCallback {
     }
 
     public void sendJoinRoomMsg(int roomId, String gameMd5) {
+        if (joinedRoomId == roomId) {
+            System.out.println("不允许重复加入!");
+            return;
+        }
         JoinRoomRequestPacket requestPacket = new JoinRoomRequestPacket(roomId, id, gameMd5);
         System.out.println(requestPacket);
         handler.send(requestPacket);
+    }
+
+    public class Response {
+        private int code;
+        private int roomId;
+        private String msg;
+        private String gameMd5;
+
+        public Response(int code, int roomId, String msg, String gameMd5) {
+            this.code = code;
+            this.roomId = roomId;
+            this.msg = msg;
+            this.gameMd5 = gameMd5;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public int getRoomId() {
+            return roomId;
+        }
+
+        public void setRoomId(int roomId) {
+            this.roomId = roomId;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
+        }
+
+        public String getGameMd5() {
+            return gameMd5;
+        }
+
+        public void setGameMd5(String gameMd5) {
+            this.gameMd5 = gameMd5;
+        }
     }
 
 }

@@ -33,6 +33,7 @@ public class Constants {
 
     public static final String CREATE_ROOM = "create room";
     public static final String JOIN_ROOM = "join room";
+    public static final String CURRENT_ROOM = "current room";
     public static final String EXIT_ROOM = "exit room";
     public static final String DISMISS_ROOM = "dismiss room";
     public static final String CONFIGURE_SERVER = "configure server";

@@ -99,6 +99,14 @@ public class Server {
             joinRoomResponsePacket.setGameMd5(packet.getGameMd5());
             if (room != null && room.getClients().size() < 2
                     && room.getGameMd5().equals(packet.getGameMd5())) {
+                if (room.getClients().size() == 1) {
+                    boolean isRepeatJoin = room.getClients().get(0).getIp().equals(fromIP)
+                            && room.getClients().get(0).getPort() == fromPort;
+                    if (isRepeatJoin) {
+                        System.out.println("不能进重复加入！");
+                        return;
+                    }
+                }
                 Room.Client client = new Room.Client(fromIP, fromPort);
                 room.getClients().add(client);
                 joinRoomResponsePacket.setMaster(packet.getUserId() == room.getMasterId());
@@ -115,7 +123,6 @@ public class Server {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
 
         private void processCreateRoom(CreateRoomRequestPacket packet,
