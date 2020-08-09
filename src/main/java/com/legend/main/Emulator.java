@@ -35,13 +35,14 @@ import static com.legend.ppu.IPPU.SCREEN_HEIGHT;
 import static com.legend.ppu.IPPU.SCREEN_WIDTH;
 import static com.legend.utils.Constants.*;
 import static com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl.DEBUG;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 /**
  * @author Legend
  * @data by on 20-4-18.
  * @description
  */
-public class Emulator extends JFrame implements Runnable, KeyListener {
+public class Emulator extends JFrame implements Runnable, KeyListener, NetClient.Callback {
 
     public static volatile double CPU_CYCLE_PER_SECOND = 1789772.5;
     public static int SPEAKER_SAMPLE_RATE = 44100;
@@ -73,14 +74,7 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         initKeyboardBinds();
         Runtime.getRuntime().addShutdownHook(new EmulatorShutdownHook());
         // 在本地搜索该文件并加载游戏
-        netClient.setJoinRoomCallback(response -> {
-            if (response.getCode() == SUCCESS) {
-                searchAndLoadRom(response.getGameMd5());
-                curRoomId = response.getRoomId();
-            }
-            JOptionPane.showMessageDialog(null, response.getMsg()
-                    + "---【房间号】" + response.getRoomId());
-        });
+        netClient.setStatusCallback(this);
     }
 
     private void initKeyboardBinds() {
@@ -323,8 +317,14 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
                         "当前已经加入入的房间号---【" + curRoomId + "】");
                 break;
             case EXIT_ROOM:
+                int code = JOptionPane.showConfirmDialog(null,
+                        "您确认要退出房间【" + curRoomId + "】吗？", "", YES_NO_OPTION);
+                if (code == 0) netClient.sendExitRoomMsg();
                 break;
             case DISMISS_ROOM:
+                code = JOptionPane.showConfirmDialog(null,
+                        "您确认要解散房间【" + curRoomId + "】吗？", "", YES_NO_OPTION);
+                if (code == 0) netClient.sendDismissRoomMsg();
                 break;
             case CONFIGURE_SERVER:
                 DialogUtils.showServerConfigurationDialog(this);
@@ -654,5 +654,24 @@ public class Emulator extends JFrame implements Runnable, KeyListener {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 //        frame.selectAndLoadRom();
         frame.setVisible(true);
+    }
+
+    @Override
+    public void onJoinRoomCallback(NetClient.Response response) {
+        if (response.getCode() == SUCCESS) {
+            searchAndLoadRom(response.getGameMd5());
+            curRoomId = response.getRoomId();
+        }
+        JOptionPane.showMessageDialog(null, response.getMsg()
+                + "---【房间号】" + response.getRoomId());
+    }
+
+    @Override
+    public void onExitRoomCallback(int code, String msg) {
+        if (code == SUCCESS) {
+            curRoomId = -1;
+            stop();
+        }
+        JOptionPane.showMessageDialog(null, msg);
     }
 }

@@ -1,5 +1,7 @@
 package com.legend.network;
 
+import sun.dc.pr.PRError;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,10 +78,13 @@ public class Room {
     }
 
     public static class Client {
+
+        private int userId;
         private String ip;
         private int port;
 
-        public Client(String ip, int port) {
+        public Client(int userId, String ip, int port) {
+            this.userId = userId;
             this.ip = ip;
             this.port = port;
         }
@@ -100,10 +105,19 @@ public class Room {
             this.port = port;
         }
 
+        public int getUserId() {
+            return userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
+
         @Override
         public String toString() {
-            return "NetClient{" +
-                    "ip='" + ip + '\'' +
+            return "Client{" +
+                    "userId=" + userId +
+                    ", ip='" + ip + '\'' +
                     ", port=" + port +
                     '}';
         }

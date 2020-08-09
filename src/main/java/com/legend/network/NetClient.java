@@ -2,10 +2,9 @@ package com.legend.network;
 
 import com.legend.main.Emulator;
 import com.legend.network.packet.Packet;
-import com.legend.network.packet.request.CreateRoomRequestPacket;
-import com.legend.network.packet.request.InputOperationRequestPacket;
-import com.legend.network.packet.request.JoinRoomRequestPacket;
+import com.legend.network.packet.request.*;
 import com.legend.network.packet.response.CreateRoomResponsePacket;
+import com.legend.network.packet.response.ExitRoomResponsePacket;
 import com.legend.network.packet.response.JoinRoomResponsePacket;
 import com.legend.utils.IdUtils;
 
@@ -24,7 +23,7 @@ public class NetClient implements ReceiveCallback {
     private boolean isMaster = false;
     // 已经加入房间id, 仅在isOnline为true的情况下有用
     private int joinedRoomId = -1;
-    private JoinRoomCallback joinRoomCallback;
+    private Callback callback;
     private ClientTaskHandler handler = ClientTaskHandler.getInstance();
 
     public NetClient() {
@@ -52,12 +51,14 @@ public class NetClient implements ReceiveCallback {
         return handler;
     }
 
-    public void setJoinRoomCallback(JoinRoomCallback joinRoomCallback) {
-        this.joinRoomCallback = joinRoomCallback;
+    public void setStatusCallback(Callback callback) {
+        this.callback = callback;
     }
 
-    public interface JoinRoomCallback {
-        void onCallback(Response response);
+    public interface Callback {
+        void onJoinRoomCallback(Response response);
+
+        void onExitRoomCallback(int code, String msg);
     }
 
     @Override
@@ -75,10 +76,20 @@ public class NetClient implements ReceiveCallback {
                 isMaster = jrrp.isMaster();
                 System.out.println("收到加入房间响应包: " + jrrp.getCode() + "---" + jrrp.getMsg()
                         + ", md5=" + jrrp.getGameMd5());
-                if (joinRoomCallback != null) {
+                if (callback != null) {
                     Response response = new Response(jrrp.getCode(), jrrp.getRoomId(),
                             jrrp.getMsg(), jrrp.getGameMd5());
-                    joinRoomCallback.onCallback(response);
+                    callback.onJoinRoomCallback(response);
+                }
+                break;
+            case RESPONSE_EXIT_ROOM:
+                ExitRoomResponsePacket errp = (ExitRoomResponsePacket) packet;
+                if (errp.getRoomId() == joinedRoomId) {
+                    isOnline = false;
+                    joinedRoomId = -1;
+                }
+                if (callback != null) {
+                    callback.onExitRoomCallback(errp.getCode(), errp.getMsg());
                 }
                 break;
             case REQUEST_INPUT_OPERATION:
@@ -128,6 +139,16 @@ public class NetClient implements ReceiveCallback {
         }
         JoinRoomRequestPacket requestPacket = new JoinRoomRequestPacket(roomId, id, gameMd5);
         System.out.println(requestPacket);
+        handler.send(requestPacket);
+    }
+
+    public void sendExitRoomMsg() {
+        ExitRoomRequestPacket requestPacket = new ExitRoomRequestPacket(id, joinedRoomId);
+        handler.send(requestPacket);
+    }
+
+    public void sendDismissRoomMsg() {
+        DismissRoomRequestPacket requestPacket = new DismissRoomRequestPacket(id, joinedRoomId);
         handler.send(requestPacket);
     }
 

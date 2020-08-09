@@ -26,6 +26,7 @@ public class DefaultScreen implements Screen {
     @Override
     public void reset() {
         Arrays.fill(colorBuffer, (byte) 0x3F);
+        Arrays.fill(imageBuffer, 0);
     }
 
     @Override
