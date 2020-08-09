@@ -7,11 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b220d6c-1fee-46d4-b224-898fd6b07dfc" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/network/NetClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/network/NetClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/network/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/network/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/network/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/network/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/legend/screen/DefaultScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/legend/screen/DefaultScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -49,118 +45,95 @@
       <file leaf-file-name="Emulator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="471">
-              <caret line="488" column="35" lean-forward="true" selection-start-line="488" selection-start-column="35" selection-end-line="488" selection-end-column="35" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#5000#5459#0" />
-                <element signature="e#7790#9376#0" />
-                <element signature="e#9382#10166#0" />
-                <element signature="e#12729#13123#0" />
-                <element signature="e#14992#15924#0" />
-                <element signature="e#18836#19533#0" />
-                <element signature="e#20158#20463#0" />
-                <element signature="e#20524#20769#0" />
-                <element signature="e#20775#21346#0" />
-                <element signature="e#21510#21766#0" />
-                <element signature="e#21772#22555#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JOptionPane.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/enviroment/jdk1.8.0_191/src.zip!/javax/swing/JOptionPane.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="686" column="58" lean-forward="true" selection-start-line="686" selection-start-column="58" selection-end-line="686" selection-end-column="58" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Component.java" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/enviroment/jdk1.8.0_191/src.zip!/java/awt/Component.java">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="228">
-              <caret line="3309" column="16" selection-start-line="3309" selection-start-column="16" selection-end-line="3309" selection-end-column="16" />
-              <folding>
-                <element signature="e#114480#114481#0" expanded="true" />
-                <element signature="e#114527#114528#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/utils/Constants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="36" column="31" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EmulatorScreen.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/EmulatorScreen.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="28" column="45" selection-start-line="28" selection-start-column="45" selection-end-line="28" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Screen.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/screen/Screen.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DefaultScreen.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/screen/DefaultScreen.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/Server.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-321">
-              <caret line="171" column="72" selection-start-line="171" selection-start-column="72" selection-end-line="171" selection-end-column="72" />
+              <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#processJoinRoom#0;class#UDPServer#0;class#Server#0" />
-                <element signature="method#processCreateRoom#0;class#UDPServer#0;class#Server#0" />
-                <element signature="method#getSentBytes#0;class#UDPServer#0;class#Server#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NetClient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/NetClient.java">
+      <file leaf-file-name="DefaultSpeaker.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/speaker/DefaultSpeaker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="144" column="16" selection-start-line="144" selection-start-column="16" selection-end-line="144" selection-end-column="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1449#1450#0" expanded="true" />
-                <element signature="e#1505#1506#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="298">
+              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExitRoomRequestPacket.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/packet/request/ExitRoomRequestPacket.java">
+      <file leaf-file-name="Mapper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
+            <state relative-caret-position="-134">
+              <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EmulatorShutdownHook.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/common/EmulatorShutdownHook.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="298">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="252">
+                <caret line="7" column="2" lean-forward="true" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MapperFactory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/MapperFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="468">
+              <caret line="19" column="18" lean-forward="true" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Mapper163.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper163.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="298">
+              <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MirrorMemory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/memory/MirrorMemory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StandardMemory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/memory/StandardMemory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2510">
+              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CNROM.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/CNROM.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-26">
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -233,7 +206,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/legend/cpu/StandardCPU.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/EmulatorScreen.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/ppu/StandardPPU.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/operation/Speed.java" />
@@ -284,6 +256,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/network/Server.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/legend/screen/DefaultScreen.java" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -382,7 +355,8 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="legend" type="462c0819:PsiDirectoryNode" />
-              <item name="network" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="operation" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="LiteNESEmulator" type="b2602c69:ProjectViewProjectNode" />
@@ -391,7 +365,17 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="legend" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="tools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="LiteNESEmulator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="LiteNESEmulator" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="legend" type="462c0819:PsiDirectoryNode" />
+              <item name="mapper" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -647,7 +631,7 @@
       <workItem from="1591519545958" duration="26000" />
       <workItem from="1591522529789" duration="107000" />
       <workItem from="1591685365554" duration="38000" />
-      <workItem from="1596671609938" duration="62344000" />
+      <workItem from="1596671609938" duration="65039000" />
     </task>
     <servers />
   </component>
@@ -684,7 +668,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="907512000" />
+    <option name="totallyTimeSpent" value="910207000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -720,9 +704,9 @@
       <window_info id="Image Layers" order="0" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.4994664" weight="0.3261105" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.22968581" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22968581" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49839914" weight="0.2892741" />
-      <window_info active="true" content_ui="combo" x="498" y="112" width="407" height="839" id="Project" order="6" sideWeight="0.48911467" visible="true" weight="0.15208112" />
+      <window_info active="true" content_ui="combo" x="498" y="112" width="407" height="839" id="Project" order="6" sideWeight="0.48911467" visible="true" weight="0.15901814" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.28710726" />
       <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info id="Favorites" order="4" sideWeight="0.51088536" side_tool="true" weight="0.20217392" />
@@ -781,100 +765,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/packet/HandleKey.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/utils/ImageUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="43">
-          <caret line="13" column="41" lean-forward="true" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/utils/disassemble/DisAssembler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/utils/disassemble/Rule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9613">
-          <caret line="17" column="32" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/packet/request/InputOperationRequestPacket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding>
-            <element signature="e#412#413#0" expanded="true" />
-            <element signature="e#441#442#0" expanded="true" />
-            <element signature="e#482#483#0" expanded="true" />
-            <element signature="e#518#519#0" expanded="true" />
-            <element signature="e#548#549#0" expanded="true" />
-            <element signature="e#577#578#0" expanded="true" />
-            <element signature="e#618#619#0" expanded="true" />
-            <element signature="e#654#655#0" expanded="true" />
-            <element signature="e#681#682#0" expanded="true" />
-            <element signature="e#707#708#0" expanded="true" />
-            <element signature="e#742#743#0" expanded="true" />
-            <element signature="e#772#773#0" expanded="true" />
-            <element signature="e#806#807#0" expanded="true" />
-            <element signature="e#838#839#0" expanded="true" />
-            <element signature="e#885#886#0" expanded="true" />
-            <element signature="e#920#921#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/input/StandardControllers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="52" column="16" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="16" />
-          <folding>
-            <element signature="e#1562#1563#0" expanded="true" />
-            <element signature="e#1617#1618#0" expanded="true" />
-            <element signature="e#1671#1672#0" expanded="true" />
-            <element signature="e#1727#1728#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/FileNameFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/storage/LocalStorage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1040">
-          <caret line="67" column="16" selection-start-line="67" selection-start-column="16" selection-end-line="67" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/cartridges/INesLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/ReceiveCallback.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="11" column="16" lean-forward="true" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/cartridges/InputStreamNesLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="148">
@@ -1038,22 +928,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/Room.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="81" column="27" selection-start-line="81" selection-start-column="27" selection-end-line="81" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1345#1346#0" expanded="true" />
-            <element signature="e#1375#1376#0" expanded="true" />
-            <element signature="e#2098#2099#0" expanded="true" />
-            <element signature="e#2135#2136#0" expanded="true" />
-            <element signature="e#2180#2181#0" expanded="true" />
-            <element signature="e#2224#2225#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/packet/response/DismissRoomResponsePacket.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="547">
@@ -1102,14 +976,6 @@
     <entry file="file://$PROJECT_DIR$/t">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/program-dump-1.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1124,17 +990,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ppu-name-table-dump.txt">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/ClientTaskHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="29" column="30" lean-forward="true" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getSentBytes#0;class#ClientTaskHandler#0" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/packet/response/ExitRoomResponsePacket.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1179,40 +1034,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-321">
-          <caret line="171" column="72" selection-start-line="171" selection-start-column="72" selection-end-line="171" selection-end-column="72" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#processJoinRoom#0;class#UDPServer#0;class#Server#0" />
-            <element signature="method#processCreateRoom#0;class#UDPServer#0;class#Server#0" />
-            <element signature="method#getSentBytes#0;class#UDPServer#0;class#Server#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="471">
-          <caret line="488" column="35" lean-forward="true" selection-start-line="488" selection-start-column="35" selection-end-line="488" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5000#5459#0" />
-            <element signature="e#7790#9376#0" />
-            <element signature="e#9382#10166#0" />
-            <element signature="e#12729#13123#0" />
-            <element signature="e#14992#15924#0" />
-            <element signature="e#18836#19533#0" />
-            <element signature="e#20158#20463#0" />
-            <element signature="e#20524#20769#0" />
-            <element signature="e#20775#21346#0" />
-            <element signature="e#21510#21766#0" />
-            <element signature="e#21772#22555#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/enviroment/jdk1.8.0_191/src.zip!/java/awt/Component.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -1240,8 +1061,136 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/screen/DefaultScreen.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
+        <state relative-caret-position="-533">
           <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="175" column="96" lean-forward="true" selection-start-line="175" selection-start-column="96" selection-end-line="175" selection-end-column="96" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#run#0;class#UDPServer#0;class#Server#0" />
+            <element signature="method#processPacket#0;class#UDPServer#0;class#Server#0" />
+            <element signature="method#processJoinRoom#0;class#UDPServer#0;class#Server#0" />
+            <element signature="method#processCreateRoom#0;class#UDPServer#0;class#Server#0" />
+            <element signature="method#processExitRoom#0;class#UDPServer#0;class#Server#0" />
+            <element signature="method#processDismissRoom#0;class#UDPServer#0;class#Server#0" />
+            <element signature="method#getSentBytes#0;class#UDPServer#0;class#Server#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/Room.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="81" column="27" selection-start-line="81" selection-start-column="27" selection-end-line="81" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/network/ClientTaskHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="760">
+          <caret line="29" column="30" lean-forward="true" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getSentBytes#0;class#ClientTaskHandler#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/ppu/IPPU.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/ppu/StandardPPU.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/speaker/DefaultSpeaker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/CNROM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-26">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-134">
+          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/Mapper163.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/memory/StandardMemory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2510">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/main/Emulator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/common/EmulatorShutdownHook.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/mapper/MapperFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="19" column="18" lean-forward="true" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/legend/memory/MirrorMemory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="252">
+            <caret line="7" column="2" lean-forward="true" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
