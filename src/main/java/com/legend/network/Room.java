@@ -1,7 +1,5 @@
 package com.legend.network;
 
-import sun.dc.pr.PRError;
-
 import java.util.ArrayList;
 import java.util.List;
 

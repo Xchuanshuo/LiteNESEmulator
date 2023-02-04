@@ -21,9 +21,7 @@ import com.legend.utils.XBRZ;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,7 +32,6 @@ import static com.legend.network.Configuration.SUCCESS;
 import static com.legend.ppu.IPPU.SCREEN_HEIGHT;
 import static com.legend.ppu.IPPU.SCREEN_WIDTH;
 import static com.legend.utils.Constants.*;
-import static com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl.DEBUG;
 import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 /**
@@ -132,6 +129,27 @@ public class Emulator extends JFrame implements Runnable, KeyListener, NetClient
         emulatorScreen.setFocusable(false);
 
         addKeyListener(this);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                switch (e.getButton()) {
+                    case MouseEvent.BUTTON1:
+                        System.out.println("鼠标左键！");
+                        break;
+                    case MouseEvent.BUTTON2:
+                        System.out.println("鼠标中键!");
+                        break;
+                    case MouseEvent.BUTTON3:
+                        System.out.println("鼠标右键！");
+                        break;
+                }
+            }
+
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                System.out.println("滚动！");
+            }
+        });
         initMenuBar();
         setLayout(new BorderLayout());
         add(emulatorScreen);
@@ -581,7 +599,6 @@ public class Emulator extends JFrame implements Runnable, KeyListener, NetClient
                 break;
             case KeyEvent.VK_C:
                 cheat();
-                break;
             default: break;
         }
     }
