@@ -1,7 +1,7 @@
 package com.legend.utils;
 
 /**
- * Created by Chaofan on 2017/3/16.
+ * 系统调色板
  */
 public class ColorConverter {
 

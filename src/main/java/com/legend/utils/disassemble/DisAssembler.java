@@ -163,7 +163,7 @@ public class DisAssembler {
 
 
     public static void main(String[] args) throws IOException {
-        FileNesLoader loader = new FileNesLoader("/home/legend/Projects/IdeaProjects/2020/jnes-chaofan_ver/target/test-classes/game2.nes");
+        FileNesLoader loader = new FileNesLoader("/Users/legend/Projects/NesROM/game1.nes");
         StandardMemory memory = new StandardMemory(0x10000);
         memory.setMemory(0x8000, new ReadonlyMemory(loader.getPRGPageByIndex(0)));
         memory.setMemory(0xC000, new ReadonlyMemory(loader.getPRGPageByIndex(1)));
